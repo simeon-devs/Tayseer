@@ -8,7 +8,7 @@ Update this file at the end of every Claude Code session. Never let a session en
 
 Benchmarking: complete
 Module A1: complete
-Module A2: not started
+Module A2: complete
 Module B1: not started
 Module B2: not started
 Module B3: not started
@@ -61,6 +61,45 @@ None.
 
 Next immediate task:
 Run the A1 Claude Code prompt to set up the project foundation.
+
+---
+
+### Session 3 - 2026-05-29
+
+What was done:
+Completed full A2 module: governance rulebook and RAG pipeline.
+Created data/rules.md with exactly 40 structured governance rules covering six categories: debt_ratio (RULE-001 to RULE-008), income_tier (RULE-009 to RULE-014), delay_duration (RULE-015 to RULE-019), obligation_score (RULE-020 to RULE-024), escalation (RULE-025 to RULE-033), and sharia_flag (RULE-034 to RULE-040). Each rule has exactly six fields: Rule ID, Category, Condition, Threshold, Outcome, and Example. All rules include Arabic translations in parentheses.
+Created backend/rag/embeddings.py with BGE-M3 model cached at module level. Model loads once on first call and is never reloaded.
+Created backend/rag/indexer.py with ChromaDB index builder. Each rule is embedded using search-term-augmented text (rule text plus synonym keywords) but only clean rule text is stored. Collection uses cosine similarity. Falls back to local PersistentClient when CHROMADB_URL is unavailable.
+Created backend/rag/retrieval.py with signal-targeted query builder. Priority order is hard escalation flags first (expired ID, rejections, high arrears, missing docs, fraud), then special circumstances (widowed, divorced, clean history, disability, medical), then financial signal routing (income tier, delay duration, DTI bands).
+Created backend/rag/__init__.py exporting build_index, is_index_built, and retrieve_rules.
+Created backend/routers/rag.py with POST /api/rag/retrieve endpoint accepting CitizenProfile and returning RetrieveResponse.
+Updated backend/main.py to include the rag router and build the index on startup if not already built.
+Created backend/rag/test_retrieval.py with 10 standardised benchmark queries.
+
+Validation results:
+40 rules confirmed in data/rules.md.
+ChromaDB collection governance_rules contains 40 documents.
+POST /api/rag/retrieve returned correct top rule RULE-017 (delay_duration) for a citizen with 8-month delay.
+Retrieval quality test: 10 out of 10. Target was 9 out of 10. Gate passed.
+
+New files created in this session:
+data/rules.md: 445 lines, 40056 bytes
+backend/rag/__init__.py: 9 lines, 316 bytes
+backend/rag/embeddings.py: 50 lines, 1407 bytes
+backend/rag/indexer.py: 185 lines, 9284 bytes
+backend/rag/retrieval.py: 213 lines, 8630 bytes
+backend/rag/test_retrieval.py: 197 lines, 6153 bytes
+backend/routers/rag.py: 46 lines, 1471 bytes
+
+What was not done:
+Module B1 and all subsequent modules have not been started.
+
+Blockers:
+None.
+
+Next immediate task:
+Begin Module B1: document extraction pipeline.
 
 ---
 
@@ -124,7 +163,7 @@ Gate: docker-compose up starts cleanly, GET /health returns 200, all tables exis
 
 ### A2 - Governance rulebook and RAG pipeline
 
-Status: not started
+Status: complete
 Estimated effort: 1.5 days
 Owner: simeon-devs
 Dependencies: A1 must be complete for ChromaDB to be available
