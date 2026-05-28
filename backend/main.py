@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from backend.config import settings
+from backend.rag.indexer import build_index, is_index_built
 
 
 class HealthResponse(BaseModel):
@@ -38,8 +39,14 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def on_startup() -> None:
-    """Print startup message showing API status and configured model."""
+    """Print startup message, then ensure the governance rules RAG index is ready."""
     print(f"Tayseer API is running | environment={settings.environment} | model={settings.ollama_model}")
+    if is_index_built():
+        print("Governance rules index already built. RAG pipeline ready.")
+    else:
+        print("Governance rules index not found. Building index now...")
+        build_index()
+        print("Governance rules index built successfully. RAG pipeline ready.")
 
 
 @app.get("/health", response_model=HealthResponse)
