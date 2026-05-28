@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from backend.config import settings
 from backend.rag.indexer import build_index, is_index_built
+from backend.routers.rag import router as rag_router
 
 
 class HealthResponse(BaseModel):
@@ -35,6 +36,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(rag_router)
 
 
 @app.on_event("startup")
