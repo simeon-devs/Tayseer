@@ -167,7 +167,7 @@ SECRET_KEY is used for any token signing.
 
 Update this section after every session.
 
-A1 Infrastructure database and data: not started
+A1 Infrastructure database and data: complete
 A2 Governance rulebook and RAG pipeline: not started
 B1 Document extraction: not started
 B2 Decision engine: not started
