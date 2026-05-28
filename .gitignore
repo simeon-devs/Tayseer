@@ -1,0 +1,25 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.next/
+
+# Uploads
+uploads/
+
+# LLM model files
+*.gguf
+
+# macOS
+.DS_Store
