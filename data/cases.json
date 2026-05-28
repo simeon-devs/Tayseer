@@ -1,0 +1,2982 @@
+[
+  {
+    "id": "case_001",
+    "citizen": {
+      "name_ar": "محمد النعيمي",
+      "name_en": "Mohammed Al Nuaimi",
+      "emirates_id": "784-1985-4046602-7",
+      "phone": "+971571898861",
+      "email": "mohammed.alnuaimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 32952,
+      "existing_obligations": 2124.52,
+      "arrears_amount": 26024,
+      "delay_duration_months": 3,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 26024.0,
+      "duration_months": 12,
+      "monthly_instalment": 2168.67,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_002",
+    "citizen": {
+      "name_ar": "أحمد الحمادي",
+      "name_en": "Ahmed Al Hammadi",
+      "emirates_id": "784-1990-8698892-6",
+      "phone": "+971520022418",
+      "email": "ahmed.alhammadi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 16572,
+      "existing_obligations": 2415.22,
+      "arrears_amount": 43741,
+      "delay_duration_months": 2,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 43741.0,
+      "duration_months": 24,
+      "monthly_instalment": 1822.54,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_003",
+    "citizen": {
+      "name_ar": "علي الفلاسي",
+      "name_en": "Ali Al Falasi",
+      "emirates_id": "784-1990-1436711-6",
+      "phone": "+971520323068",
+      "email": "ali.alfalasi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 25825,
+      "existing_obligations": 1397.95,
+      "arrears_amount": 14140,
+      "delay_duration_months": 3,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 14140.0,
+      "duration_months": 12,
+      "monthly_instalment": 1178.33,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_004",
+    "citizen": {
+      "name_ar": "عمر الرميثي",
+      "name_en": "Omar Al Rumaithi",
+      "emirates_id": "784-1985-1575277-9",
+      "phone": "+971588637084",
+      "email": "omar.alrumaithi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 28559,
+      "existing_obligations": 3663.05,
+      "arrears_amount": 44781,
+      "delay_duration_months": 3,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 44781.0,
+      "duration_months": 24,
+      "monthly_instalment": 1865.88,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_005",
+    "citizen": {
+      "name_ar": "خالد القاسمي",
+      "name_en": "Khalid Al Qasimi",
+      "emirates_id": "784-1992-2399882-4",
+      "phone": "+971531260723",
+      "email": "khalid.alqasimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 33295,
+      "existing_obligations": 4700.33,
+      "arrears_amount": 35493,
+      "delay_duration_months": 3,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 35493.0,
+      "duration_months": 18,
+      "monthly_instalment": 1971.83,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_006",
+    "citizen": {
+      "name_ar": "يوسف النهياني",
+      "name_en": "Yousuf Al Nahyani",
+      "emirates_id": "784-1985-7687411-6",
+      "phone": "+971570909137",
+      "email": "yousuf.alnahyani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 31309,
+      "existing_obligations": 2697.73,
+      "arrears_amount": 8425,
+      "delay_duration_months": 3,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 8425.0,
+      "duration_months": 24,
+      "monthly_instalment": 351.04,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_007",
+    "citizen": {
+      "name_ar": "عبدالله الطنيجي",
+      "name_en": "Abdullah Al Teneiji",
+      "emirates_id": "784-1988-4169684-2",
+      "phone": "+971531534242",
+      "email": "abdullah.alteneiji@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 25848,
+      "existing_obligations": 2435.72,
+      "arrears_amount": 18189,
+      "delay_duration_months": 3,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 18189.0,
+      "duration_months": 18,
+      "monthly_instalment": 1010.5,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_008",
+    "citizen": {
+      "name_ar": "إبراهيم المرري",
+      "name_en": "Ibrahim Al Marri",
+      "emirates_id": "784-1980-8155928-2",
+      "phone": "+971589391104",
+      "email": "ibrahim.almarri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 15349,
+      "existing_obligations": 952.51,
+      "arrears_amount": 14338,
+      "delay_duration_months": 4,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 14338.0,
+      "duration_months": 18,
+      "monthly_instalment": 796.56,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_009",
+    "citizen": {
+      "name_ar": "سالم الحوسني",
+      "name_en": "Salem Al Hosani",
+      "emirates_id": "784-1992-6050625-9",
+      "phone": "+971556355097",
+      "email": "salem.alhosani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 31782,
+      "existing_obligations": 2682.01,
+      "arrears_amount": 10847,
+      "delay_duration_months": 5,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 10847.0,
+      "duration_months": 24,
+      "monthly_instalment": 451.96,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_010",
+    "citizen": {
+      "name_ar": "راشد الزعابي",
+      "name_en": "Rashed Al Zaabi",
+      "emirates_id": "784-1980-5350273-2",
+      "phone": "+971537266540",
+      "email": "rashed.alzaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 16090,
+      "existing_obligations": 2839.97,
+      "arrears_amount": 32807,
+      "delay_duration_months": 2,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 32807.0,
+      "duration_months": 24,
+      "monthly_instalment": 1366.96,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_011",
+    "citizen": {
+      "name_ar": "فهد البلوشي",
+      "name_en": "Fahad Al Balushi",
+      "emirates_id": "784-1985-7336029-9",
+      "phone": "+971537516962",
+      "email": "fahad.albalushi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 21606,
+      "existing_obligations": 3409.92,
+      "arrears_amount": 31700,
+      "delay_duration_months": 6,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 31700.0,
+      "duration_months": 12,
+      "monthly_instalment": 2641.67,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_012",
+    "citizen": {
+      "name_ar": "ناصر العامري",
+      "name_en": "Nasser Al Ameri",
+      "emirates_id": "784-1988-1481300-1",
+      "phone": "+971541659846",
+      "email": "nasser.alameri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 14279,
+      "existing_obligations": 799.01,
+      "arrears_amount": 22935,
+      "delay_duration_months": 4,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 22935.0,
+      "duration_months": 12,
+      "monthly_instalment": 1911.25,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_013",
+    "citizen": {
+      "name_ar": "سعيد الرشيدي",
+      "name_en": "Saeed Al Rashidi",
+      "emirates_id": "784-1985-8836057-5",
+      "phone": "+971517501966",
+      "email": "saeed.alrashidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 19628,
+      "existing_obligations": 3192.35,
+      "arrears_amount": 32911,
+      "delay_duration_months": 4,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 32911.0,
+      "duration_months": 18,
+      "monthly_instalment": 1828.39,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_014",
+    "citizen": {
+      "name_ar": "حمدان السويدي",
+      "name_en": "Hamdan Al Suwaidi",
+      "emirates_id": "784-1985-4281447-9",
+      "phone": "+971558569602",
+      "email": "hamdan.alsuwaidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 32830,
+      "existing_obligations": 5201.4,
+      "arrears_amount": 18659,
+      "delay_duration_months": 4,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 18659.0,
+      "duration_months": 18,
+      "monthly_instalment": 1036.61,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_015",
+    "citizen": {
+      "name_ar": "منصور الشامسي",
+      "name_en": "Mansoor Al Shamsi",
+      "emirates_id": "784-1990-5648120-3",
+      "phone": "+971557805862",
+      "email": "mansoor.alshamsi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 18865,
+      "existing_obligations": 2586.82,
+      "arrears_amount": 12679,
+      "delay_duration_months": 6,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 12679.0,
+      "duration_months": 24,
+      "monthly_instalment": 528.29,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_016",
+    "citizen": {
+      "name_ar": "زايد المنصوري",
+      "name_en": "Zayed Al Mansoori",
+      "emirates_id": "784-1992-4347362-1",
+      "phone": "+971556503313",
+      "email": "zayed.almansoori@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17607,
+      "existing_obligations": 2102.95,
+      "arrears_amount": 24043,
+      "delay_duration_months": 3,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 24043.0,
+      "duration_months": 18,
+      "monthly_instalment": 1335.72,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_017",
+    "citizen": {
+      "name_ar": "مريم الكعبي",
+      "name_en": "Mariam Al Kaabi",
+      "emirates_id": "784-1995-4292457-8",
+      "phone": "+971533980958",
+      "email": "mariam.alkaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 24433,
+      "existing_obligations": 2079.08,
+      "arrears_amount": 44500,
+      "delay_duration_months": 3,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 44500.0,
+      "duration_months": 24,
+      "monthly_instalment": 1854.17,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_018",
+    "citizen": {
+      "name_ar": "فاطمة المزروعي",
+      "name_en": "Fatima Al Mazrouei",
+      "emirates_id": "784-1992-7001267-6",
+      "phone": "+971560287685",
+      "email": "fatima.almazrouei@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 22626,
+      "existing_obligations": 3610.45,
+      "arrears_amount": 11665,
+      "delay_duration_months": 3,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 11665.0,
+      "duration_months": 12,
+      "monthly_instalment": 972.08,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_019",
+    "citizen": {
+      "name_ar": "عائشة النعيمي",
+      "name_en": "Aisha Al Nuaimi",
+      "emirates_id": "784-1992-5604232-8",
+      "phone": "+971543571264",
+      "email": "aisha.alnuaimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 22336,
+      "existing_obligations": 2281.65,
+      "arrears_amount": 12337,
+      "delay_duration_months": 3,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 12337.0,
+      "duration_months": 24,
+      "monthly_instalment": 514.04,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_020",
+    "citizen": {
+      "name_ar": "نور الحمادي",
+      "name_en": "Noor Al Hammadi",
+      "emirates_id": "784-1980-8774313-1",
+      "phone": "+971542886564",
+      "email": "noor.alhammadi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 22311,
+      "existing_obligations": 1732.26,
+      "arrears_amount": 40717,
+      "delay_duration_months": 5,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 40717.0,
+      "duration_months": 24,
+      "monthly_instalment": 1696.54,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_021",
+    "citizen": {
+      "name_ar": "ريم الفلاسي",
+      "name_en": "Reem Al Falasi",
+      "emirates_id": "784-1988-3796294-2",
+      "phone": "+971575631276",
+      "email": "reem.alfalasi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 27035,
+      "existing_obligations": 1853.88,
+      "arrears_amount": 17150,
+      "delay_duration_months": 3,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 17150.0,
+      "duration_months": 24,
+      "monthly_instalment": 714.58,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_022",
+    "citizen": {
+      "name_ar": "هند الرميثي",
+      "name_en": "Hind Al Rumaithi",
+      "emirates_id": "784-1985-4889217-2",
+      "phone": "+971552676623",
+      "email": "hind.alrumaithi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 30394,
+      "existing_obligations": 3649.32,
+      "arrears_amount": 36077,
+      "delay_duration_months": 6,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 36077.0,
+      "duration_months": 18,
+      "monthly_instalment": 2004.28,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_023",
+    "citizen": {
+      "name_ar": "لطيفة القاسمي",
+      "name_en": "Latifa Al Qasimi",
+      "emirates_id": "784-1985-2422980-7",
+      "phone": "+971519974505",
+      "email": "latifa.alqasimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 23861,
+      "existing_obligations": 1873.37,
+      "arrears_amount": 17065,
+      "delay_duration_months": 6,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 17065.0,
+      "duration_months": 18,
+      "monthly_instalment": 948.06,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_024",
+    "citizen": {
+      "name_ar": "شيخة النهياني",
+      "name_en": "Sheikha Al Nahyani",
+      "emirates_id": "784-1980-7353812-5",
+      "phone": "+971599005203",
+      "email": "sheikha.alnahyani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 14978,
+      "existing_obligations": 2220.51,
+      "arrears_amount": 15185,
+      "delay_duration_months": 3,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 15185.0,
+      "duration_months": 24,
+      "monthly_instalment": 632.71,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_025",
+    "citizen": {
+      "name_ar": "أمل الطنيجي",
+      "name_en": "Amal Al Teneiji",
+      "emirates_id": "784-1990-9239333-6",
+      "phone": "+971580390968",
+      "email": "amalalteneiji@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17242,
+      "existing_obligations": 2637.51,
+      "arrears_amount": 35666,
+      "delay_duration_months": 6,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 35666.0,
+      "duration_months": 12,
+      "monthly_instalment": 2972.17,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_026",
+    "citizen": {
+      "name_ar": "وفاء المرري",
+      "name_en": "Wafa Al Marri",
+      "emirates_id": "784-1995-2506045-2",
+      "phone": "+971537010448",
+      "email": "wafa.almarri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 24608,
+      "existing_obligations": 2451.22,
+      "arrears_amount": 38674,
+      "delay_duration_months": 6,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 38674.0,
+      "duration_months": 18,
+      "monthly_instalment": 2148.56,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_027",
+    "citizen": {
+      "name_ar": "ميرة الحوسني",
+      "name_en": "Mayra Al Hosani",
+      "emirates_id": "784-1985-4803441-5",
+      "phone": "+971557413122",
+      "email": "mayra.alhosani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 30128,
+      "existing_obligations": 4877.76,
+      "arrears_amount": 8752,
+      "delay_duration_months": 2,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 8752.0,
+      "duration_months": 24,
+      "monthly_instalment": 364.67,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_028",
+    "citizen": {
+      "name_ar": "جواهر الزعابي",
+      "name_en": "Jawahir Al Zaabi",
+      "emirates_id": "784-1990-6968941-1",
+      "phone": "+971579296347",
+      "email": "jawahir.alzaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 29595,
+      "existing_obligations": 4368.64,
+      "arrears_amount": 30293,
+      "delay_duration_months": 2,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 30293.0,
+      "duration_months": 18,
+      "monthly_instalment": 1682.94,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_029",
+    "citizen": {
+      "name_ar": "سارة البلوشي",
+      "name_en": "Sara Al Balushi",
+      "emirates_id": "784-1992-6008385-2",
+      "phone": "+971595869113",
+      "email": "sara.albalushi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 26246,
+      "existing_obligations": 1851.93,
+      "arrears_amount": 8212,
+      "delay_duration_months": 4,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 8212.0,
+      "duration_months": 24,
+      "monthly_instalment": 342.17,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_030",
+    "citizen": {
+      "name_ar": "لمياء العامري",
+      "name_en": "Lamia Al Ameri",
+      "emirates_id": "784-1988-8665268-4",
+      "phone": "+971595776273",
+      "email": "lamia.alameri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17854,
+      "existing_obligations": 2071.04,
+      "arrears_amount": 14973,
+      "delay_duration_months": 4,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 14973.0,
+      "duration_months": 24,
+      "monthly_instalment": 623.88,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_031",
+    "citizen": {
+      "name_ar": "محمد الرشيدي",
+      "name_en": "Mohammed Al Rashidi",
+      "emirates_id": "784-1992-5661502-2",
+      "phone": "+971578397208",
+      "email": "mohammed.alrashidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 28635,
+      "existing_obligations": 3698.67,
+      "arrears_amount": 18016,
+      "delay_duration_months": 4,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 18016.0,
+      "duration_months": 12,
+      "monthly_instalment": 1501.33,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_032",
+    "citizen": {
+      "name_ar": "أحمد السويدي",
+      "name_en": "Ahmed Al Suwaidi",
+      "emirates_id": "784-1985-6882244-5",
+      "phone": "+971547559028",
+      "email": "ahmed.alsuwaidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 29674,
+      "existing_obligations": 5161.94,
+      "arrears_amount": 42757,
+      "delay_duration_months": 2,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 42757.0,
+      "duration_months": 24,
+      "monthly_instalment": 1781.54,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_033",
+    "citizen": {
+      "name_ar": "علي الشامسي",
+      "name_en": "Ali Al Shamsi",
+      "emirates_id": "784-1992-9038601-4",
+      "phone": "+971566356860",
+      "email": "ali.alshamsi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 22621,
+      "existing_obligations": 2567.91,
+      "arrears_amount": 15331,
+      "delay_duration_months": 4,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 15331.0,
+      "duration_months": 18,
+      "monthly_instalment": 851.72,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_034",
+    "citizen": {
+      "name_ar": "عمر المنصوري",
+      "name_en": "Omar Al Mansoori",
+      "emirates_id": "784-1995-2843801-7",
+      "phone": "+971553070831",
+      "email": "omar.almansoori@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 19846,
+      "existing_obligations": 1141.75,
+      "arrears_amount": 13161,
+      "delay_duration_months": 2,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 13161.0,
+      "duration_months": 24,
+      "monthly_instalment": 548.38,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_035",
+    "citizen": {
+      "name_ar": "خالد الكعبي",
+      "name_en": "Khalid Al Kaabi",
+      "emirates_id": "784-1990-7483688-8",
+      "phone": "+971536430291",
+      "email": "khalid.alkaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 27924,
+      "existing_obligations": 4358.46,
+      "arrears_amount": 42911,
+      "delay_duration_months": 3,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 42911.0,
+      "duration_months": 12,
+      "monthly_instalment": 3575.92,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_036",
+    "citizen": {
+      "name_ar": "يوسف المزروعي",
+      "name_en": "Yousuf Al Mazrouei",
+      "emirates_id": "784-1988-2698438-1",
+      "phone": "+971527688036",
+      "email": "yousuf.almazrouei@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 33618,
+      "existing_obligations": 3758.05,
+      "arrears_amount": 44031,
+      "delay_duration_months": 3,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 44031.0,
+      "duration_months": 18,
+      "monthly_instalment": 2446.17,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_037",
+    "citizen": {
+      "name_ar": "عبدالله النعيمي",
+      "name_en": "Abdullah Al Nuaimi",
+      "emirates_id": "784-1995-3084888-5",
+      "phone": "+971561296518",
+      "email": "abdullah.alnuaimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 29290,
+      "existing_obligations": 4786.46,
+      "arrears_amount": 35730,
+      "delay_duration_months": 3,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 35730.0,
+      "duration_months": 24,
+      "monthly_instalment": 1488.75,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_038",
+    "citizen": {
+      "name_ar": "إبراهيم الحمادي",
+      "name_en": "Ibrahim Al Hammadi",
+      "emirates_id": "784-1985-5388580-8",
+      "phone": "+971561554011",
+      "email": "ibrahim.alhammadi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 34605,
+      "existing_obligations": 2635.16,
+      "arrears_amount": 28428,
+      "delay_duration_months": 5,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 28428.0,
+      "duration_months": 24,
+      "monthly_instalment": 1184.5,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_039",
+    "citizen": {
+      "name_ar": "سالم الفلاسي",
+      "name_en": "Salem Al Falasi",
+      "emirates_id": "784-1995-8838929-1",
+      "phone": "+971538683963",
+      "email": "salem.alfalasi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 33295,
+      "existing_obligations": 3281.04,
+      "arrears_amount": 41919,
+      "delay_duration_months": 5,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 41919.0,
+      "duration_months": 12,
+      "monthly_instalment": 3493.25,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_040",
+    "citizen": {
+      "name_ar": "راشد الرميثي",
+      "name_en": "Rashed Al Rumaithi",
+      "emirates_id": "784-1985-6324164-5",
+      "phone": "+971546195463",
+      "email": "rashed.alrumaithi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 20123,
+      "existing_obligations": 1593.96,
+      "arrears_amount": 30156,
+      "delay_duration_months": 2,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 30156.0,
+      "duration_months": 24,
+      "monthly_instalment": 1256.5,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_041",
+    "citizen": {
+      "name_ar": "فهد القاسمي",
+      "name_en": "Fahad Al Qasimi",
+      "emirates_id": "784-1990-3181350-1",
+      "phone": "+971590410582",
+      "email": "fahad.alqasimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 10386,
+      "existing_obligations": 3239.45,
+      "arrears_amount": 31452,
+      "delay_duration_months": 8,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 31452.0,
+      "duration_months": 36,
+      "monthly_instalment": 873.67,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_042",
+    "citizen": {
+      "name_ar": "ناصر النهياني",
+      "name_en": "Nasser Al Nahyani",
+      "emirates_id": "784-1990-6736065-3",
+      "phone": "+971524116587",
+      "email": "nasser.alnahyani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 13730,
+      "existing_obligations": 4211.03,
+      "arrears_amount": 27206,
+      "delay_duration_months": 7,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 27206.0,
+      "duration_months": 24,
+      "monthly_instalment": 1133.58,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_043",
+    "citizen": {
+      "name_ar": "سعيد الطنيجي",
+      "name_en": "Saeed Al Teneiji",
+      "emirates_id": "784-1995-8319654-3",
+      "phone": "+971539908170",
+      "email": "saeed.alteneiji@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 9313,
+      "existing_obligations": 3421.06,
+      "arrears_amount": 37263,
+      "delay_duration_months": 3,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 37263.0,
+      "duration_months": 48,
+      "monthly_instalment": 776.31,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_044",
+    "citizen": {
+      "name_ar": "حمدان المرري",
+      "name_en": "Hamdan Al Marri",
+      "emirates_id": "784-1980-3935927-5",
+      "phone": "+971576723810",
+      "email": "hamdan.almarri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 11350,
+      "existing_obligations": 3258.25,
+      "arrears_amount": 40277,
+      "delay_duration_months": 9,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 40277.0,
+      "duration_months": 24,
+      "monthly_instalment": 1678.21,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_045",
+    "citizen": {
+      "name_ar": "منصور الحوسني",
+      "name_en": "Mansoor Al Hosani",
+      "emirates_id": "784-1995-3553604-8",
+      "phone": "+971518066772",
+      "email": "mansoor.alhosani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 10923,
+      "existing_obligations": 2710.72,
+      "arrears_amount": 42741,
+      "delay_duration_months": 5,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 42741.0,
+      "duration_months": 48,
+      "monthly_instalment": 890.44,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_046",
+    "citizen": {
+      "name_ar": "زايد الزعابي",
+      "name_en": "Zayed Al Zaabi",
+      "emirates_id": "784-1990-4493830-4",
+      "phone": "+971567021245",
+      "email": "zayed.alzaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 14712,
+      "existing_obligations": 6071.1,
+      "arrears_amount": 33817,
+      "delay_duration_months": 6,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 33817.0,
+      "duration_months": 36,
+      "monthly_instalment": 939.36,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_047",
+    "citizen": {
+      "name_ar": "مريم البلوشي",
+      "name_en": "Mariam Al Balushi",
+      "emirates_id": "784-1980-3246983-4",
+      "phone": "+971543125006",
+      "email": "mariam.albalushi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17099,
+      "existing_obligations": 4704.89,
+      "arrears_amount": 44582,
+      "delay_duration_months": 4,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 44582.0,
+      "duration_months": 48,
+      "monthly_instalment": 928.79,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_048",
+    "citizen": {
+      "name_ar": "فاطمة العامري",
+      "name_en": "Fatima Al Ameri",
+      "emirates_id": "784-1980-7637167-5",
+      "phone": "+971541843932",
+      "email": "fatima.alameri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 10033,
+      "existing_obligations": 2569.75,
+      "arrears_amount": 59502,
+      "delay_duration_months": 6,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 59502.0,
+      "duration_months": 24,
+      "monthly_instalment": 2479.25,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_049",
+    "citizen": {
+      "name_ar": "عائشة الرشيدي",
+      "name_en": "Aisha Al Rashidi",
+      "emirates_id": "784-1985-6706487-6",
+      "phone": "+971546239306",
+      "email": "aisha.alrashidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17275,
+      "existing_obligations": 4362.08,
+      "arrears_amount": 30945,
+      "delay_duration_months": 9,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 30945.0,
+      "duration_months": 24,
+      "monthly_instalment": 1289.38,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_050",
+    "citizen": {
+      "name_ar": "نور السويدي",
+      "name_en": "Noor Al Suwaidi",
+      "emirates_id": "784-1980-8413097-9",
+      "phone": "+971530649660",
+      "email": "noor.alsuwaidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 11886,
+      "existing_obligations": 4921.14,
+      "arrears_amount": 45405,
+      "delay_duration_months": 4,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 45405.0,
+      "duration_months": 48,
+      "monthly_instalment": 945.94,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_051",
+    "citizen": {
+      "name_ar": "ريم الشامسي",
+      "name_en": "Reem Al Shamsi",
+      "emirates_id": "784-1980-3271967-8",
+      "phone": "+971582060983",
+      "email": "reem.alshamsi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17075,
+      "existing_obligations": 6341.18,
+      "arrears_amount": 23437,
+      "delay_duration_months": 7,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 23437.0,
+      "duration_months": 24,
+      "monthly_instalment": 976.54,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_052",
+    "citizen": {
+      "name_ar": "هند المنصوري",
+      "name_en": "Hind Al Mansoori",
+      "emirates_id": "784-1980-9558877-5",
+      "phone": "+971521116515",
+      "email": "hind.almansoori@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 16308,
+      "existing_obligations": 5916.36,
+      "arrears_amount": 58690,
+      "delay_duration_months": 5,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 58690.0,
+      "duration_months": 48,
+      "monthly_instalment": 1222.71,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_053",
+    "citizen": {
+      "name_ar": "لطيفة الكعبي",
+      "name_en": "Latifa Al Kaabi",
+      "emirates_id": "784-1980-4028314-7",
+      "phone": "+971516415840",
+      "email": "latifa.alkaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 13624,
+      "existing_obligations": 4475.43,
+      "arrears_amount": 43789,
+      "delay_duration_months": 6,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 43789.0,
+      "duration_months": 36,
+      "monthly_instalment": 1216.36,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_054",
+    "citizen": {
+      "name_ar": "شيخة المزروعي",
+      "name_en": "Sheikha Al Mazrouei",
+      "emirates_id": "784-1988-4115701-8",
+      "phone": "+971592924202",
+      "email": "sheikha.almazrouei@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 9014,
+      "existing_obligations": 3450.23,
+      "arrears_amount": 39654,
+      "delay_duration_months": 8,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 39654.0,
+      "duration_months": 36,
+      "monthly_instalment": 1101.5,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_055",
+    "citizen": {
+      "name_ar": "أمل النعيمي",
+      "name_en": "Amal Al Nuaimi",
+      "emirates_id": "784-1980-9798006-4",
+      "phone": "+971569588119",
+      "email": "amalalnuaimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12137,
+      "existing_obligations": 3252.22,
+      "arrears_amount": 48667,
+      "delay_duration_months": 9,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 48667.0,
+      "duration_months": 48,
+      "monthly_instalment": 1013.9,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_056",
+    "citizen": {
+      "name_ar": "وفاء الحمادي",
+      "name_en": "Wafa Al Hammadi",
+      "emirates_id": "784-1990-5595689-4",
+      "phone": "+971545431462",
+      "email": "wafa.alhammadi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 16085,
+      "existing_obligations": 6439.4,
+      "arrears_amount": 36659,
+      "delay_duration_months": 4,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 36659.0,
+      "duration_months": 24,
+      "monthly_instalment": 1527.46,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_057",
+    "citizen": {
+      "name_ar": "ميرة الفلاسي",
+      "name_en": "Mayra Al Falasi",
+      "emirates_id": "784-1990-1107345-8",
+      "phone": "+971570897856",
+      "email": "mayra.alfalasi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17590,
+      "existing_obligations": 6900.0,
+      "arrears_amount": 30794,
+      "delay_duration_months": 3,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 30794.0,
+      "duration_months": 36,
+      "monthly_instalment": 855.39,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_058",
+    "citizen": {
+      "name_ar": "جواهر الرميثي",
+      "name_en": "Jawahir Al Rumaithi",
+      "emirates_id": "784-1990-5116169-4",
+      "phone": "+971586605519",
+      "email": "jawahir.alrumaithi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 9982,
+      "existing_obligations": 3629.06,
+      "arrears_amount": 59017,
+      "delay_duration_months": 4,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 59017.0,
+      "duration_months": 36,
+      "monthly_instalment": 1639.36,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_059",
+    "citizen": {
+      "name_ar": "سارة القاسمي",
+      "name_en": "Sara Al Qasimi",
+      "emirates_id": "784-1995-4619709-4",
+      "phone": "+971552345135",
+      "email": "sara.alqasimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 16593,
+      "existing_obligations": 5711.89,
+      "arrears_amount": 57238,
+      "delay_duration_months": 5,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 57238.0,
+      "duration_months": 36,
+      "monthly_instalment": 1589.94,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_060",
+    "citizen": {
+      "name_ar": "لمياء النهياني",
+      "name_en": "Lamia Al Nahyani",
+      "emirates_id": "784-1988-5602045-5",
+      "phone": "+971567833616",
+      "email": "lamia.alnahyani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 15466,
+      "existing_obligations": 3441.27,
+      "arrears_amount": 27473,
+      "delay_duration_months": 6,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": false,
+      "approved_amount": 27473.0,
+      "duration_months": 24,
+      "monthly_instalment": 1144.71,
+      "escalation_reason": null
+    }
+  },
+  {
+    "id": "case_061",
+    "citizen": {
+      "name_ar": "محمد الطنيجي",
+      "name_en": "Mohammed Al Teneiji",
+      "emirates_id": "784-1992-9293392-2",
+      "phone": "+971536652107",
+      "email": "mohammed.alteneiji@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 6373,
+      "existing_obligations": 4438.01,
+      "arrears_amount": 73136,
+      "delay_duration_months": 17,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_062",
+    "citizen": {
+      "name_ar": "أحمد المرري",
+      "name_en": "Ahmed Al Marri",
+      "emirates_id": "784-1995-8625621-8",
+      "phone": "+971589768512",
+      "email": "ahmed.almarri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 6248,
+      "existing_obligations": 3213.24,
+      "arrears_amount": 77344,
+      "delay_duration_months": 10,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_063",
+    "citizen": {
+      "name_ar": "علي الحوسني",
+      "name_en": "Ali Al Hosani",
+      "emirates_id": "784-1980-7437241-8",
+      "phone": "+971514851885",
+      "email": "ali.alhosani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 13506,
+      "existing_obligations": 6520.07,
+      "arrears_amount": 53833,
+      "delay_duration_months": 17,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_064",
+    "citizen": {
+      "name_ar": "عمر الزعابي",
+      "name_en": "Omar Al Zaabi",
+      "emirates_id": "784-1988-4436356-1",
+      "phone": "+971510223178",
+      "email": "omar.alzaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 7369,
+      "existing_obligations": 4808.06,
+      "arrears_amount": 53744,
+      "delay_duration_months": 10,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_065",
+    "citizen": {
+      "name_ar": "خالد البلوشي",
+      "name_en": "Khalid Al Balushi",
+      "emirates_id": "784-1980-3919732-5",
+      "phone": "+971589769379",
+      "email": "khalid.albalushi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 9599,
+      "existing_obligations": 5666.79,
+      "arrears_amount": 37639,
+      "delay_duration_months": 16,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_066",
+    "citizen": {
+      "name_ar": "يوسف العامري",
+      "name_en": "Yousuf Al Ameri",
+      "emirates_id": "784-1992-5889116-6",
+      "phone": "+971599500934",
+      "email": "yousuf.alameri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12986,
+      "existing_obligations": 6610.6,
+      "arrears_amount": 71162,
+      "delay_duration_months": 17,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_067",
+    "citizen": {
+      "name_ar": "عبدالله الرشيدي",
+      "name_en": "Abdullah Al Rashidi",
+      "emirates_id": "784-1985-4419105-6",
+      "phone": "+971539666863",
+      "email": "abdullah.alrashidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 9172,
+      "existing_obligations": 5175.1,
+      "arrears_amount": 31615,
+      "delay_duration_months": 13,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_068",
+    "citizen": {
+      "name_ar": "إبراهيم السويدي",
+      "name_en": "Ibrahim Al Suwaidi",
+      "emirates_id": "784-1988-6442259-8",
+      "phone": "+971532368903",
+      "email": "ibrahim.alsuwaidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 9560,
+      "existing_obligations": 5116.15,
+      "arrears_amount": 56916,
+      "delay_duration_months": 10,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_069",
+    "citizen": {
+      "name_ar": "سالم الشامسي",
+      "name_en": "Salem Al Shamsi",
+      "emirates_id": "784-1995-8456157-3",
+      "phone": "+971584869771",
+      "email": "salem.alshamsi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 11260,
+      "existing_obligations": 7338.32,
+      "arrears_amount": 73213,
+      "delay_duration_months": 8,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_070",
+    "citizen": {
+      "name_ar": "راشد المنصوري",
+      "name_en": "Rashed Al Mansoori",
+      "emirates_id": "784-1990-3981798-8",
+      "phone": "+971576502086",
+      "email": "rashed.almansoori@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 13069,
+      "existing_obligations": 6681.29,
+      "arrears_amount": 57221,
+      "delay_duration_months": 8,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_071",
+    "citizen": {
+      "name_ar": "فهد الكعبي",
+      "name_en": "Fahad Al Kaabi",
+      "emirates_id": "784-1988-6041191-4",
+      "phone": "+971567833790",
+      "email": "fahad.alkaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 13053,
+      "existing_obligations": 6859.78,
+      "arrears_amount": 56952,
+      "delay_duration_months": 7,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_072",
+    "citizen": {
+      "name_ar": "ناصر المزروعي",
+      "name_en": "Nasser Al Mazrouei",
+      "emirates_id": "784-1988-1079023-8",
+      "phone": "+971574881211",
+      "email": "nasser.almazrouei@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 10645,
+      "existing_obligations": 5685.42,
+      "arrears_amount": 69124,
+      "delay_duration_months": 16,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_073",
+    "citizen": {
+      "name_ar": "سعيد النعيمي",
+      "name_en": "Saeed Al Nuaimi",
+      "emirates_id": "784-1992-2049589-2",
+      "phone": "+971592030695",
+      "email": "saeed.alnuaimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12435,
+      "existing_obligations": 6940.99,
+      "arrears_amount": 33082,
+      "delay_duration_months": 8,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_074",
+    "citizen": {
+      "name_ar": "حمدان الحمادي",
+      "name_en": "Hamdan Al Hammadi",
+      "emirates_id": "784-1988-8271459-4",
+      "phone": "+971585106340",
+      "email": "hamdan.alhammadi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 13512,
+      "existing_obligations": 8241.77,
+      "arrears_amount": 40564,
+      "delay_duration_months": 16,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_075",
+    "citizen": {
+      "name_ar": "منصور الفلاسي",
+      "name_en": "Mansoor Al Falasi",
+      "emirates_id": "784-1985-3493659-2",
+      "phone": "+971537488114",
+      "email": "mansoor.alfalasi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12138,
+      "existing_obligations": 5959.83,
+      "arrears_amount": 70123,
+      "delay_duration_months": 11,
+      "reason_for_request": "Investment loss in government-approved project"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+    }
+  },
+  {
+    "id": "case_076",
+    "citizen": {
+      "name_ar": "زايد الرميثي",
+      "name_en": "Zayed Al Rumaithi",
+      "emirates_id": "784-1980-5988778-3",
+      "phone": "+971579695049",
+      "email": "zayed.alrumaithi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 19792,
+      "existing_obligations": 3562.56,
+      "arrears_amount": 21679,
+      "delay_duration_months": 4,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "bank_statement",
+      "emirates_id"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_077",
+    "citizen": {
+      "name_ar": "مريم القاسمي",
+      "name_en": "Mariam Al Qasimi",
+      "emirates_id": "784-1988-8140360-3",
+      "phone": "+971532117006",
+      "email": "mariam.alqasimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 10024,
+      "existing_obligations": 1804.32,
+      "arrears_amount": 26073,
+      "delay_duration_months": 4,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "emirates_id"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_078",
+    "citizen": {
+      "name_ar": "فاطمة النهياني",
+      "name_en": "Fatima Al Nahyani",
+      "emirates_id": "784-1992-9543685-1",
+      "phone": "+971553315785",
+      "email": "fatima.alnahyani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 18667,
+      "existing_obligations": 3360.06,
+      "arrears_amount": 36973,
+      "delay_duration_months": 5,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_079",
+    "citizen": {
+      "name_ar": "عائشة الطنيجي",
+      "name_en": "Aisha Al Teneiji",
+      "emirates_id": "784-1988-3795151-1",
+      "phone": "+971523341709",
+      "email": "aisha.alteneiji@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 19373,
+      "existing_obligations": 3487.14,
+      "arrears_amount": 28999,
+      "delay_duration_months": 3,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_080",
+    "citizen": {
+      "name_ar": "نور المرري",
+      "name_en": "Noor Al Marri",
+      "emirates_id": "784-1995-5341488-4",
+      "phone": "+971512004421",
+      "email": "noor.almarri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12649,
+      "existing_obligations": 2276.82,
+      "arrears_amount": 13997,
+      "delay_duration_months": 5,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "bank_statement",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_081",
+    "citizen": {
+      "name_ar": "ريم الحوسني",
+      "name_en": "Reem Al Hosani",
+      "emirates_id": "784-1985-5628380-7",
+      "phone": "+971559889172",
+      "email": "reem.alhosani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 15434,
+      "existing_obligations": 2778.12,
+      "arrears_amount": 22065,
+      "delay_duration_months": 6,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "bank_statement",
+      "emirates_id"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_082",
+    "citizen": {
+      "name_ar": "هند الزعابي",
+      "name_en": "Hind Al Zaabi",
+      "emirates_id": "784-1980-6973757-6",
+      "phone": "+971534065318",
+      "email": "hind.alzaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12270,
+      "existing_obligations": 2208.6,
+      "arrears_amount": 30696,
+      "delay_duration_months": 3,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "emirates_id"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_083",
+    "citizen": {
+      "name_ar": "لطيفة البلوشي",
+      "name_en": "Latifa Al Balushi",
+      "emirates_id": "784-1990-4753055-2",
+      "phone": "+971588371066",
+      "email": "latifa.albalushi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 24190,
+      "existing_obligations": 4354.2,
+      "arrears_amount": 13090,
+      "delay_duration_months": 8,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_084",
+    "citizen": {
+      "name_ar": "شيخة العامري",
+      "name_en": "Sheikha Al Ameri",
+      "emirates_id": "784-1995-7489049-2",
+      "phone": "+971534114459",
+      "email": "sheikha.alameri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 19794,
+      "existing_obligations": 3562.92,
+      "arrears_amount": 26475,
+      "delay_duration_months": 8,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_085",
+    "citizen": {
+      "name_ar": "أمل الرشيدي",
+      "name_en": "Amal Al Rashidi",
+      "emirates_id": "784-1980-1933008-8",
+      "phone": "+971558505057",
+      "email": "amalalrashidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 18441,
+      "existing_obligations": 3319.38,
+      "arrears_amount": 35298,
+      "delay_duration_months": 2,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "bank_statement",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Mandatory documents missing: salary certificate, bank statement, and Emirates ID are all required"
+    }
+  },
+  {
+    "id": "case_086",
+    "citizen": {
+      "name_ar": "وفاء السويدي",
+      "name_en": "Wafa Al Suwaidi",
+      "emirates_id": "784-1998-5331594-2",
+      "phone": "+971530460494",
+      "email": "wafa.alsuwaidi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 15041,
+      "existing_obligations": 2256.15,
+      "arrears_amount": 26412,
+      "delay_duration_months": 4,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_087",
+    "citizen": {
+      "name_ar": "ميرة الشامسي",
+      "name_en": "Mayra Al Shamsi",
+      "emirates_id": "784-1998-1830384-2",
+      "phone": "+971563756109",
+      "email": "mayra.alshamsi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 11520,
+      "existing_obligations": 1728.0,
+      "arrears_amount": 26544,
+      "delay_duration_months": 5,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_088",
+    "citizen": {
+      "name_ar": "جواهر المنصوري",
+      "name_en": "Jawahir Al Mansoori",
+      "emirates_id": "784-1998-2294726-2",
+      "phone": "+971537885613",
+      "email": "jawahir.almansoori@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17510,
+      "existing_obligations": 2626.5,
+      "arrears_amount": 21477,
+      "delay_duration_months": 5,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_089",
+    "citizen": {
+      "name_ar": "سارة الكعبي",
+      "name_en": "Sara Al Kaabi",
+      "emirates_id": "784-1998-6008008-2",
+      "phone": "+971510297784",
+      "email": "sara.alkaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 18963,
+      "existing_obligations": 2844.45,
+      "arrears_amount": 16413,
+      "delay_duration_months": 4,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_090",
+    "citizen": {
+      "name_ar": "لمياء المزروعي",
+      "name_en": "Lamia Al Mazrouei",
+      "emirates_id": "784-1998-1603162-2",
+      "phone": "+971568116618",
+      "email": "lamia.almazrouei@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 17334,
+      "existing_obligations": 2600.1,
+      "arrears_amount": 14956,
+      "delay_duration_months": 5,
+      "reason_for_request": "Medical emergency expenses incurred by family member"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_091",
+    "citizen": {
+      "name_ar": "محمد النعيمي",
+      "name_en": "Mohammed Al Nuaimi",
+      "emirates_id": "784-1998-2877532-2",
+      "phone": "+971514412275",
+      "email": "mohammed.alnuaimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 12325,
+      "existing_obligations": 1848.75,
+      "arrears_amount": 33902,
+      "delay_duration_months": 2,
+      "reason_for_request": "Spouse lost primary employment"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_092",
+    "citizen": {
+      "name_ar": "أحمد الحمادي",
+      "name_en": "Ahmed Al Hammadi",
+      "emirates_id": "784-1998-2675634-2",
+      "phone": "+971548873145",
+      "email": "ahmed.alhammadi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 14088,
+      "existing_obligations": 2113.2,
+      "arrears_amount": 28296,
+      "delay_duration_months": 2,
+      "reason_for_request": "Job loss due to company downsizing"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_093",
+    "citizen": {
+      "name_ar": "علي الفلاسي",
+      "name_en": "Ali Al Falasi",
+      "emirates_id": "784-1998-7018329-2",
+      "phone": "+971573017321",
+      "email": "ali.alfalasi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 16317,
+      "existing_obligations": 2447.55,
+      "arrears_amount": 18066,
+      "delay_duration_months": 6,
+      "reason_for_request": "Reduction in monthly salary by employer"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Emirates ID is expired or could not be verified"
+    }
+  },
+  {
+    "id": "case_094",
+    "citizen": {
+      "name_ar": "عمر الرميثي",
+      "name_en": "Omar Al Rumaithi",
+      "emirates_id": "784-1988-6368092-2",
+      "phone": "+971525511022",
+      "email": "omar.alrumaithi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 33125,
+      "existing_obligations": 3312.5,
+      "arrears_amount": 49519,
+      "delay_duration_months": 7,
+      "reason_for_request": "Residual economic impact from prior market downturn"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Income and bank balance inconsistency exceeds 40 percent indicating potential fraud requiring investigation"
+    }
+  },
+  {
+    "id": "case_095",
+    "citizen": {
+      "name_ar": "خالد القاسمي",
+      "name_en": "Khalid Al Qasimi",
+      "emirates_id": "784-1990-1249871-6",
+      "phone": "+971579459802",
+      "email": "khalid.alqasimi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 33352,
+      "existing_obligations": 3335.2,
+      "arrears_amount": 31753,
+      "delay_duration_months": 6,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Income and bank balance inconsistency exceeds 40 percent indicating potential fraud requiring investigation"
+    }
+  },
+  {
+    "id": "case_096",
+    "citizen": {
+      "name_ar": "يوسف النهياني",
+      "name_en": "Yousuf Al Nahyani",
+      "emirates_id": "784-1992-3828731-1",
+      "phone": "+971553659593",
+      "email": "yousuf.alnahyani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 24974,
+      "existing_obligations": 2497.4,
+      "arrears_amount": 22078,
+      "delay_duration_months": 5,
+      "reason_for_request": "Increased family support obligations"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Income and bank balance inconsistency exceeds 40 percent indicating potential fraud requiring investigation"
+    }
+  },
+  {
+    "id": "case_097",
+    "citizen": {
+      "name_ar": "عبدالله الطنيجي",
+      "name_en": "Abdullah Al Teneiji",
+      "emirates_id": "784-1990-4614677-9",
+      "phone": "+971532504009",
+      "email": "abdullah.alteneiji@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 36705,
+      "existing_obligations": 3670.5,
+      "arrears_amount": 20985,
+      "delay_duration_months": 3,
+      "reason_for_request": "Unexpected major home repair costs"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Income and bank balance inconsistency exceeds 40 percent indicating potential fraud requiring investigation"
+    }
+  },
+  {
+    "id": "case_098",
+    "citizen": {
+      "name_ar": "إبراهيم المرري",
+      "name_en": "Ibrahim Al Marri",
+      "emirates_id": "784-1985-8531176-5",
+      "phone": "+971591541302",
+      "email": "ibrahim.almarri@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 24636,
+      "existing_obligations": 2463.6,
+      "arrears_amount": 36650,
+      "delay_duration_months": 4,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Income and bank balance inconsistency exceeds 40 percent indicating potential fraud requiring investigation"
+    }
+  },
+  {
+    "id": "case_099",
+    "citizen": {
+      "name_ar": "سالم الحوسني",
+      "name_en": "Salem Al Hosani",
+      "emirates_id": "784-1990-4425965-9",
+      "phone": "+971512756124",
+      "email": "salem.alhosani@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 19335,
+      "existing_obligations": 3867.0,
+      "arrears_amount": 190180,
+      "delay_duration_months": 32,
+      "reason_for_request": "Business failure and significant revenue decline"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Arrears amount exceeds 100000 AED and requires senior management approval"
+    }
+  },
+  {
+    "id": "case_100",
+    "citizen": {
+      "name_ar": "راشد الزعابي",
+      "name_en": "Rashed Al Zaabi",
+      "emirates_id": "784-1992-1369437-8",
+      "phone": "+971556563358",
+      "email": "rashed.alzaabi@uae.email"
+    },
+    "financial_profile": {
+      "monthly_income": 22200,
+      "existing_obligations": 4440.0,
+      "arrears_amount": 139405,
+      "delay_duration_months": 31,
+      "reason_for_request": "Children higher education fees increased"
+    },
+    "documents_submitted": [
+      "salary_certificate",
+      "bank_statement",
+      "emirates_id",
+      "tenancy_contract"
+    ],
+    "expected_decision": {
+      "escalate_flag": true,
+      "approved_amount": null,
+      "duration_months": null,
+      "monthly_instalment": null,
+      "escalation_reason": "Arrears amount exceeds 100000 AED and requires senior management approval"
+    }
+  }
+]
