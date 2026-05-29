@@ -27,6 +27,7 @@ class CitizenFinancialProfile(BaseModel):
     has_disability: bool = Field(default=False, description="True if citizen has a registered disability")
     number_of_properties: int = Field(default=1, description="Number of properties owned by citizen")
     salary_certificate_age_months: int = Field(default=0, description="Age of the submitted salary certificate in months")
+    suspected_fraud: bool = Field(default=False, description="True if a fraud signal has been raised by the document verification pipeline")
 
 
 class DecisionOutput(BaseModel):

@@ -22,9 +22,9 @@ Decision rules:
 
 Duration selection guidance:
 - DTI (existing_obligations / monthly_income) below 30%: prefer 12 or 18 months
-- DTI 30% to 45%: prefer 18 or 24 months
-- DTI 45% to 55%: prefer 24 or 36 months
-- DTI above 55%: escalate
+- DTI 30% to 40%: prefer 18 or 24 months
+- DTI 40% to 45%: prefer 24 or 36 months
+- DTI above 45%: escalate (hard escalation threshold)
 
 Hardship modifiers that increase duration:
 - is_widowed_or_divorced: add 6 months

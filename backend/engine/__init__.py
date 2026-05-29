@@ -1,5 +1,5 @@
-"""Decision engine package for Tayseer. Exports make_decision as the primary entry point."""
+"""Decision engine package for Tayseer.
 
-from backend.engine.decision import make_decision
-
-__all__ = ["make_decision"]
+Import make_decision from backend.engine.decision or escalation helpers
+from backend.engine.escalation directly to avoid loading the full DB stack.
+"""

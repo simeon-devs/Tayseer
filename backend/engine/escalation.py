@@ -9,7 +9,7 @@ from __future__ import annotations
 from backend.schemas.decisions import CitizenFinancialProfile
 
 # Thresholds
-_DTI_ESCALATION_THRESHOLD = 0.55
+_DTI_ESCALATION_THRESHOLD = 0.45
 _HIGH_ARREARS_THRESHOLD = 100_000.0
 _STALE_SALARY_CERT_MONTHS = 3
 
@@ -76,6 +76,13 @@ def check_hard_escalations(profile: CitizenFinancialProfile) -> tuple[bool, str]
     Checks are evaluated in priority order: ID expiry, previous rejections,
     missing documents, fraud signals, DTI, and arrears threshold.
     """
+    # Trigger 0: fraud signal raised by document verification
+    if profile.suspected_fraud:
+        return True, (
+            "A fraud signal has been raised: income and document consistency check failed. "
+            "Manual investigation is required before this case can proceed."
+        )
+
     # Trigger 1: expired Emirates ID
     if profile.has_expired_id:
         return True, "Emirates ID has expired. Identity verification required before rescheduling can proceed."
