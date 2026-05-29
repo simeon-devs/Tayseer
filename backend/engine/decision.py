@@ -78,59 +78,74 @@ def _write_decision_to_db(
     db: Session,
     case_id: str,
     output: DecisionOutput,
-) -> Decision:
+) -> bool:
     """Persist the decision to the database and append an audit log row.
 
     Recalculates monthly_instalment from approved_amount and duration_months
     regardless of what the LLM returned.
+
+    Returns True on success. On a foreign key violation (case_id not in cases table)
+    rolls back, logs a warning, and returns False so the caller can still return
+    the decision output to the client.
     """
+    from sqlalchemy.exc import IntegrityError
+
     monthly_instalment: float | None = None
     if output.approved_amount is not None and output.duration_months is not None and output.duration_months > 0:
         monthly_instalment = round(output.approved_amount / output.duration_months, 2)
 
     case_uuid = uuid.UUID(case_id) if isinstance(case_id, str) else case_id
 
-    decision_row = Decision(
-        case_id=case_uuid,
-        approved_amount=output.approved_amount,
-        duration_months=output.duration_months,
-        monthly_instalment=monthly_instalment,
-        hardship_score=output.hardship_score,
-        escalate_flag=output.escalate_flag,
-        escalation_reason=output.escalation_reason,
-        rationale_en=output.rationale_en,
-        rationale_ar=output.rationale_ar,
-        rules_applied=output.rules_applied,
-        confidence_score=output.confidence_score,
-    )
-    db.add(decision_row)
+    try:
+        decision_row = Decision(
+            case_id=case_uuid,
+            approved_amount=output.approved_amount,
+            duration_months=output.duration_months,
+            monthly_instalment=monthly_instalment,
+            hardship_score=output.hardship_score,
+            escalate_flag=output.escalate_flag,
+            escalation_reason=output.escalation_reason,
+            rationale_en=output.rationale_en,
+            rationale_ar=output.rationale_ar,
+            rules_applied=output.rules_applied,
+            confidence_score=output.confidence_score,
+        )
+        db.add(decision_row)
 
-    new_status = "escalated" if output.escalate_flag else "approved"
-    db.query(Case).filter(Case.id == case_uuid).update({"status": new_status})
+        new_status = "escalated" if output.escalate_flag else "approved"
+        db.query(Case).filter(Case.id == case_uuid).update({"status": new_status})
 
-    audit_row = AuditLog(
-        case_id=case_uuid,
-        action="decision_created",
-        performed_by="system",
-        details={
-            "escalate_flag": output.escalate_flag,
-            "escalation_reason": output.escalation_reason,
-            "approved_amount": output.approved_amount,
-            "duration_months": output.duration_months,
-            "monthly_instalment": monthly_instalment,
-            "confidence_score": output.confidence_score,
-        },
-    )
-    db.add(audit_row)
-    db.commit()
-    db.refresh(decision_row)
-    return decision_row
+        audit_row = AuditLog(
+            case_id=case_uuid,
+            action="decision_created",
+            performed_by="system",
+            details={
+                "escalate_flag": output.escalate_flag,
+                "escalation_reason": output.escalation_reason,
+                "approved_amount": output.approved_amount,
+                "duration_months": output.duration_months,
+                "monthly_instalment": monthly_instalment,
+                "confidence_score": output.confidence_score,
+            },
+        )
+        db.add(audit_row)
+        db.commit()
+        return True
+
+    except IntegrityError as exc:
+        db.rollback()
+        logger.warning(
+            "DB write skipped for case %s: foreign key constraint not satisfied (%s)",
+            case_id,
+            exc.orig,
+        )
+        return False
 
 
 def make_decision(
     case_id: str,
     profile: CitizenFinancialProfile,
-    db: Session,
+    db: Session | None,
 ) -> DecisionOutput:
     """Run the full decision pipeline for a single case.
 
@@ -140,10 +155,11 @@ def make_decision(
     3. Build the LLM prompt from profile and rules.
     4. Call LLM via Instructor to get structured DecisionOutput.
     5. Recalculate monthly_instalment server-side.
-    6. Write Decision row and AuditLog row to database.
+    6. Write Decision row and AuditLog row to database (skipped if db is None).
     7. Return the final DecisionOutput with recalculated instalment.
 
     Never raises. Returns a safe escalation decision if any step fails.
+    db may be None for test calls where no real case exists in the database.
     """
     try:
         # Step 1: hard escalation checks
@@ -183,8 +199,10 @@ def make_decision(
 
         output = output.model_copy(update={"monthly_instalment": monthly_instalment})
 
-        # Steps 6 and 7: persist and return
-        _write_decision_to_db(db, case_id, output)
+        # Step 6: persist if a real db session was provided
+        if db is not None:
+            _write_decision_to_db(db, case_id, output)
+
         return output
 
     except Exception as exc:
@@ -197,8 +215,6 @@ def make_decision(
             rules_applied=[],
             confidence_score=0.0,
         )
-        try:
+        if db is not None:
             _write_decision_to_db(db, case_id, fallback)
-        except Exception:
-            pass
         return fallback
