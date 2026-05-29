@@ -169,7 +169,7 @@ Update this section after every session.
 
 A1 Infrastructure database and data: complete
 A2 Governance rulebook and RAG pipeline: complete
-B1 Document extraction: not started
+B1 Document extraction: complete
 B2 Decision engine: not started
 B3 Case management API and AI copilot: not started
 C1 Citizen portal full flow: not started

@@ -5,9 +5,15 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app
+      - ./backend:/workspace/backend
+      - ./data:/workspace/data
+      - ../../../arrears_benchmark:/workspace/arrears_benchmark
     env_file:
       - .env
+    environment:
+      DATABASE_URL: postgresql://arrears_user:arrears_pass@postgres:5432/arrears_db
+      CHROMADB_URL: http://chromadb:8000
+      OLLAMA_URL: http://host.docker.internal:11434
     depends_on:
       postgres:
         condition: service_healthy

@@ -9,7 +9,7 @@ Update this file at the end of every Claude Code session. Never let a session en
 Benchmarking: complete
 Module A1: complete
 Module A2: complete
-Module B1: not started
+Module B1: complete
 Module B2: not started
 Module B3: not started
 Module C1: not started
@@ -39,6 +39,50 @@ Known issue: BGE-M3 missed Rule 13 on the widowed citizen query. Fix is to add k
 ---
 
 ## Session Log
+
+### Session 4 - 2026-05-29
+
+What was done:
+Completed full B1 module: document extraction pipeline.
+Created backend/schemas/documents.py with DocumentType enum, SalaryCertificate, BankStatement, EmiratesID, DocumentResult, CompletenessReport, and ErrorResponse schemas. Added check_completeness helper function. Added backend/schemas/__init__.py exporting all schemas for direct import.
+Created backend/extraction/__init__.py as package root.
+Created backend/extraction/ocr.py with extract_text_from_image, extract_text_from_pdf, and extract_text functions. Uses Tesseract 5 with lang=ara+eng and PSM 3. Gracefully returns empty string on failure.
+Created backend/extraction/extractor.py with three prompt templates (salary certificate, bank statement, Emirates ID), per-type extraction functions using Instructor with Ollama OpenAI-compatible endpoint, detect_document_type using Arabic and English keyword matching, and full extract_document pipeline function.
+Created backend/routers/documents.py with POST /api/documents/extract endpoint. Accepts multipart upload, saves file, runs extraction, writes Document and AuditLog database records, returns DocumentResult.
+Updated backend/main.py to register the documents router and create the uploads directory on startup.
+Created backend/extraction/test_extraction.py with three benchmark tests.
+Added benchmark volume mount to docker-compose.yml (../../../arrears_benchmark:/workspace/arrears_benchmark).
+Fixed Ollama URL to point at host machine (http://host.docker.internal:11434) so the container uses the pre-loaded model weights.
+Fixed bank statement keyword detection: added "bank", "رصيد", and "صاحب الحساب" as additional detection signals since the synthetic document contains a bank name but not the phrase "bank statement".
+Fixed missing ErrorResponse schema that was imported by the router but not yet defined.
+
+Validation results:
+backend/extraction/ contains ocr.py, extractor.py, test_extraction.py. Confirmed.
+All 5 document schemas plus ErrorResponse importable from backend.schemas. Confirmed.
+POST /api/documents/extract returned correct DocumentResult for salary certificate and Emirates ID via curl. Confirmed.
+Extraction quality test: 3 out of 3. salary_certificate net_salary 21800.0, bank_statement average_balance 12400.0, emirates_id id_number 784-1990-1234567-1. Gate passed.
+Database documents table has record with document_type salary_certificate and extraction_confidence 1.0. Confirmed.
+
+New files created in this session:
+backend/schemas/documents.py: 101 lines
+backend/schemas/__init__.py: 23 lines
+backend/extraction/__init__.py: 1 line
+backend/extraction/ocr.py: 79 lines
+backend/extraction/extractor.py: 280 lines
+backend/extraction/test_extraction.py: 123 lines
+backend/routers/documents.py: 125 lines
+backend/uploads/.gitkeep: placeholder
+
+What was not done:
+Module B2 and all subsequent modules have not been started.
+
+Blockers:
+None.
+
+Next immediate task:
+Begin Module B2: decision engine.
+
+---
 
 ### Session 1 - 2026-05-28
 
@@ -180,7 +224,7 @@ Gate: retrieve_rules returns correct rules for 9 out of 10 test queries.
 
 ### B1 - Document extraction
 
-Status: not started
+Status: complete
 Estimated effort: 2 days
 Owner: simeon-devs
 Dependencies: A1 for database, A2 for LLM being available
