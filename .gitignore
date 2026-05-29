@@ -15,8 +15,9 @@ build/
 node_modules/
 .next/
 
-# Uploads
-uploads/
+# Uploads (directory contents, not the directory itself)
+uploads/**
+!uploads/.gitkeep
 
 # LLM model files
 *.gguf
