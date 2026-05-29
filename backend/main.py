@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 from backend.config import settings
 from backend.rag.indexer import build_index, is_index_built
+from backend.routers.decisions import router as decisions_router
 from backend.routers.documents import router as documents_router
 from backend.routers.rag import router as rag_router
 
@@ -43,6 +44,7 @@ app.add_middleware(
 
 app.include_router(rag_router)
 app.include_router(documents_router)
+app.include_router(decisions_router)
 
 
 @app.on_event("startup")
