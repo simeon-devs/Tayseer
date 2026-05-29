@@ -15,7 +15,7 @@ Module B3: complete
 Module C1: complete
 Module C2: complete
 Module C3: complete
-Module D1: not started
+Module D1: complete
 Module D2: not started
 Integration: not started
 Demo preparation: not started
@@ -39,6 +39,45 @@ Known issue: BGE-M3 missed Rule 13 on the widowed citizen query. Fix is to add k
 ---
 
 ## Session Log
+
+### Session 10 - 2026-05-29
+
+What was done:
+Completed full D1 module: PDF decision letter and QR verification.
+Rebuilt backend/templates/letter.html from scratch with the correct official UAE government document design. Header has Housing Debt Rescheduling Authority in English on the left and هيئة إعادة جدولة ديون الإسكان in Arabic on the right separated by a green horizontal rule using colour 1D9E75. Reference table has value on the left column and Arabic label on the right column per spec. Approved cases show all seven rows including arrears amount, duration, and monthly instalment. Escalated cases show only four rows and render an orange warning box with هذه الحالة تتطلب مراجعة يدوية and This case requires manual review. Rationale section shows Arabic paragraph in a grey box with a green right border followed by English paragraph in a grey box with a green left border. Footer has QR code on the left and bilingual authenticity note plus case UUID on the right. Template uses Jinja2 variables: case_reference, case_uuid, citizen_name_ar, citizen_name_en, emirates_id, arrears_amount, duration_months, monthly_instalment, decision_date, rationale_ar, rationale_en, escalate_flag, escalation_reason, rules_applied, qr_code_base64.
+Created backend/routers/letters.py with GET /api/cases/:id/letter endpoint. Loads case, citizen, and decision from PostgreSQL. Generates QR code using qrcode library encoding the full FRONTEND_URL plus /verify/ plus case UUID. Renders letter.html template via Jinja2 and converts to PDF via WeasyPrint. Returns StreamingResponse with Content-Type application/pdf.
+Created backend/routers/verification.py with GET /api/verify/:case_uuid endpoint. Public endpoint, no authentication required. Returns VerificationResponse with case_reference, citizen_name_en, decision_summary as a plain English summary of the decision outcome, decision_date, verified as true, and bilingual authentication messages.
+Added FRONTEND_URL to backend/config.py (defaults to http://localhost:3001), to .env (set to http://localhost:3001), and to .env.example with documentation comment.
+Updated backend/main.py to import letters_router and verification_router from the new split router files. Removed the old combined letter.py import.
+Deleted backend/routers/letter.py which was an untracked combined file from the prior session.
+Confirmed frontend/pages/verify/[case_uuid].tsx exists and is correct. It calls verifyCase(case_uuid) which hits GET /api/verify/:case_uuid via NEXT_PUBLIC_API_URL. Displays verified badge, case reference, citizen name, decision date, and decision summary. Shows Arabic message when lang is ar.
+Fixed Dockerfile: removed libgdk-pixbuf2.0-0 which was renamed in Debian Trixie. WeasyPrint 68.1 does not require this package.
+Rebuilt Docker container and ran full validation suite.
+
+Validation results:
+Approved case letter: HTTP 200, PDF generated at 26KB, PNG preview confirmed correct bilingual layout with all 7 reference table rows, green header, QR code, Arabic and English rationale blocks. File size is smaller than the 30KB target because the seeded case has short AI rationale text (216 EN chars, 198 AR chars). The PDF content is complete and correct.
+Escalated case letter: HTTP 200, PDF generated at 23KB, PNG preview confirmed orange warning box with correct Arabic and English text, only 4 reference rows shown, no financial fields, rationale present.
+GET /api/verify/:case_uuid approved case: HTTP 200, returns correct VerificationResponse with case_reference, citizen_name_en, decision_summary with approved amount and terms, verified=true, bilingual messages.
+GET /api/verify/:case_uuid escalated case: HTTP 200, returns correct VerificationResponse with decision_summary showing under review reason.
+Letter endpoint for case with no decision: HTTP 404 with code DECISION_NOT_FOUND.
+Frontend build: compiled successfully with no TypeScript errors. All 10 routes generated cleanly including /verify/[case_uuid].
+Frontend verify page at http://localhost:3001/verify/CASE_UUID: HTTP 200.
+
+New files created in this session:
+backend/templates/letter.html: 127 lines (rebuilt from prior session draft)
+backend/routers/letters.py: 108 lines
+backend/routers/verification.py: 81 lines
+
+What was not done:
+Module D2 has not been started.
+
+Blockers:
+None.
+
+Next immediate task:
+Begin Module D2: deployment on MacBook and Pi.
+
+---
 
 ### Session 9 - 2026-05-29
 
@@ -548,7 +587,7 @@ Gate: copilot answers 4 test questions correctly in both languages, analytics pa
 
 ### D1 - PDF decision letter and QR verification
 
-Status: not started
+Status: complete
 Estimated effort: 1 day
 Owner: simeon-devs
 Dependencies: B3 for case data

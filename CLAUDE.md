@@ -175,7 +175,7 @@ B3 Case management API and AI copilot: complete
 C1 Citizen portal full flow: complete
 C2 Staff dashboard case management: complete
 C3 Staff dashboard copilot and analytics: complete
-D1 PDF decision letter and QR verification: not started
+D1 PDF decision letter and QR verification: complete
 D2 Deployment on MacBook and Pi: not started
 
 ---
