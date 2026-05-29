@@ -10,6 +10,11 @@ from backend.schemas.documents import (
     SalaryCertificate,
     check_completeness,
 )
+from backend.schemas.decisions import (
+    CitizenFinancialProfile,
+    DecisionOutput,
+    DecisionRequest,
+)
 
 __all__ = [
     "BankStatement",
@@ -20,4 +25,7 @@ __all__ = [
     "ErrorResponse",
     "SalaryCertificate",
     "check_completeness",
+    "CitizenFinancialProfile",
+    "DecisionOutput",
+    "DecisionRequest",
 ]
