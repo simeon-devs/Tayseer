@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+  @page {
+    size: A4;
+    margin: 2cm;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Geeza Pro", "Noto Naskh Arabic", "Noto Sans Arabic", "Arabic Typesetting", Arial, sans-serif;
+    color: #1a1a2e;
+    font-size: 10pt;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.6em;
+  }
+  .header-en {
+    width: 50%;
+    vertical-align: middle;
+    direction: ltr;
+    text-align: left;
+  }
+  .header-ar {
+    width: 50%;
+    vertical-align: middle;
+    direction: rtl;
+    text-align: right;
+  }
+  .dept-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #1D9E75;
+  }
+  .dept-sub {
+    font-size: 0.78em;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+  .header-rule {
+    border: none;
+    border-top: 3px solid #1D9E75;
+    margin-top: 0.5em;
+    margin-bottom: 1.4em;
+  }
+
+  /* ── Reference table ── */
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.4em;
+    font-size: 0.9em;
+  }
+  .ref-table td {
+    padding: 0.4em 0.8em;
+    border: 1px solid #e5e7eb;
+  }
+  .ref-value {
+    direction: ltr;
+    text-align: left;
+    color: #1a1a2e;
+  }
+  .ref-label {
+    direction: rtl;
+    text-align: right;
+    font-weight: 600;
+    background: #f8fafc;
+    width: 38%;
+    color: #374151;
+  }
+
+  /* ── Orange escalated warning box ── */
+  .warning-box {
+    background: #fffbeb;
+    border: 2px solid #B45309;
+    padding: 1em 1.5em;
+    margin-bottom: 1.4em;
+    text-align: center;
+  }
+  .warning-ar {
+    font-size: 1.05em;
+    font-weight: bold;
+    color: #B45309;
+    direction: rtl;
+    margin-bottom: 0.35em;
+  }
+  .warning-en {
+    font-size: 0.95em;
+    color: #B45309;
+    direction: ltr;
+  }
+
+  /* ── Rationale section ── */
+  .rationale-box-ar {
+    background: #f8fafc;
+    border-right: 3px solid #1D9E75;
+    padding: 0.8em 1em;
+    font-size: 0.88em;
+    color: #374151;
+    direction: rtl;
+    text-align: right;
+    margin-bottom: 0.7em;
+  }
+  .rationale-box-en {
+    background: #f8fafc;
+    border-left: 3px solid #1D9E75;
+    padding: 0.8em 1em;
+    font-size: 0.88em;
+    color: #374151;
+    direction: ltr;
+    text-align: left;
+  }
+  .rules-row {
+    font-size: 0.72em;
+    color: #9ca3af;
+    margin-top: 0.5em;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 1.2em 0;
+  }
+
+  /* ── Footer ── */
+  .footer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2em;
+    border-top: 2px solid #1D9E75;
+    padding-top: 0.8em;
+  }
+  .footer-qr {
+    vertical-align: top;
+    width: 90px;
+    text-align: center;
+    padding-top: 0.6em;
+  }
+  .footer-qr img {
+    width: 80px;
+    height: 80px;
+  }
+  .footer-qr-label {
+    font-size: 0.62em;
+    color: #9ca3af;
+    margin-top: 3px;
+    text-align: center;
+  }
+  .footer-auth {
+    vertical-align: top;
+    padding-left: 1em;
+    padding-top: 0.6em;
+  }
+  .footer-auth-ar {
+    font-size: 0.8em;
+    color: #374151;
+    direction: rtl;
+    text-align: right;
+    margin-bottom: 0.3em;
+  }
+  .footer-auth-en {
+    font-size: 0.8em;
+    color: #374151;
+    direction: ltr;
+    text-align: left;
+    margin-bottom: 0.5em;
+  }
+  .footer-uuid {
+    font-family: "Courier New", monospace;
+    font-size: 0.68em;
+    color: #9ca3af;
+    direction: ltr;
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<table class="header-table">
+  <tr>
+    <td class="header-en">
+      <div class="dept-name">Housing Debt Rescheduling Authority</div>
+      <div class="dept-sub">Official Decision Letter</div>
+    </td>
+    <td class="header-ar">
+      <div class="dept-name">هيئة إعادة جدولة ديون الإسكان</div>
+      <div class="dept-sub">خطاب القرار الرسمي</div>
+    </td>
+  </tr>
+</table>
+<hr class="header-rule"/>
+
+<!-- ── Reference Table ── -->
+<!-- value on left, Arabic label on right per spec -->
+<table class="ref-table">
+  <tr>
+    <td class="ref-value">{{ case_reference }}</td>
+    <td class="ref-label">رقم الطلب</td>
+  </tr>
+  <tr>
+    <td class="ref-value">{{ citizen_name_ar }} / {{ citizen_name_en }}</td>
+    <td class="ref-label">اسم المستفيد</td>
+  </tr>
+  <tr>
+    <td class="ref-value" style="direction:ltr;">{{ emirates_id }}</td>
+    <td class="ref-label">رقم الهوية</td>
+  </tr>
+  <tr>
+    <td class="ref-value" style="direction:ltr;">{{ decision_date }}</td>
+    <td class="ref-label">تاريخ القرار</td>
+  </tr>
+  {% if not escalate_flag %}
+  <tr>
+    <td class="ref-value" style="direction:ltr;">AED {{ arrears_amount }}</td>
+    <td class="ref-label">مبلغ المتأخرات</td>
+  </tr>
+  <tr>
+    <td class="ref-value">{{ duration_months }} شهراً</td>
+    <td class="ref-label">مدة إعادة الجدولة</td>
+  </tr>
+  <tr>
+    <td class="ref-value" style="direction:ltr;">AED {{ monthly_instalment }}</td>
+    <td class="ref-label">القسط الشهري</td>
+  </tr>
+  {% endif %}
+</table>
+
+<!-- ── Escalated Warning Box ── -->
+{% if escalate_flag %}
+<div class="warning-box">
+  <div class="warning-ar">هذه الحالة تتطلب مراجعة يدوية</div>
+  <div class="warning-en">This case requires manual review</div>
+</div>
+{% endif %}
+
+<hr class="divider"/>
+
+<!-- ── Rationale Section ── -->
+<div class="rationale-box-ar">{{ rationale_ar }}</div>
+<div class="rationale-box-en">{{ rationale_en }}</div>
+{% if rules_applied %}
+<div class="rules-row">Rules applied: {{ rules_applied | join(", ") }}</div>
+{% endif %}
+
+<!-- ── Footer ── -->
+<table class="footer-table">
+  <tr>
+    <td class="footer-qr">
+      <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="QR Code"/>
+      <div class="footer-qr-label">Scan to verify</div>
+    </td>
+    <td class="footer-auth">
+      <div class="footer-auth-ar">هذه الوثيقة صادرة من نظام تيسير للذكاء الاصطناعي وهي موثقة رسمياً</div>
+      <div class="footer-auth-en">This document was issued by the Tayseer AI system and is officially authenticated.</div>
+      <div class="footer-uuid">{{ case_uuid }}</div>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
