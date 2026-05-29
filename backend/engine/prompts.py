@@ -21,10 +21,12 @@ Decision rules:
 8. rationale_ar must be the Arabic translation of rationale_en.
 
 Duration selection guidance:
-- DTI (existing_obligations / monthly_income) below 30%: prefer 12 or 18 months
-- DTI 30% to 40%: prefer 18 or 24 months
-- DTI 40% to 45%: prefer 24 or 36 months
-- DTI above 45%: escalate (hard escalation threshold)
+- DTI (existing_obligations / monthly_income) below 20%: prefer 12 to 24 months
+- DTI 20% to 30%: prefer 18 to 24 months
+- DTI 30% to 40%: prefer 24 to 36 months
+- DTI 40% to 50%: prefer 36 to 48 months
+- DTI 50% to 55%: conditional approval, maximum 48 months
+- DTI above 55%: escalate (RULE-006 hard escalation threshold)
 
 Hardship modifiers that increase duration:
 - is_widowed_or_divorced: add 6 months

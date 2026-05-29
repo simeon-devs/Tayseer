@@ -1852,11 +1852,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 77344.0,
+      "duration_months": 48,
+      "monthly_instalment": 1611.33,
+      "escalation_reason": null
     }
   },
   {
@@ -1882,11 +1882,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 53833.0,
+      "duration_months": 48,
+      "monthly_instalment": 1121.52,
+      "escalation_reason": null
     }
   },
   {
@@ -1972,11 +1972,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 71162.0,
+      "duration_months": 48,
+      "monthly_instalment": 1482.54,
+      "escalation_reason": null
     }
   },
   {
@@ -2032,11 +2032,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 56916.0,
+      "duration_months": 48,
+      "monthly_instalment": 1185.75,
+      "escalation_reason": null
     }
   },
   {
@@ -2092,11 +2092,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 57221.0,
+      "duration_months": 48,
+      "monthly_instalment": 1192.1,
+      "escalation_reason": null
     }
   },
   {
@@ -2122,11 +2122,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 56952.0,
+      "duration_months": 48,
+      "monthly_instalment": 1186.5,
+      "escalation_reason": null
     }
   },
   {
@@ -2152,11 +2152,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 69124.0,
+      "duration_months": 48,
+      "monthly_instalment": 1440.08,
+      "escalation_reason": null
     }
   },
   {
@@ -2242,11 +2242,11 @@
       "tenancy_contract"
     ],
     "expected_decision": {
-      "escalate_flag": true,
-      "approved_amount": null,
-      "duration_months": null,
-      "monthly_instalment": null,
-      "escalation_reason": "Debt to income ratio exceeds 55 percent threshold requiring senior review"
+      "escalate_flag": false,
+      "approved_amount": 70123.0,
+      "duration_months": 48,
+      "monthly_instalment": 1460.9,
+      "escalation_reason": null
     }
   },
   {

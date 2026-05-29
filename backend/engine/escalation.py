@@ -9,7 +9,7 @@ from __future__ import annotations
 from backend.schemas.decisions import CitizenFinancialProfile
 
 # Thresholds
-_DTI_ESCALATION_THRESHOLD = 0.45
+_DTI_ESCALATION_THRESHOLD = 0.55
 _HIGH_ARREARS_THRESHOLD = 100_000.0
 _STALE_SALARY_CERT_MONTHS = 3
 
@@ -111,7 +111,7 @@ def check_hard_escalations(profile: CitizenFinancialProfile) -> tuple[bool, str]
         dti = profile.existing_obligations / profile.monthly_income
         if dti > _DTI_ESCALATION_THRESHOLD:
             return True, (
-                f"Debt-to-income ratio of {dti:.1%} exceeds the 45% escalation threshold. "
+                f"Debt-to-income ratio of {dti:.1%} exceeds the 55% escalation threshold. "
                 "A human officer must assess affordability before approval."
             )
 
