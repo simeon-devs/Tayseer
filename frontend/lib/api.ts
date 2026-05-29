@@ -1,10 +1,12 @@
 import type {
   CaseCreateRequest,
   CaseDetailResponse,
+  CaseListItem,
   CaseResponse,
   CitizenFinancialProfile,
   DecisionOutput,
   DocumentResult,
+  OverrideRequest,
 } from './types';
 
 function apiBase(): string {
@@ -69,6 +71,18 @@ export async function runDecision(
 
 export async function getCase(caseId: string): Promise<CaseDetailResponse> {
   return apiFetch<CaseDetailResponse>(`/api/cases/${caseId}`);
+}
+
+export async function listCases(status?: string): Promise<CaseListItem[]> {
+  const qs = status ? `?status=${encodeURIComponent(status)}` : '';
+  return apiFetch<CaseListItem[]>(`/api/cases${qs}`);
+}
+
+export async function overrideCase(caseId: string, data: OverrideRequest): Promise<CaseDetailResponse> {
+  return apiFetch<CaseDetailResponse>(`/api/cases/${caseId}/override`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export function letterUrl(caseId: string): string {

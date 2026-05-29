@@ -13,7 +13,7 @@ Module B1: complete
 Module B2: complete
 Module B3: complete
 Module C1: complete
-Module C2: not started
+Module C2: complete
 Module C3: not started
 Module D1: not started
 Module D2: not started
@@ -39,6 +39,45 @@ Known issue: BGE-M3 missed Rule 13 on the widowed citizen query. Fix is to add k
 ---
 
 ## Session Log
+
+### Session 8 - 2026-05-29
+
+What was done:
+Completed full C2 module: staff dashboard case management.
+Updated lib/i18n.ts with 34 new bilingual strings covering staff dashboard, status labels, override modal, and table columns.
+Updated lib/types.ts to add CaseListItem and OverrideRequest interfaces.
+Updated lib/api.ts to add listCases and overrideCase API functions.
+Created components/staff/StatusBadge.tsx with colored dot badges for all six case statuses.
+Created components/staff/CaseFilters.tsx with filter buttons for all case statuses plus All Cases.
+Created components/staff/OverrideModal.tsx with staff_id, optional new_amount, optional new_duration, and justification fields. Character counter shows progress toward 20 character minimum. Submit disabled until minimum met. Calls PATCH /api/cases/:id/override and surfaces 400 error messages.
+Created pages/staff/index.tsx redirecting to /staff/cases.
+Created pages/staff/cases/index.tsx with full case queue showing table on desktop and card layout on mobile. Status filter calls listCases on change.
+Created pages/staff/cases/[case_id].tsx with full case detail including citizen info, financial metrics, decision rationale, rules applied, confidence bar, uploaded documents list, download letter button, and override button. Override modal integrated with success notification on completion.
+
+Validation results:
+Production build: compiled successfully with no TypeScript errors. All 8 routes generated cleanly.
+GET /staff/cases: HTTP 200, renders Staff Dashboard heading, filter buttons, column headers. Confirmed.
+GET /staff/cases/[case_id]: HTTP 200, renders case detail layout. Confirmed.
+i18n: Arabic strings present in build output for all new keys. Confirmed.
+
+New files created in this session:
+frontend/components/staff/StatusBadge.tsx: 37 lines
+frontend/components/staff/CaseFilters.tsx: 38 lines
+frontend/components/staff/OverrideModal.tsx: 139 lines
+frontend/pages/staff/index.tsx: 10 lines
+frontend/pages/staff/cases/index.tsx: 156 lines
+frontend/pages/staff/cases/[case_id].tsx: 228 lines
+
+What was not done:
+Module C3 and all subsequent modules have not been started.
+
+Blockers:
+None.
+
+Next immediate task:
+Begin Module C3: staff dashboard copilot and analytics.
+
+---
 
 ### Session 7 - 2026-05-29
 

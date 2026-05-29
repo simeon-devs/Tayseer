@@ -173,7 +173,7 @@ B1 Document extraction: complete
 B2 Decision engine: complete
 B3 Case management API and AI copilot: complete
 C1 Citizen portal full flow: complete
-C2 Staff dashboard case management: not started
+C2 Staff dashboard case management: complete
 C3 Staff dashboard copilot and analytics: not started
 D1 PDF decision letter and QR verification: not started
 D2 Deployment on MacBook and Pi: not started

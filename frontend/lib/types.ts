@@ -59,6 +59,24 @@ export interface CaseDetailResponse {
   decision?: DecisionOutput;
 }
 
+export interface CaseListItem {
+  id: string;
+  citizen_name_ar: string;
+  citizen_name_en: string;
+  emirates_id: string;
+  status: string;
+  arrears_amount?: number;
+  created_at: string;
+  decision_summary?: string;
+}
+
+export interface OverrideRequest {
+  staff_id: string;
+  new_amount?: number;
+  new_duration?: number;
+  justification: string;
+}
+
 export interface CitizenFinancialProfile {
   monthly_income: number;
   existing_obligations: number;
