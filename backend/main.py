@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from backend.config import settings
 from backend.rag.indexer import build_index, is_index_built
 from backend.routers.cases import router as cases_router
+from backend.routers.analytics import router as analytics_router
 from backend.routers.copilot import router as copilot_router
 from backend.routers.decisions import router as decisions_router
 from backend.routers.documents import router as documents_router
@@ -49,6 +50,7 @@ app.include_router(documents_router)
 app.include_router(decisions_router)
 app.include_router(cases_router)
 app.include_router(copilot_router)
+app.include_router(analytics_router)
 
 
 @app.on_event("startup")
