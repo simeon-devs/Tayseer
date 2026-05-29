@@ -14,6 +14,7 @@ from backend.routers.analytics import router as analytics_router
 from backend.routers.copilot import router as copilot_router
 from backend.routers.decisions import router as decisions_router
 from backend.routers.documents import router as documents_router
+from backend.routers.letters import router as letters_router
 from backend.routers.rag import router as rag_router
 
 _UPLOADS_DIR = Path(__file__).resolve().parent / "uploads"
@@ -51,6 +52,7 @@ app.include_router(decisions_router)
 app.include_router(cases_router)
 app.include_router(copilot_router)
 app.include_router(analytics_router)
+app.include_router(letters_router)
 
 
 @app.on_event("startup")

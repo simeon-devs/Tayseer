@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     backend_host: str = "0.0.0.0"
     backend_port: int = 8000
     next_public_api_url: str = "http://localhost:8000"
+    frontend_url: str = "http://localhost:3001"
 
     class Config:
         env_file = ".env"
