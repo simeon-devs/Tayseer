@@ -44,6 +44,9 @@ export default function StaffCaseQueue() {
               <h1 className="text-2xl font-bold text-gray-900">{t('staffDashboard')}</h1>
               <p className="text-sm text-gray-500 mt-0.5">{t('staffNote')}</p>
             </div>
+            <Link href="/staff/analytics" className="btn-secondary text-sm py-2">
+              {t('analyticsTitle')}
+            </Link>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">

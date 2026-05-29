@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Header from '../../../components/Header';
 import StatusBadge from '../../../components/staff/StatusBadge';
 import OverrideModal from '../../../components/staff/OverrideModal';
+import CopilotPanel from '../../../components/staff/CopilotPanel';
 import { useLang } from '../../../lib/LanguageContext';
 import { getCase, letterUrl } from '../../../lib/api';
 import type { CaseDetailResponse } from '../../../lib/types';
@@ -183,6 +184,8 @@ export default function StaffCaseDetail() {
                   </ul>
                 </div>
               )}
+
+              <CopilotPanel caseId={case_id as string} />
             </div>
           )}
         </main>

@@ -77,6 +77,25 @@ export interface OverrideRequest {
   justification: string;
 }
 
+export interface CopilotResponse {
+  answer_en: string;
+  answer_ar: string;
+  case_id: string;
+}
+
+export interface AnalyticsSummary {
+  total_cases: number;
+  auto_approved: number;
+  escalated: number;
+  overridden: number;
+  avg_resolution_seconds: number;
+  approval_rate: number;
+  escalation_rate: number;
+  override_rate: number;
+  before_avg_days: number;
+  after_avg_seconds: number;
+}
+
 export interface CitizenFinancialProfile {
   monthly_income: number;
   existing_obligations: number;

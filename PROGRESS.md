@@ -14,7 +14,7 @@ Module B2: complete
 Module B3: complete
 Module C1: complete
 Module C2: complete
-Module C3: not started
+Module C3: complete
 Module D1: not started
 Module D2: not started
 Integration: not started
@@ -39,6 +39,38 @@ Known issue: BGE-M3 missed Rule 13 on the widowed citizen query. Fix is to add k
 ---
 
 ## Session Log
+
+### Session 9 - 2026-05-29
+
+What was done:
+Completed full C3 module: staff dashboard AI copilot and analytics.
+Added 18 new bilingual translation strings to lib/i18n.ts covering analytics dashboard, copilot panel, and before/after comparison labels.
+Added CopilotResponse and AnalyticsSummary interfaces to lib/types.ts.
+Added askCopilot and getAnalytics API functions to lib/api.ts.
+Created components/staff/CopilotPanel.tsx: a chat-style Q+A panel. Accepts a caseId prop, sends POST /api/copilot, maintains conversation history, shows answer in the selected language, handles loading state with animated dots, supports Enter to submit.
+Added CopilotPanel to pages/staff/cases/[case_id].tsx below the documents section.
+Created pages/staff/analytics.tsx: the analytics dashboard. Fetches GET /api/analytics/summary on mount. BeforeAfterCard shows 5 working days vs live after_avg_seconds with a calculated speedup multiplier. Summary cards show total cases, approval rate, escalation rate, and override rate. Bar chart uses pure CSS widths to show case distribution by status. Added link to analytics from the case queue header.
+
+Validation results:
+Production build: compiled successfully with no TypeScript errors. All 9 routes generated cleanly.
+GET /staff/analytics: HTTP 200, renders Analytics Dashboard heading and before/after comparison card. Confirmed.
+Case detail bundle grew from 4.34 kB to 5.2 kB confirming CopilotPanel was included.
+Analytics link visible on /staff/cases page. Confirmed.
+
+New files created in this session:
+frontend/components/staff/CopilotPanel.tsx: 114 lines
+frontend/pages/staff/analytics.tsx: 178 lines
+
+What was not done:
+Module D1 and all subsequent modules have not been started.
+
+Blockers:
+None.
+
+Next immediate task:
+Begin Module D1: PDF decision letter and QR verification.
+
+---
 
 ### Session 8 - 2026-05-29
 

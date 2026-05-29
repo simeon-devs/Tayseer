@@ -1,9 +1,11 @@
 import type {
+  AnalyticsSummary,
   CaseCreateRequest,
   CaseDetailResponse,
   CaseListItem,
   CaseResponse,
   CitizenFinancialProfile,
+  CopilotResponse,
   DecisionOutput,
   DocumentResult,
   OverrideRequest,
@@ -83,6 +85,17 @@ export async function overrideCase(caseId: string, data: OverrideRequest): Promi
     method: 'PATCH',
     body: JSON.stringify(data),
   });
+}
+
+export async function askCopilot(caseId: string, question: string): Promise<CopilotResponse> {
+  return apiFetch<CopilotResponse>('/api/copilot', {
+    method: 'POST',
+    body: JSON.stringify({ case_id: caseId, question }),
+  });
+}
+
+export async function getAnalytics(): Promise<AnalyticsSummary> {
+  return apiFetch<AnalyticsSummary>('/api/analytics/summary');
 }
 
 export function letterUrl(caseId: string): string {
