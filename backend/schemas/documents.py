@@ -57,6 +57,14 @@ class DocumentResult(BaseModel):
     case_id: str
 
 
+class ErrorResponse(BaseModel):
+    """Standard error response returned by all endpoints on failure."""
+
+    message: str
+    detail: str | None = None
+    code: str | None = None
+
+
 class CompletenessReport(BaseModel):
     """Report indicating which mandatory and optional documents have been submitted."""
 
