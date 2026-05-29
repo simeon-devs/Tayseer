@@ -11,7 +11,7 @@ Module A1: complete
 Module A2: complete
 Module B1: complete
 Module B2: complete
-Module B3: not started
+Module B3: complete
 Module C1: not started
 Module C2: not started
 Module C3: not started
@@ -39,6 +39,50 @@ Known issue: BGE-M3 missed Rule 13 on the widowed citizen query. Fix is to add k
 ---
 
 ## Session Log
+
+### Session 6 - 2026-05-29
+
+What was done:
+Completed full B3 module: case management API and AI copilot.
+Created Alembic migration 0002 adding arrears_amount Float nullable to cases table. Applied on container restart.
+Updated backend/models/case.py to include arrears_amount mapped column.
+Created backend/schemas/cases.py with CitizenResponse, CaseResponse, CaseCreateRequest, OverrideRequest, StatusUpdateRequest, CaseDetailResponse, CopilotRequest, CopilotResponse, and AnalyticsSummary schemas.
+Added CaseListItem schema to backend/schemas/decisions.py as instructed.
+Updated backend/schemas/__init__.py to export all new schemas.
+Created backend/routers/cases.py with five endpoints: GET /api/cases (list with optional status filter), GET /api/cases/:id (full detail), POST /api/cases (create with citizen upsert and audit log), PATCH /api/cases/:id/override (staff override with 20-character justification gate returning 400), PATCH /api/cases/:id/status (status update with audit log).
+Created backend/routers/copilot.py with POST /api/copilot endpoint. Calls LLM directly via OpenAI library without Instructor. Temperature 0.3. Parses bilingual response using ENGLISH:/ARABIC: separator. Returns CopilotResponse with answer_en and answer_ar.
+Created backend/routers/analytics.py with GET /api/analytics/summary endpoint. Computes all metrics via SQLAlchemy aggregation queries. before_avg_days hardcoded as 5 per challenge brief.
+Registered all three new routers in backend/main.py.
+Updated backend/seed.py to populate arrears_amount from cases.json financial_profile.
+Created backend/engine/seed_decisions.py script that backfills arrears_amount on existing cases and runs decisions on first 5 seeded cases.
+
+Validation results:
+GET /api/cases returns list with citizen names, status, arrears_amount, and decision_summary. Confirmed.
+GET /api/cases/:id returns full CaseDetailResponse with citizen, documents, and decision including Arabic rationale. Confirmed.
+PATCH /api/cases/:id/override with justification shorter than 20 characters returns HTTP 400 with code JUSTIFICATION_TOO_SHORT. Confirmed.
+PATCH /api/cases/:id/override with valid justification updates status to overridden and recalculates monthly_instalment. Confirmed.
+POST /api/copilot returns coherent answer in English and Arabic. Question: why was this case approved. Confirmed.
+GET /api/analytics/summary returns all metrics with before_avg_days=5. Confirmed.
+Database: 20 cases, 4 approved, 3 escalated, 1 overridden after full test run.
+
+New files created in this session:
+backend/alembic/versions/0002_add_arrears_amount_to_cases.py: 21 lines
+backend/schemas/cases.py: 102 lines
+backend/routers/cases.py: 442 lines
+backend/routers/copilot.py: 182 lines
+backend/routers/analytics.py: 67 lines
+backend/engine/seed_decisions.py: 113 lines
+
+What was not done:
+Module C1 and all subsequent modules have not been started.
+
+Blockers:
+None.
+
+Next immediate task:
+Begin Module C1: citizen portal full flow in Next.js.
+
+---
 
 ### Session 5 - 2026-05-29
 
@@ -299,7 +343,7 @@ Gate: 90 percent accuracy on 100 synthetic test cases. All hard escalation trigg
 
 ### B3 - Case management API and AI copilot
 
-Status: not started
+Status: complete
 Estimated effort: 1.5 days
 Owner: simeon-devs
 Dependencies: A1 for database, B2 for decisions to exist
