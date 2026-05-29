@@ -174,7 +174,14 @@ def detect_document_type(ocr_text: str) -> DocumentType:
     text_lower = ocr_text.lower()
     if "شهادة راتب" in ocr_text or "salary certificate" in text_lower or "basic salary" in text_lower:
         return DocumentType.salary_certificate
-    if "كشف حساب" in ocr_text or "bank statement" in text_lower or "account statement" in text_lower:
+    if (
+        "كشف حساب" in ocr_text
+        or "bank statement" in text_lower
+        or "account statement" in text_lower
+        or "bank" in text_lower
+        or "رصيد" in ocr_text
+        or "صاحب الحساب" in ocr_text
+    ):
         return DocumentType.bank_statement
     if "هوية" in ocr_text or "emirates id" in text_lower or "identity card" in text_lower or "784-" in ocr_text:
         return DocumentType.emirates_id
