@@ -50,3 +50,16 @@ class DecisionRequest(BaseModel):
 
     case_id: str = Field(..., description="UUID of the case to decide")
     citizen_profile: CitizenFinancialProfile = Field(..., description="Financial profile of the citizen")
+
+
+class CaseListItem(BaseModel):
+    """Summary row returned by GET /api/cases for each case in the queue."""
+
+    id: str
+    citizen_name_ar: str
+    citizen_name_en: str
+    emirates_id: str
+    status: str
+    arrears_amount: Optional[float] = None
+    created_at: str
+    decision_summary: Optional[str] = None

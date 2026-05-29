@@ -11,21 +11,43 @@ from backend.schemas.documents import (
     check_completeness,
 )
 from backend.schemas.decisions import (
+    CaseListItem,
     CitizenFinancialProfile,
     DecisionOutput,
     DecisionRequest,
 )
+from backend.schemas.cases import (
+    AnalyticsSummary,
+    CaseCreateRequest,
+    CaseDetailResponse,
+    CaseResponse,
+    CitizenResponse,
+    CopilotRequest,
+    CopilotResponse,
+    OverrideRequest,
+    StatusUpdateRequest,
+)
 
 __all__ = [
+    "AnalyticsSummary",
     "BankStatement",
+    "CaseCreateRequest",
+    "CaseDetailResponse",
+    "CaseListItem",
+    "CaseResponse",
+    "CitizenFinancialProfile",
+    "CitizenResponse",
     "CompletenessReport",
+    "CopilotRequest",
+    "CopilotResponse",
+    "DecisionOutput",
+    "DecisionRequest",
     "DocumentResult",
     "DocumentType",
     "EmiratesID",
     "ErrorResponse",
+    "OverrideRequest",
     "SalaryCertificate",
+    "StatusUpdateRequest",
     "check_completeness",
-    "CitizenFinancialProfile",
-    "DecisionOutput",
-    "DecisionRequest",
 ]

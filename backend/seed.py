@@ -58,6 +58,7 @@ def seed() -> None:
                 id=uuid.uuid4(),
                 citizen_id=citizen.id,
                 status="pending",
+                arrears_amount=record["financial_profile"].get("arrears_amount"),
             )
             db.add(case)
             db.flush()

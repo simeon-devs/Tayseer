@@ -1,7 +1,7 @@
 """SQLAlchemy model for the cases table."""
 
 import uuid
-from sqlalchemy import String, DateTime, ForeignKey, CheckConstraint, func
+from sqlalchemy import String, Float, DateTime, ForeignKey, CheckConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 from backend.database import Base
@@ -35,6 +35,7 @@ class Case(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
     assigned_to: Mapped[str | None] = mapped_column(String, nullable=True)
+    arrears_amount: Mapped[float | None] = mapped_column(Float, nullable=True)
 
     citizen: Mapped["Citizen"] = relationship("Citizen", back_populates="cases")  # noqa: F821
     documents: Mapped[list["Document"]] = relationship("Document", back_populates="case")  # noqa: F821
