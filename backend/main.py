@@ -1,6 +1,7 @@
 """Tayseer FastAPI application entry point."""
 
 from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +9,10 @@ from pydantic import BaseModel
 
 from backend.config import settings
 from backend.rag.indexer import build_index, is_index_built
+from backend.routers.documents import router as documents_router
 from backend.routers.rag import router as rag_router
+
+_UPLOADS_DIR = Path(__file__).resolve().parent / "uploads"
 
 
 class HealthResponse(BaseModel):
@@ -38,11 +42,13 @@ app.add_middleware(
 )
 
 app.include_router(rag_router)
+app.include_router(documents_router)
 
 
 @app.on_event("startup")
 async def on_startup() -> None:
-    """Print startup message, then ensure the governance rules RAG index is ready."""
+    """Print startup message, create uploads directory, and ensure the RAG index is ready."""
+    _UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
     print(f"Tayseer API is running | environment={settings.environment} | model={settings.ollama_model}")
     if is_index_built():
         print("Governance rules index already built. RAG pipeline ready.")
