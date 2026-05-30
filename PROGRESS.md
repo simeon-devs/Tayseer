@@ -16,9 +16,9 @@ Module C1: complete
 Module C2: complete
 Module C3: complete
 Module D1: complete
-Module D2: not started
-Integration: not started
-Demo preparation: not started
+Module D2: complete
+Integration: complete
+Demo preparation: complete
 
 ---
 
@@ -69,13 +69,61 @@ backend/routers/letters.py: 108 lines
 backend/routers/verification.py: 81 lines
 
 What was not done:
-Module D2 has not been started.
+Nothing. All D1 deliverables were completed.
 
 Blockers:
 None.
 
 Next immediate task:
-Begin Module D2: deployment on MacBook and Pi.
+Module D2 completed in Session 11.
+
+---
+
+### Session 11 - 2026-05-30
+
+What was done:
+Completed Module D2: deployment configuration on MacBook. All 10 modules are now complete and the system is ready for demo.
+
+Task 1: Updated frontend/.env.local to set NEXT_PUBLIC_API_URL to http://10.42.200.53:8000 so the frontend works from any device on the same local network including the Pi when it arrives. Confirmed docker-compose already binds to 0.0.0.0 on all interfaces. Confirmed backend responds on the LAN IP with curl http://10.42.200.53:8000/health.
+
+Task 2: Built the production Next.js frontend using npm run build. Fixed package.json start script to use node .next/standalone/server.js since next.config.js has output: standalone enabled. Copied public and static asset folders into .next/standalone as required. Confirmed production frontend returns HTTP 200 on port 3001.
+
+Task 3: Created start.sh at the project root. Single command that starts Docker Compose, waits for FastAPI health with a retry loop, checks Ollama reachability, builds the frontend if no .next/standalone exists, starts the production frontend on PORT (default 3001), prints all local and LAN URLs, and prints the RunPod warmup reminder. Made executable with chmod +x. Syntax verified with bash -n.
+
+Task 4: Created RUNPOD_SETUP.md documenting the five sections: when to use RunPod, step by step instance setup, the sed command to switch OLLAMA_URL and OLLAMA_MODEL in .env, the switch back command, and verification via curl /health.
+
+Task 5: Created backend/demo_setup.py with 8 curated demo cases covering all key decision scenarios: high income low DTI approved, medium income approved, lower income approved, high income tiny arrears approved, borderline DTI 53.5% approved on 48 months, expired Emirates ID escalated, DTI 69.6% escalated, fraud signal escalated. Script clears all database tables in the correct dependency order (audit_log, overrides, decisions, documents, cases, citizens) then inserts cases and runs the full decision pipeline. Ran inside the container and confirmed 5 approved and 3 escalated.
+
+Task 6: Ran end to end demo test across all 8 steps: health check HTTP 200, analytics shows 8 total cases, case list returns all 8, full case detail returns correct financial fields, PDF letter generates as a valid PDF at 36KB, QR verification endpoint returns verified true with bilingual messages, frontend verify page HTTP 200, citizen portal and staff dashboard all HTTP 200.
+
+Task 7: Created DEMO_DAY.md with 40 numbered checklist items across five sections: 30 minutes before, 15 minutes before, 5 minutes before, during the demo, and fallback procedures. Items cover network check, LAN IP verification, demo data reset, RunPod warmup, browser tab setup, live submission walkthrough, staff dashboard and analytics demo, QR scan, and fallback to API docs if frontend fails.
+
+Task 8: Created PI_SETUP.md written for someone who has never used a Raspberry Pi. Covers OS flashing with Raspberry Pi Imager, first boot, Node.js 20 install via NodeSource, git clone, environment file configuration, npm install and npm run build, standalone server startup, and systemd service creation for auto-start on power on. Includes troubleshooting section for ECONNREFUSED and out of memory build failures.
+
+Validation results:
+All 4 Docker services up and healthy: fastapi, postgres, chromadb, ollama.
+GET /health returns status ok.
+GET /api/analytics/summary returns 8 cases, 5 approved, 3 escalated, before_avg_days 5.
+All 6 new D2 files confirmed present.
+Git log shows 8 D2 commits with correct simeon-devs authorship.
+
+New files created in this session:
+start.sh: 111 lines
+RUNPOD_SETUP.md: 111 lines
+backend/demo_setup.py: 292 lines
+DEMO_DAY.md: 92 lines
+PI_SETUP.md: 249 lines
+frontend/.env.local: 2 lines (modified)
+frontend/package.json: 1 line changed (start script)
+
+What was not done:
+Nothing. All D2 deliverables completed.
+
+Blockers:
+None.
+
+Next immediate task:
+All 10 modules complete. System is ready for demo. Run ./start.sh and then python backend/demo_setup.py inside the container before presenting.
 
 ---
 
