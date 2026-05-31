@@ -24,7 +24,7 @@ export default function AnalyticsDashboard() {
       .then(setData)
       .catch(() => setError(t('submissionFailed')))
       .finally(() => setLoading(false));
-  }, [t]);
+  }, []);
 
   return (
     <>

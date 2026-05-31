@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo, ReactNode, useEffect } from 'react';
 import { Lang, makeTranslator } from './i18n';
 
 interface LanguageContextType {
@@ -33,7 +33,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const t = makeTranslator(lang);
+  const t = useMemo(() => makeTranslator(lang), [lang]);
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, t, isRtl: lang === 'ar' }}>
