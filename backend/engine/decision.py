@@ -27,6 +27,56 @@ logger = logging.getLogger(__name__)
 _ARABIC_ESCALATION_PREFIX = "تم تصعيد هذه الحالة: "
 _ARABIC_APPROVED_PREFIX = "تمت الموافقة على طلب إعادة الجدولة: "
 
+_ARABIC_BLOCK_START = 0x0600
+_ARABIC_BLOCK_END = 0x06FF
+_CJK_BLOCK_START = 0x4E00
+_CJK_BLOCK_END = 0x9FFF
+_MIN_ARABIC_CHARS = 20
+
+_FALLBACK_RATIONALE_EN = (
+    "Decision processed based on applicable governance rules. "
+    "Please contact the department for a detailed explanation."
+)
+_FALLBACK_RATIONALE_AR = (
+    "تم معالجة القرار وفقاً للقواعد التنظيمية المعمول بها. "
+    "يرجى التواصل مع الجهة المختصة للحصول على شرح تفصيلي."
+)
+
+
+def validate_rationale_languages(output: DecisionOutput) -> tuple[bool, list[str]]:
+    """Verify that rationale_en is pure English and rationale_ar is pure Arabic.
+
+    Checks:
+      rationale_en must contain no Arabic (U+0600-U+06FF) and no CJK (U+4E00-U+9FFF).
+      rationale_ar must contain no CJK and must have at least 20 Arabic characters.
+
+    Returns (is_valid, issues). issues is empty when valid.
+    """
+    issues: list[str] = []
+
+    def _has_arabic(text: str) -> bool:
+        return any(_ARABIC_BLOCK_START <= ord(c) <= _ARABIC_BLOCK_END for c in text)
+
+    def _has_cjk(text: str) -> bool:
+        return any(_CJK_BLOCK_START <= ord(c) <= _CJK_BLOCK_END for c in text)
+
+    def _count_arabic(text: str) -> int:
+        return sum(1 for c in text if _ARABIC_BLOCK_START <= ord(c) <= _ARABIC_BLOCK_END)
+
+    en = output.rationale_en or ""
+    ar = output.rationale_ar or ""
+
+    if _has_arabic(en):
+        issues.append("rationale_en contains Arabic characters")
+    if _has_cjk(en):
+        issues.append("rationale_en contains Chinese characters")
+    if _has_cjk(ar):
+        issues.append("rationale_ar contains Chinese characters")
+    if _count_arabic(ar) < _MIN_ARABIC_CHARS:
+        issues.append(f"rationale_ar contains fewer than {_MIN_ARABIC_CHARS} Arabic characters")
+
+    return len(issues) == 0, issues
+
 
 def _get_instructor_client() -> instructor.Instructor:
     """Build an Instructor-patched OpenAI client pointing at the Ollama endpoint."""
@@ -42,15 +92,23 @@ def _get_model() -> str:
     return os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
 
 
-def _call_llm(citizen_profile: dict, retrieved_rules: list[str]) -> DecisionOutput:
+def _call_llm(
+    citizen_profile: dict,
+    retrieved_rules: list[str],
+    extra_instruction: str | None = None,
+) -> DecisionOutput:
     """Call the LLM via Instructor and return a validated DecisionOutput.
 
     Uses temperature=0.1 for consistency. Falls back to a safe escalation
     decision if the LLM call fails or returns invalid structured output.
+    extra_instruction is appended to the user prompt when retrying after a
+    language validation failure.
     """
     try:
         client = _get_instructor_client()
         user_prompt = build_decision_prompt(citizen_profile, retrieved_rules)
+        if extra_instruction:
+            user_prompt = f"{user_prompt}\n\nCRITICAL: {extra_instruction}"
         result: DecisionOutput = client.chat.completions.create(
             model=_get_model(),
             messages=[
@@ -183,6 +241,27 @@ def make_decision(
 
             # Steps 3 and 4: call LLM
             output = _call_llm(profile_dict, retrieved_rules)
+
+            # Validate language purity of rationale fields
+            is_valid, issues = validate_rationale_languages(output)
+            if not is_valid:
+                logger.warning("Language contamination in LLM output (%s). Retrying once.", issues)
+                retry_note = (
+                    "The previous response contained incorrect language mixing. "
+                    "Regenerate rationale_en in pure English only and rationale_ar "
+                    "in pure Arabic script only. No Chinese characters permitted. "
+                    "Strict language separation is required."
+                )
+                output = _call_llm(profile_dict, retrieved_rules, extra_instruction=retry_note)
+                is_valid, issues = validate_rationale_languages(output)
+                if not is_valid:
+                    logger.error("Language contamination persists after retry (%s). Applying fallback.", issues)
+                    fallback_updates: dict = {}
+                    if any("rationale_en" in i for i in issues):
+                        fallback_updates["rationale_en"] = _FALLBACK_RATIONALE_EN
+                    if any("rationale_ar" in i for i in issues):
+                        fallback_updates["rationale_ar"] = _FALLBACK_RATIONALE_AR
+                    output = output.model_copy(update=fallback_updates)
 
             # Ensure hardship_score is always set from our calculation if LLM omitted it
             if output.hardship_score is None:
