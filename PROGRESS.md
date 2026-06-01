@@ -105,7 +105,7 @@ All 4 Docker services up and healthy: fastapi, postgres, chromadb, ollama.
 GET /health returns status ok.
 GET /api/analytics/summary returns 8 cases, 5 approved, 3 escalated, before_avg_days 5.
 All 6 new D2 files confirmed present.
-Git log shows 8 D2 commits with correct simeon-devs authorship.
+
 
 New files created in this session:
 start.sh: 111 lines

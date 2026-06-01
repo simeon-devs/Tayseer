@@ -100,7 +100,6 @@ Next immediate task: [describe]
 
 Also update the module status line in CLAUDE.md from [old status] to [new status].
 
-Make sure the commit uses author simeon-devs and email simw4380@gmail.com.
 ```
 
 ---

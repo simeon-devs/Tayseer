@@ -150,9 +150,9 @@ The sovereignty narrative is preserved because no real citizen data is used in t
 
 Status: locked
 Date: 2026-05-28
-Decision: All commits use author name simeon-devs and email simw4380@gmail.com. Claude is never a co-author.
+Claude is never a co-author.
 
-Command to configure: git config user.name simeon-devs and git config user.email simw4380@gmail.com
+
 
 Commit message format: type(module): short description
 Examples: feat(A1): add docker compose setup, fix(B2): correct debt ratio calculation, docs(CLAUDE): update module status

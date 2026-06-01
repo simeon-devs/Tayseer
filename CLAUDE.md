@@ -1,7 +1,7 @@
 # Tayseer - AI Housing Arrears Rescheduling Agent
 # Claude Code Project Instructions
 
-This file is read at the start of every Claude Code session. Follow every rule in this file without exception. Do not suggest alternatives to confirmed decisions. Do not add dependencies not listed in the stack. Do not use dashes in prose writing. Do not add emojis unless explicitly asked. When committing code always use the author name simeon-devs and email simw4380@gmail.com. Never use Claude as a co-author or commit author.
+This file is read at the start of every Claude Code session. Follow every rule in this file without exception. Do not suggest alternatives to confirmed decisions. Do not add dependencies not listed in the stack. Do not use dashes in prose writing. Do not add emojis unless explicitly asked. Never use Claude as a co-author or commit author.
 
 ---
 
