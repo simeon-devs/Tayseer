@@ -73,6 +73,12 @@ fi
 
 echo ""
 echo "Step 5 of 5  Starting production frontend on port ${FRONTEND_PORT}..."
+EXISTING_PID=$(lsof -ti:"${FRONTEND_PORT}" 2>/dev/null || true)
+if [[ -n "${EXISTING_PID}" ]]; then
+  echo "Clearing existing process on port ${FRONTEND_PORT} (PID ${EXISTING_PID})..."
+  kill -9 "${EXISTING_PID}" 2>/dev/null || true
+  sleep 1
+fi
 PORT="${FRONTEND_PORT}" npm start &
 FRONTEND_PID=$!
 sleep 3
