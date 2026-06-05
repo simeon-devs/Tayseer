@@ -24,9 +24,12 @@ const emptyFinancial: FinancialData = {
 export default function CitizenIntake() {
   const { t } = useLang();
   const router = useRouter();
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && !sessionStorage.getItem('uae_pass_authenticated')) {
+    if (sessionStorage.getItem('uae_pass_authenticated')) {
+      setAuthenticated(true);
+    } else {
       router.replace('/citizen/login');
     }
   }, [router]);
@@ -160,6 +163,8 @@ export default function CitizenIntake() {
       setLoading(false);
     }
   }
+
+  if (!authenticated) return null;
 
   return (
     <>
