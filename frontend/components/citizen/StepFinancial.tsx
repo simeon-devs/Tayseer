@@ -6,6 +6,11 @@ export interface FinancialData {
   arrearsAmount: string;
   delayDuration: string;
   reason: string;
+  originalLoanAmount: string;
+  remainingLoanBalance: string;
+  remainingLoanPeriod: string;
+  unpaidInstalments: string;
+  numberOfFamilyMembers: string;
 }
 
 interface Props {
@@ -18,7 +23,7 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
   const { t } = useLang();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <CurrencyField
           id="monthlyIncome"
@@ -70,6 +75,87 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
           </div>
           <p className="text-xs text-gray-500 mt-1">{t('delayDurationHint')}</p>
           {errors.delayDuration && <p className="field-error">{errors.delayDuration}</p>}
+        </div>
+      </div>
+
+      <div className="border-t border-gray-100 pt-5">
+        <p className="text-sm font-semibold text-gray-700 mb-4">{t('loanDetailsSection')}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <CurrencyField
+            id="originalLoanAmount"
+            label={t('originalLoanAmount')}
+            value={data.originalLoanAmount}
+            error={errors.originalLoanAmount}
+            currency={t('aed')}
+            onChange={(v) => onChange('originalLoanAmount', v)}
+          />
+
+          <CurrencyField
+            id="remainingLoanBalance"
+            label={t('remainingLoanBalance')}
+            value={data.remainingLoanBalance}
+            error={errors.remainingLoanBalance}
+            currency={t('aed')}
+            onChange={(v) => onChange('remainingLoanBalance', v)}
+          />
+
+          <div>
+            <label htmlFor="remainingLoanPeriod" className="form-label">
+              {t('remainingLoanPeriod')}
+            </label>
+            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent">
+              <input
+                id="remainingLoanPeriod"
+                type="number"
+                min="1"
+                step="1"
+                className="flex-1 px-4 py-3 text-gray-900 outline-none bg-white"
+                value={data.remainingLoanPeriod}
+                onChange={(e) => onChange('remainingLoanPeriod', e.target.value)}
+                placeholder="60"
+              />
+              <span className="px-3 py-3 bg-gray-50 text-gray-500 text-sm font-medium border-l border-gray-300">
+                {t('months')}
+              </span>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">{t('remainingLoanPeriodHint')}</p>
+            {errors.remainingLoanPeriod && <p className="field-error">{errors.remainingLoanPeriod}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="unpaidInstalments" className="form-label">
+              {t('unpaidInstalments')}
+            </label>
+            <input
+              id="unpaidInstalments"
+              type="number"
+              min="0"
+              step="1"
+              className="form-input"
+              value={data.unpaidInstalments}
+              onChange={(e) => onChange('unpaidInstalments', e.target.value)}
+              placeholder="0"
+            />
+            {errors.unpaidInstalments && <p className="field-error">{errors.unpaidInstalments}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="numberOfFamilyMembers" className="form-label">
+              {t('numberOfFamilyMembers')}
+            </label>
+            <input
+              id="numberOfFamilyMembers"
+              type="number"
+              min="1"
+              step="1"
+              className="form-input"
+              value={data.numberOfFamilyMembers}
+              onChange={(e) => onChange('numberOfFamilyMembers', e.target.value)}
+              placeholder="1"
+            />
+            <p className="text-xs text-gray-500 mt-1">{t('numberOfFamilyMembersHint')}</p>
+            {errors.numberOfFamilyMembers && <p className="field-error">{errors.numberOfFamilyMembers}</p>}
+          </div>
         </div>
       </div>
 

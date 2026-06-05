@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Header from '../../components/Header';
@@ -17,11 +17,20 @@ const emptyPersonal: PersonalData = {
 };
 const emptyFinancial: FinancialData = {
   monthlyIncome: '', existingObligations: '', arrearsAmount: '', delayDuration: '', reason: '',
+  originalLoanAmount: '', remainingLoanBalance: '', remainingLoanPeriod: '', unpaidInstalments: '',
+  numberOfFamilyMembers: '1',
 };
 
 export default function CitizenIntake() {
   const { t } = useLang();
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !sessionStorage.getItem('uae_pass_authenticated')) {
+      router.replace('/citizen/login');
+    }
+  }, [router]);
+
   const [step, setStep] = useState(1);
   const [personal, setPersonal] = useState<PersonalData>(emptyPersonal);
   const [financial, setFinancial] = useState<FinancialData>(emptyFinancial);
@@ -137,6 +146,11 @@ export default function CitizenIntake() {
         arrears_amount: Number(financial.arrearsAmount),
         delay_duration_months: Number(financial.delayDuration),
         missing_documents: missingDocs,
+        original_loan_amount: financial.originalLoanAmount ? Number(financial.originalLoanAmount) : undefined,
+        remaining_loan_balance: financial.remainingLoanBalance ? Number(financial.remainingLoanBalance) : undefined,
+        remaining_loan_period_months: financial.remainingLoanPeriod ? Number(financial.remainingLoanPeriod) : undefined,
+        number_of_unpaid_instalments: financial.unpaidInstalments ? Number(financial.unpaidInstalments) : undefined,
+        number_of_family_members: financial.numberOfFamilyMembers ? Number(financial.numberOfFamilyMembers) : 1,
       });
 
       setLoadingMsg(t('processingComplete'));

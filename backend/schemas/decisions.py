@@ -21,13 +21,22 @@ class CitizenFinancialProfile(BaseModel):
     delay_duration_months: int = Field(..., description="Number of months payments have been delayed")
     has_expired_id: bool = Field(default=False, description="True if the Emirates ID has expired")
     missing_documents: list[str] = Field(default_factory=list, description="List of required documents not submitted")
-    payment_history_clean: bool = Field(default=False, description="True if citizen has no prior defaults")
+    payment_history_clean: bool = Field(default=False, description="True if citizen has no prior defaults (legacy field, prefer payment_history)")
+    payment_history: Optional[str] = Field(default=None, description="Free-text description of payment history e.g. 'No previous defaults'")
     previous_rejected_applications: int = Field(default=0, description="Number of previously rejected rescheduling applications")
     is_widowed_or_divorced: bool = Field(default=False, description="True if citizen is widowed or divorced")
     has_disability: bool = Field(default=False, description="True if citizen has a registered disability")
     number_of_properties: int = Field(default=1, description="Number of properties owned by citizen")
     salary_certificate_age_months: int = Field(default=0, description="Age of the submitted salary certificate in months")
     suspected_fraud: bool = Field(default=False, description="True if a fraud signal has been raised by the document verification pipeline")
+    original_loan_amount: Optional[float] = Field(default=None, description="Original housing loan amount in AED")
+    remaining_loan_balance: Optional[float] = Field(default=None, description="Outstanding loan balance in AED")
+    remaining_loan_period_months: Optional[int] = Field(default=None, description="Remaining months until loan matures")
+    number_of_unpaid_instalments: Optional[int] = Field(default=None, description="Count of unpaid monthly instalments to date")
+    number_of_family_members: int = Field(default=1, description="Total family members dependent on this income")
+    is_unemployed: bool = Field(default=False, description="True if citizen is currently unemployed")
+    has_temporary_circumstance: bool = Field(default=False, description="True if hardship is due to a temporary circumstance")
+    temporary_circumstance_description: Optional[str] = Field(default=None, description="Description of the temporary circumstance causing hardship")
 
 
 class DecisionOutput(BaseModel):
@@ -43,6 +52,14 @@ class DecisionOutput(BaseModel):
     rationale_ar: str = Field(..., description="Decision rationale in Arabic")
     rules_applied: list[str] = Field(default_factory=list, description="List of rule IDs applied to this decision")
     confidence_score: float = Field(..., description="Model confidence in the decision between 0.0 and 1.0")
+    request_type: Optional[str] = Field(None, description="UPDATE_INSTALLMENT or TRANSFER_ARREARS")
+    additional_months: Optional[int] = Field(None, description="Extra months added for UPDATE_INSTALLMENT repayment")
+    additional_premium: Optional[float] = Field(None, description="Additional monthly premium in AED; zero for TRANSFER_ARREARS")
+    rule1_compliance: Optional[bool] = Field(None, description="True if proposed deduction rate does not exceed 20 percent of income")
+    rule2_compliance: Optional[bool] = Field(None, description="True if repayment duration does not exceed remaining loan period")
+    case_summary: Optional[str] = Field(None, description="Brief summary of the case and decision outcome in English")
+    income_per_family_member: Optional[float] = Field(None, description="Monthly income divided by number of family members in AED")
+    proposed_deduction_rate: Optional[float] = Field(None, description="Ratio of total monthly deduction to monthly income after rescheduling")
 
 
 class DecisionRequest(BaseModel):
