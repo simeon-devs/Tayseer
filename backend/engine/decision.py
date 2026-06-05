@@ -14,7 +14,13 @@ import instructor
 from openai import OpenAI
 from sqlalchemy.orm import Session
 
-from backend.engine.escalation import calculate_hardship_score, check_hard_escalations
+from backend.engine.escalation import (
+    calculate_hardship_score,
+    calculate_rule1_compliance,
+    calculate_rule2_compliance,
+    check_hard_escalations,
+    determine_request_type,
+)
 from backend.engine.prompts import DECISION_SYSTEM_PROMPT, build_decision_prompt
 from backend.models.audit_log import AuditLog
 from backend.models.case import Case
@@ -200,6 +206,89 @@ def _write_decision_to_db(
         return False
 
 
+def _apply_governance_rules(
+    profile: CitizenFinancialProfile,
+    output: DecisionOutput,
+) -> DecisionOutput:
+    """Apply deterministic governance rule compliance checks to the LLM output.
+
+    Enforces Rule 1 (deduction cap) and Rule 2 (loan period cap) server-side.
+    Sets request_type, additional_premium, rule1_compliance, rule2_compliance,
+    income_per_family_member, and proposed_deduction_rate on the output.
+    Never raises.
+    """
+    updates: dict = {}
+
+    # Determine request type if LLM did not set it or set it incorrectly
+    request_type = output.request_type or determine_request_type(profile)
+    updates["request_type"] = request_type
+
+    # TRANSFER_ARREARS: additional_premium is always zero
+    if request_type == "TRANSFER_ARREARS":
+        updates["additional_premium"] = 0.0
+        updates["additional_months"] = 0
+    else:
+        # For UPDATE_INSTALLMENT compute additional_premium from approved terms
+        if output.approved_amount is not None and output.duration_months is not None and output.duration_months > 0:
+            premium = round(output.approved_amount / output.duration_months, 2)
+            updates["additional_premium"] = premium
+        else:
+            updates["additional_premium"] = output.additional_premium
+
+    additional_premium = updates.get("additional_premium") or 0.0
+
+    # Rule 1 compliance check
+    rule1_ok, deduction_rate = calculate_rule1_compliance(
+        profile.monthly_income,
+        profile.existing_obligations,
+        additional_premium,
+    )
+    updates["rule1_compliance"] = rule1_ok
+    updates["proposed_deduction_rate"] = deduction_rate
+
+    # If Rule 1 is violated by UPDATE_INSTALLMENT, switch to TRANSFER_ARREARS
+    if not rule1_ok and request_type == "UPDATE_INSTALLMENT":
+        logger.warning(
+            "Rule 1 violation: deduction rate %.1f%% exceeds 20%%. Switching to TRANSFER_ARREARS.",
+            deduction_rate * 100,
+        )
+        updates["request_type"] = "TRANSFER_ARREARS"
+        updates["additional_premium"] = 0.0
+        updates["additional_months"] = 0
+        rule1_ok, deduction_rate = calculate_rule1_compliance(
+            profile.monthly_income, profile.existing_obligations, 0.0
+        )
+        updates["rule1_compliance"] = rule1_ok
+        updates["proposed_deduction_rate"] = deduction_rate
+
+    # Rule 2 compliance check
+    updates["rule2_compliance"] = calculate_rule2_compliance(
+        output.duration_months,
+        profile.remaining_loan_period_months,
+    )
+
+    # Cap duration_months at remaining_loan_period_months if Rule 2 is violated
+    if (
+        not updates["rule2_compliance"]
+        and output.duration_months is not None
+        and profile.remaining_loan_period_months is not None
+    ):
+        logger.warning(
+            "Rule 2 violation: duration %d months exceeds remaining loan period %d months. Capping.",
+            output.duration_months,
+            profile.remaining_loan_period_months,
+        )
+        updates["duration_months"] = profile.remaining_loan_period_months
+        updates["rule2_compliance"] = True
+
+    # income_per_family_member
+    family_members = max(profile.number_of_family_members, 1)
+    if profile.monthly_income > 0:
+        updates["income_per_family_member"] = round(profile.monthly_income / family_members, 2)
+
+    return output.model_copy(update=updates)
+
+
 def make_decision(
     case_id: str,
     profile: CitizenFinancialProfile,
@@ -266,6 +355,9 @@ def make_decision(
             # Ensure hardship_score is always set from our calculation if LLM omitted it
             if output.hardship_score is None:
                 output = output.model_copy(update={"hardship_score": hardship_score})
+
+            # Apply official governance rule post-processing
+            output = _apply_governance_rules(profile, output)
 
         # Step 5: recalculate monthly_instalment server-side
         monthly_instalment: float | None = None

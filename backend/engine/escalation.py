@@ -9,9 +9,13 @@ from __future__ import annotations
 from backend.schemas.decisions import CitizenFinancialProfile
 
 # Thresholds
-_DTI_ESCALATION_THRESHOLD = 0.55
-_HIGH_ARREARS_THRESHOLD = 100_000.0
+_HIGH_ARREARS_THRESHOLD = 500_000.0
 _STALE_SALARY_CERT_MONTHS = 3
+
+# Official governance rule limits
+_RULE1_DEDUCTION_CAP = 0.20
+_RULE2_REQUEST_TYPE_UPDATE = "UPDATE_INSTALLMENT"
+_RULE2_REQUEST_TYPE_TRANSFER = "TRANSFER_ARREARS"
 
 
 def calculate_debt_ratio(arrears_amount: float, monthly_income: float) -> float:
@@ -53,7 +57,7 @@ def calculate_hardship_score(profile: CitizenFinancialProfile) -> float:
         score += 0.08
 
     # Arrears amount component (weight 0.15)
-    if profile.arrears_amount >= 100_000:
+    if profile.arrears_amount >= 500_000:
         score += 0.15
     elif profile.arrears_amount >= 50_000:
         score += 0.08
@@ -69,12 +73,66 @@ def calculate_hardship_score(profile: CitizenFinancialProfile) -> float:
     return round(min(score, 1.0), 4)
 
 
+def determine_request_type(profile: CitizenFinancialProfile) -> str:
+    """Determine whether the rescheduling type should be UPDATE_INSTALLMENT or TRANSFER_ARREARS.
+
+    UPDATE_INSTALLMENT: arrears are spread into additional monthly instalments on top of the
+    existing EMI. Used when the citizen has income capacity to absorb extra payments.
+
+    TRANSFER_ARREARS: arrears are moved to the end of the loan with no additional monthly charge.
+    Used when the citizen has no income capacity for extra payments or is unemployed.
+    """
+    if profile.is_unemployed:
+        return _RULE2_REQUEST_TYPE_TRANSFER
+
+    if profile.monthly_income > 0:
+        current_dti = profile.existing_obligations / profile.monthly_income
+        remaining_capacity = _RULE1_DEDUCTION_CAP - current_dti
+        if remaining_capacity <= 0:
+            return _RULE2_REQUEST_TYPE_TRANSFER
+
+    return _RULE2_REQUEST_TYPE_UPDATE
+
+
+def calculate_rule1_compliance(
+    monthly_income: float,
+    existing_obligations: float,
+    additional_premium: float,
+) -> tuple[bool, float]:
+    """Check Rule 1: total monthly deduction must not exceed 20 percent of income.
+
+    Compares (existing_obligations + additional_premium) against 20% of monthly_income.
+    Returns (is_compliant, proposed_deduction_rate).
+    TRANSFER_ARREARS always passes Rule 1 because additional_premium is zero.
+    """
+    if monthly_income <= 0:
+        return False, 1.0
+    total_deduction = existing_obligations + additional_premium
+    rate = round(total_deduction / monthly_income, 4)
+    return rate <= _RULE1_DEDUCTION_CAP, rate
+
+
+def calculate_rule2_compliance(
+    duration_months: int | None,
+    remaining_loan_period_months: int | None,
+) -> bool:
+    """Check Rule 2: repayment period must not exceed the remaining loan period.
+
+    Returns True when duration_months <= remaining_loan_period_months.
+    Returns True when remaining_loan_period_months is unknown (cannot enforce).
+    """
+    if duration_months is None or remaining_loan_period_months is None:
+        return True
+    return duration_months <= remaining_loan_period_months
+
+
 def check_hard_escalations(profile: CitizenFinancialProfile) -> tuple[bool, str]:
     """Run all hard escalation trigger checks against a citizen profile.
 
     Returns (True, reason) if any trigger fires, otherwise (False, "").
-    Checks are evaluated in priority order: ID expiry, previous rejections,
-    missing documents, fraud signals, DTI, and arrears threshold.
+    Checks are evaluated in priority order: fraud, ID expiry, previous rejections,
+    missing documents, stale salary certificate, and high-value arrears.
+    DTI is not a hard escalation trigger under the official governance rules.
     """
     # Trigger 0: fraud signal raised by document verification
     if profile.suspected_fraud:
@@ -106,19 +164,10 @@ def check_hard_escalations(profile: CitizenFinancialProfile) -> tuple[bool, str]
             "A certificate issued within the last 3 months is required."
         )
 
-    # Trigger 5: DTI above escalation threshold
-    if profile.monthly_income > 0:
-        dti = profile.existing_obligations / profile.monthly_income
-        if dti > _DTI_ESCALATION_THRESHOLD:
-            return True, (
-                f"Debt-to-income ratio of {dti:.1%} exceeds the 55% escalation threshold. "
-                "A human officer must assess affordability before approval."
-            )
-
-    # Trigger 6: arrears above high-value threshold
+    # Trigger 5: arrears above high-value threshold
     if profile.arrears_amount > _HIGH_ARREARS_THRESHOLD:
         return True, (
-            f"Arrears amount of AED {profile.arrears_amount:,.0f} exceeds the AED 100,000 high-value threshold. "
+            f"Arrears amount of AED {profile.arrears_amount:,.0f} exceeds the AED 500,000 high-value threshold. "
             "Senior officer review is required."
         )
 
