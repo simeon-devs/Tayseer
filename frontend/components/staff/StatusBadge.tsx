@@ -7,6 +7,8 @@ const STATUS_STYLES: Record<string, string> = {
   escalated: 'bg-amber-100 text-amber-800',
   overridden: 'bg-purple-100 text-purple-700',
   closed: 'bg-gray-200 text-gray-600',
+  rejected: 'bg-red-100 text-red-700',
+  additional_info_required: 'bg-cyan-100 text-cyan-700',
 };
 
 const STATUS_DOT: Record<string, string> = {
@@ -16,6 +18,8 @@ const STATUS_DOT: Record<string, string> = {
   escalated: 'bg-amber-500',
   overridden: 'bg-purple-500',
   closed: 'bg-gray-400',
+  rejected: 'bg-red-500',
+  additional_info_required: 'bg-cyan-500',
 };
 
 interface Props {

@@ -6,7 +6,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 from backend.database import Base
 
-VALID_STATUSES = ("pending", "processing", "approved", "escalated", "overridden", "closed")
+VALID_STATUSES = (
+    "pending", "processing", "approved", "escalated", "overridden", "closed",
+    "rejected", "additional_info_required",
+)
 
 
 class Case(Base):
@@ -16,7 +19,8 @@ class Case(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "status IN ('pending', 'processing', 'approved', 'escalated', 'overridden', 'closed')",
+            "status IN ('pending', 'processing', 'approved', 'escalated', 'overridden', 'closed',"
+            " 'rejected', 'additional_info_required')",
             name="ck_cases_status",
         ),
     )
