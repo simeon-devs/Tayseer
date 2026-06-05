@@ -120,6 +120,13 @@ const en: TranslationMap = {
   copilotThinking: 'Thinking...',
   aiSpeedupLabel: 'faster than manual processing',
   decided: 'Decided',
+  verifyTitle: 'Document Verification',
+  verifiedMsg: 'This document has been verified as authentic.',
+  verifiedLabel: 'Verified',
+  verifyDecisionSummary: 'Decision Summary',
+  verifyDecisionDate: 'Decision Date',
+  verifyCaseRef: 'Case Reference',
+  verifyCitizenName: 'Citizen Name',
 };
 
 const ar: TranslationMap = {
@@ -240,6 +247,13 @@ const ar: TranslationMap = {
   copilotThinking: 'جارٍ التفكير...',
   aiSpeedupLabel: 'أسرع من المعالجة اليدوية',
   decided: 'محسوم',
+  verifyTitle: 'التحقق من الوثيقة',
+  verifiedMsg: 'تم التحقق من صحة هذه الوثيقة.',
+  verifiedLabel: 'موثق',
+  verifyDecisionSummary: 'ملخص القرار',
+  verifyDecisionDate: 'تاريخ القرار',
+  verifyCaseRef: 'رقم المرجع',
+  verifyCitizenName: 'اسم المواطن',
 };
 
 export const translations: Record<Lang, TranslationMap> = { en, ar };

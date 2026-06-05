@@ -83,6 +83,16 @@ export interface CopilotResponse {
   case_id: string;
 }
 
+export interface VerificationResponse {
+  case_reference: string;
+  citizen_name_en: string;
+  decision_summary: string;
+  decision_date: string;
+  verified: boolean;
+  message_en: string;
+  message_ar: string;
+}
+
 export interface AnalyticsSummary {
   total_cases: number;
   auto_approved: number;

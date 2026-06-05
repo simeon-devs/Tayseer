@@ -109,3 +109,15 @@ class AnalyticsSummary(BaseModel):
     override_rate: float
     before_avg_days: int
     after_avg_seconds: float
+
+
+class VerificationResponse(BaseModel):
+    """Public document verification response returned by GET /api/verify/:case_uuid."""
+
+    case_reference: str
+    citizen_name_en: str
+    decision_summary: str
+    decision_date: str
+    verified: bool
+    message_en: str
+    message_ar: str

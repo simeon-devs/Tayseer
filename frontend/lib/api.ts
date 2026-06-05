@@ -9,6 +9,7 @@ import type {
   DecisionOutput,
   DocumentResult,
   OverrideRequest,
+  VerificationResponse,
 } from './types';
 
 function apiBase(): string {
@@ -96,6 +97,10 @@ export async function askCopilot(caseId: string, question: string): Promise<Copi
 
 export async function getAnalytics(): Promise<AnalyticsSummary> {
   return apiFetch<AnalyticsSummary>('/api/analytics/summary');
+}
+
+export async function verifyCase(caseUuid: string): Promise<VerificationResponse> {
+  return apiFetch<VerificationResponse>(`/api/verify/${caseUuid}`);
 }
 
 export function letterUrl(caseId: string): string {
