@@ -129,40 +129,103 @@ export default function StaffCaseDetail() {
               </div>
 
               {decision && (
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                  <h2 className="font-bold text-gray-900 mb-3">{t('rationale')}</h2>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {lang === 'ar' ? decision.rationale_ar : decision.rationale_en}
-                  </p>
-                  {decision.rules_applied && decision.rules_applied.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-gray-100">
-                      <p className="text-xs font-semibold text-gray-500 mb-2">{t('rulesApplied')}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {decision.rules_applied.map((r) => (
-                          <span key={r} className="px-2 py-0.5 bg-surface text-primary text-xs font-mono rounded border border-gray-200">
-                            {r}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {decision.confidence_score != null && (
-                    <div className="mt-4 pt-4 border-t border-gray-100">
-                      <div className="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>{t('aiConfidence')}</span>
-                        <span className="font-semibold text-primary">
-                          {Math.round(decision.confidence_score * 100)}%
+                <>
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                    <h2 className="font-bold text-gray-900 mb-4">
+                      {lang === 'ar' ? 'مخرجات القرار الرسمية' : 'Official Decision Output'}
+                    </h2>
+
+                    {decision.request_type && (
+                      <div className="flex items-center justify-between text-sm py-2 border-b border-gray-50">
+                        <span className="text-gray-500">{t('requestType')}</span>
+                        <span className="px-2 py-0.5 bg-primary bg-opacity-10 text-primary text-xs font-semibold rounded">
+                          {decision.request_type}
                         </span>
                       </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full"
-                          style={{ width: `${Math.round(decision.confidence_score * 100)}%` }}
-                        />
+                    )}
+
+                    {decision.additional_premium != null && (
+                      <div className="flex items-center justify-between text-sm py-2 border-b border-gray-50">
+                        <span className="text-gray-500">{t('additionalPremium')}</span>
+                        <span className="font-semibold text-gray-900">
+                          {decision.request_type === 'TRANSFER_ARREARS'
+                            ? (lang === 'ar' ? 'لا توجد رسوم إضافية' : 'No additional charge')
+                            : `${t('aed')} ${decision.additional_premium.toLocaleString('en-AE', { minimumFractionDigits: 2 })}`
+                          }
+                        </span>
                       </div>
+                    )}
+
+                    {decision.proposed_deduction_rate != null && (
+                      <div className="flex items-center justify-between text-sm py-2 border-b border-gray-50">
+                        <span className="text-gray-500">{t('proposedDeductionRate')}</span>
+                        <span className="font-semibold text-gray-900">
+                          {Math.round(decision.proposed_deduction_rate * 100)}%
+                        </span>
+                      </div>
+                    )}
+
+                    {decision.income_per_family_member != null && (
+                      <div className="flex items-center justify-between text-sm py-2 border-b border-gray-50">
+                        <span className="text-gray-500">{t('incomePerMember')}</span>
+                        <span className="font-semibold text-gray-900">
+                          {t('aed')} {decision.income_per_family_member.toLocaleString('en-AE', { minimumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="mt-4 space-y-2">
+                      <p className="text-xs font-semibold text-gray-500 mb-2">
+                        {lang === 'ar' ? 'الامتثال للقواعد الحوكمية' : 'Governance Rule Compliance'}
+                      </p>
+                      <CompliancePill
+                        label={t('rule1Label')}
+                        compliant={decision.rule1_compliance}
+                        t={t}
+                      />
+                      <CompliancePill
+                        label={t('rule2Label')}
+                        compliant={decision.rule2_compliance}
+                        t={t}
+                      />
                     </div>
-                  )}
-                </div>
+                  </div>
+
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                    <h2 className="font-bold text-gray-900 mb-3">{t('rationale')}</h2>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {lang === 'ar' ? decision.rationale_ar : decision.rationale_en}
+                    </p>
+                    {decision.rules_applied && decision.rules_applied.length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-xs font-semibold text-gray-500 mb-2">{t('rulesApplied')}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {decision.rules_applied.map((r) => (
+                            <span key={r} className="px-2 py-0.5 bg-surface text-primary text-xs font-mono rounded border border-gray-200">
+                              {r}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {decision.confidence_score != null && (
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <div className="flex justify-between text-xs text-gray-500 mb-1">
+                          <span>{t('aiConfidence')}</span>
+                          <span className="font-semibold text-primary">
+                            {Math.round(decision.confidence_score * 100)}%
+                          </span>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-primary rounded-full"
+                            style={{ width: `${Math.round(decision.confidence_score * 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
               )}
 
               {detail.documents.length > 0 && (
@@ -201,6 +264,30 @@ export default function StaffCaseDetail() {
         />
       )}
     </>
+  );
+}
+
+function CompliancePill({
+  label,
+  compliant,
+  t,
+}: {
+  label: string;
+  compliant: boolean | undefined | null;
+  t: (k: string) => string;
+}) {
+  if (compliant === undefined || compliant === null) return null;
+  return (
+    <div className="flex items-center justify-between text-xs py-1.5">
+      <span className="text-gray-600">{label}</span>
+      <span
+        className={`px-2 py-0.5 rounded-full font-semibold ${
+          compliant ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+        }`}
+      >
+        {compliant ? t('compliant') : t('nonCompliant')}
+      </span>
+    </div>
   );
 }
 
