@@ -17,7 +17,7 @@ database_url = os.environ.get("DATABASE_URL")
 if database_url:
     config.set_main_option("sqlalchemy.url", database_url)
 
-# Ensure project root is on the path so backend package is importable
+# Add two levels up (the workspace root or project root) so the backend package is importable.
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from backend.database import Base  # noqa: E402
