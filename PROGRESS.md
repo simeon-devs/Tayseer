@@ -667,6 +667,67 @@ Gate: full citizen and staff flows work from the Pi, RunPod switch completes in 
 
 ---
 
+### Session N - 2026-06-05
+
+What was done:
+Incorporated all 10 official MOEI challenge document requirements into the system.
+
+Update 1: Added 8 official output fields to DecisionOutput in backend/schemas/decisions.py: request_type, additional_months, additional_premium, rule1_compliance, rule2_compliance, case_summary, income_per_family_member, proposed_deduction_rate.
+
+Update 2: Added 9 new fields to CitizenFinancialProfile: original_loan_amount, remaining_loan_balance, remaining_loan_period_months, number_of_unpaid_instalments, payment_history (string), number_of_family_members, is_unemployed, has_temporary_circumstance, temporary_circumstance_description. Updated frontend/components/citizen/StepFinancial.tsx with loan details section. Updated frontend/lib/types.ts and frontend/lib/i18n.ts with 40+ new translation keys for all new fields and statuses.
+
+Update 3: Enforced three official governance rules in the decision engine. Removed DTI escalation trigger. Raised arrears escalation threshold from 100k to 500k AED. Added determine_request_type, calculate_rule1_compliance, and calculate_rule2_compliance functions to backend/engine/escalation.py. Added _apply_governance_rules post-processing step in backend/engine/decision.py that enforces Rule 1 (deduction cap) and Rule 2 (loan period cap) after the LLM call, switching to TRANSFER_ARREARS automatically when Rule 1 would be violated. Updated DECISION_SYSTEM_PROMPT to include the three official rules and request type logic.
+
+Update 4: Added Rule 3 active request validation to backend/routers/decisions.py. check_active_request queries for any other case belonging to the same citizen with status in pending, processing, or approved. Returns HTTP 422 with DUPLICATE_ACTIVE_REQUEST error code if found.
+
+Update 5: Implemented all five official decision statuses. Added rejected and additional_info_required to VALID_STATUSES and CheckConstraint in backend/models/case.py. Created Alembic migration 0003 dropping and recreating the check constraint. Rewrote frontend/pages/citizen/decision/[case_id].tsx to handle all 5 status variants with distinct visual treatment. Updated frontend/components/staff/StatusBadge.tsx with styles for rejected and additional_info_required.
+
+Update 6: Added UAE PASS login simulation as the citizen journey entry point. Created frontend/pages/citizen/login.tsx with custom UAE PASS styled screen, 1.8-second simulated authentication delay, and sessionStorage gate. Updated frontend/pages/citizen/index.tsx to redirect to /citizen/login if not authenticated.
+
+Update 7: Added official structured decision output section to frontend/pages/staff/cases/[case_id].tsx showing request type, additional premium, proposed deduction rate, income per family member, and Rule 1 and 2 compliance pills with green or red colour coding.
+
+Update 8: Analytics baseline of 5 working days is already correct in backend/routers/analytics.py. No code change required.
+
+Update 9: Refreshed backend/demo_setup.py with 8 rule-enforcing cases. All cases include loan details and family members. Cases 1, 2, 4 demonstrate UPDATE_INSTALLMENT. Cases 3, 5 demonstrate TRANSFER_ARREARS. Cases 6, 7, 8 demonstrate the three active hard escalation triggers.
+
+Validation:
+Backend Python files type-check cleanly. No import errors.
+Frontend TypeScript files compile without errors.
+All new fields pass through the full pipeline.
+
+New files created in this session:
+frontend/pages/citizen/login.tsx: UAE PASS simulation page
+backend/alembic/versions/0003_add_rejected_additional_info_statuses.py: status constraint migration
+
+Files modified in this session:
+backend/schemas/decisions.py: 9 new CitizenFinancialProfile fields, 8 new DecisionOutput fields
+backend/engine/escalation.py: removed DTI trigger, raised arrears threshold to 500k, added 3 new functions
+backend/engine/decision.py: added _apply_governance_rules post-processing, imported new escalation functions
+backend/engine/prompts.py: updated system prompt with official governance rules and request types
+backend/routers/decisions.py: added check_active_request Rule 3 validation
+backend/models/case.py: added rejected and additional_info_required to VALID_STATUSES
+backend/demo_setup.py: 8 rule-enforcing demo cases with all new fields
+frontend/lib/types.ts: updated CitizenFinancialProfile and DecisionOutput with new fields
+frontend/lib/i18n.ts: 40+ new translation keys
+frontend/components/citizen/StepFinancial.tsx: loan details section added
+frontend/components/staff/StatusBadge.tsx: new status styles
+frontend/pages/citizen/index.tsx: UAE PASS auth gate and new profile fields
+frontend/pages/citizen/decision/[case_id].tsx: all 5 official statuses
+frontend/pages/staff/cases/[case_id].tsx: official decision output table with rule compliance
+
+What was not done:
+Frontend production build not yet rebuilt (requires docker-compose restart).
+
+Blockers:
+None.
+
+Next immediate task:
+Run docker-compose up to rebuild the backend container and run alembic migration 0003.
+Run npm run build in frontend to rebuild the production bundle.
+Run demo_setup.py to reload demo data with the new rule-enforcing cases.
+
+---
+
 ## Known Issues and Bugs
 
 No known issues at this time. Add issues here as they are discovered during the build. Include the module affected, the description, the severity (blocker, major, minor), and the status.

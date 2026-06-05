@@ -170,10 +170,10 @@ Update this section after every session.
 A1 Infrastructure database and data: complete
 A2 Governance rulebook and RAG pipeline: complete
 B1 Document extraction: complete
-B2 Decision engine: complete
+B2 Decision engine: complete (official MOEI rules enforced 2026-06-05)
 B3 Case management API and AI copilot: complete
-C1 Citizen portal full flow: complete
-C2 Staff dashboard case management: complete
+C1 Citizen portal full flow: complete (UAE PASS gate and loan fields added 2026-06-05)
+C2 Staff dashboard case management: complete (governance output table added 2026-06-05)
 C3 Staff dashboard copilot and analytics: complete
 D1 PDF decision letter and QR verification: complete
 D2 Deployment on MacBook and Pi: complete
