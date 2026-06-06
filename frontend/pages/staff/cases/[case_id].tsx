@@ -7,8 +7,8 @@ import StatusBadge from '../../../components/staff/StatusBadge';
 import OverrideModal from '../../../components/staff/OverrideModal';
 import CopilotPanel from '../../../components/staff/CopilotPanel';
 import { useLang } from '../../../lib/LanguageContext';
-import { getCase, letterUrl } from '../../../lib/api';
-import type { CaseDetailResponse } from '../../../lib/types';
+import { getCase, getCitizenRisk, letterUrl } from '../../../lib/api';
+import type { CaseDetailResponse, CitizenRiskProfile } from '../../../lib/types';
 
 export default function StaffCaseDetail() {
   const { t, lang } = useLang();
@@ -19,12 +19,18 @@ export default function StaffCaseDetail() {
   const [error, setError] = useState('');
   const [showOverride, setShowOverride] = useState(false);
   const [overrideSuccess, setOverrideSuccess] = useState(false);
+  const [riskProfile, setRiskProfile] = useState<CitizenRiskProfile | null>(null);
 
   useEffect(() => {
     if (!case_id || typeof case_id !== 'string') return;
     setLoading(true);
     getCase(case_id)
-      .then(setDetail)
+      .then((d) => {
+        setDetail(d);
+        getCitizenRisk(d.citizen.id)
+          .then(setRiskProfile)
+          .catch(() => setRiskProfile(null));
+      })
       .catch(() => setError(t('loadingFailed')))
       .finally(() => setLoading(false));
   }, [case_id, t]);
@@ -227,6 +233,81 @@ export default function StaffCaseDetail() {
                   </div>
                 </>
               )}
+
+              {/* Risk Intelligence Panel */}
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <h2 className="font-bold text-gray-900 mb-4">{t('riskPanelTitle')}</h2>
+                {riskProfile ? (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+                        riskProfile.risk_level === 'HIGH'
+                          ? 'bg-red-100 text-red-700'
+                          : riskProfile.risk_level === 'MEDIUM'
+                          ? 'bg-amber-100 text-amber-700'
+                          : 'bg-green-100 text-green-700'
+                      }`}>
+                        {riskProfile.risk_level}
+                      </span>
+                      <div className="flex-1">
+                        <div className="flex justify-between text-xs text-gray-500 mb-1">
+                          <span>{t('riskScore')}</span>
+                          <span className="font-semibold">{Math.round(riskProfile.risk_score * 100)}%</span>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${
+                              riskProfile.risk_level === 'HIGH' ? 'bg-red-500' :
+                              riskProfile.risk_level === 'MEDIUM' ? 'bg-amber-400' : 'bg-green-500'
+                            }`}
+                            style={{ width: `${Math.round(riskProfile.risk_score * 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {riskProfile.risk_factors.length > 0 && (
+                      <div className="mb-4">
+                        <p className="text-xs font-semibold text-gray-500 mb-2">{t('riskFactors')}</p>
+                        <div className="space-y-2">
+                          {riskProfile.risk_factors.map((f) => (
+                            <div key={f.factor_code} className="bg-surface rounded-lg p-3">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-mono text-xs text-gray-500">{f.factor_code}</span>
+                                <span className="text-xs font-semibold text-gray-700">
+                                  {Math.round(f.severity * 100)}%
+                                </span>
+                              </div>
+                              <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden mb-1.5">
+                                <div
+                                  className="h-full bg-primary rounded-full"
+                                  style={{ width: `${Math.round(f.severity * 100)}%` }}
+                                />
+                              </div>
+                              <p className="text-xs text-gray-600">
+                                {lang === 'ar' ? f.description_ar : f.description_en}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className={`rounded-xl p-3 text-sm ${
+                      riskProfile.risk_level === 'HIGH'
+                        ? 'bg-red-50 border border-red-200 text-red-800'
+                        : riskProfile.risk_level === 'MEDIUM'
+                        ? 'bg-amber-50 border border-amber-200 text-amber-800'
+                        : 'bg-green-50 border border-green-200 text-green-800'
+                    }`}>
+                      <p className="text-xs font-semibold mb-0.5">{t('recommendedAction')}</p>
+                      <p>{lang === 'ar' ? riskProfile.recommended_action_ar : riskProfile.recommended_action_en}</p>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-400">{t('riskAnalysisUnavailable')}</p>
+                )}
+              </div>
 
               {detail.documents.length > 0 && (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
