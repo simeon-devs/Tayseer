@@ -5,10 +5,12 @@ import type {
   CaseListItem,
   CaseResponse,
   CitizenFinancialProfile,
+  CitizenRiskProfile,
   CopilotResponse,
   DecisionOutput,
   DocumentResult,
   OverrideRequest,
+  RiskSummary,
   VerificationResponse,
 } from './types';
 
@@ -105,4 +107,17 @@ export async function verifyCase(caseUuid: string): Promise<VerificationResponse
 
 export function letterUrl(caseId: string): string {
   return `${apiBase()}/api/cases/${caseId}/letter`;
+}
+
+export async function getRiskSummary(): Promise<RiskSummary> {
+  return apiFetch<RiskSummary>('/api/risk/summary');
+}
+
+export async function listCitizenRisks(level?: string): Promise<CitizenRiskProfile[]> {
+  const qs = level ? `?level=${encodeURIComponent(level)}` : '';
+  return apiFetch<CitizenRiskProfile[]>(`/api/risk/citizens${qs}`);
+}
+
+export async function getCitizenRisk(citizenId: string): Promise<CitizenRiskProfile> {
+  return apiFetch<CitizenRiskProfile>(`/api/risk/citizens/${citizenId}`);
 }

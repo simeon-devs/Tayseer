@@ -114,6 +114,34 @@ export interface AnalyticsSummary {
   after_avg_seconds: number;
 }
 
+export interface RiskFactor {
+  factor_code: string;
+  description_en: string;
+  description_ar: string;
+  severity: number;
+}
+
+export interface CitizenRiskProfile {
+  citizen_id: string;
+  citizen_name_en: string;
+  citizen_name_ar: string;
+  emirates_id: string;
+  risk_level: 'HIGH' | 'MEDIUM' | 'LOW';
+  risk_score: number;
+  risk_factors: RiskFactor[];
+  recommended_action_en: string;
+  recommended_action_ar: string;
+  days_until_critical?: number;
+}
+
+export interface RiskSummary {
+  high_risk_count: number;
+  medium_risk_count: number;
+  low_risk_count: number;
+  total_analysed: number;
+  last_updated: string;
+}
+
 export interface CitizenFinancialProfile {
   monthly_income: number;
   existing_obligations: number;
