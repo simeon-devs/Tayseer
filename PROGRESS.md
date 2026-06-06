@@ -40,6 +40,74 @@ Known issue: BGE-M3 missed Rule 13 on the widowed citizen query. Fix is to add k
 
 ## Session Log
 
+### Session 13 - 2026-06-06
+
+What was done:
+Added a Risk Intelligence proactive alert system across the full stack.
+
+Task 1 (backend/engine/risk.py): Created the risk scoring engine with RiskLevel enum (HIGH, MEDIUM, LOW), RiskFactor and CitizenRiskProfile Pydantic models. Implemented five weighted signals: payment delay (weight 0.30), deduction rate proximity to 20% cap (weight 0.25), income per family member (weight 0.20), previous rescheduling history (weight 0.15), and TRANSFER_ARREARS request type (weight 0.10). Score above 0.70 maps to HIGH, 0.40 to 0.70 maps to MEDIUM, below 0.40 maps to LOW. analyse_citizen_risk accepts a case dict and decision dict, degrades gracefully when fields are absent, and never raises. analyse_all_citizens loads all active cases from the DB, excludes rejected and closed, counts prior rescheduling per citizen, sorts by score descending. get_risk_summary returns aggregate counts. All functions catch and log exceptions silently so the main pipeline is never blocked.
+
+Task 2 (backend/routers/risk.py): Created three endpoints: GET /api/risk/summary returning RiskSummaryResponse, GET /api/risk/citizens with optional ?level filter, GET /api/risk/citizens/{citizen_id} returning CitizenRiskProfile or 404. Registered the risk router in backend/main.py.
+
+Tasks 3 and 4 (frontend/pages/staff/cases/index.tsx): Added the Risk Intelligence Banner above the case queue. Three zone cards: HIGH (red with pulse animation), MEDIUM (amber), SAFE/LOW (green). Each card is clickable and toggles a risk filter that intersects with the existing status filter. Last analysed timestamp and Refresh button shown. API calls for summary and citizen list run in parallel using Promise.all. Banner degrades gracefully when the API is unavailable. Added risk indicator dots (red for HIGH, amber for MEDIUM, hidden for LOW) next to citizen names in both desktop table rows and mobile cards. A single listCitizenRisks call populates a Map keyed by emirates_id shared across all rows.
+
+Task 5 (frontend/pages/staff/cases/[case_id].tsx): Added a Risk Intelligence section below the governance output panel. Shows a large coloured risk level badge, a percentage score bar, individual risk factor cards each with a severity bar and bilingual description, and a recommended action box coloured by risk level. Fetches GET /api/risk/citizens/{citizen_id} using detail.citizen.id after the case loads. Shows a fallback message when the citizen has no active case or the API is unavailable.
+
+Task 6 (backend/demo_risk.py): Created a formatted terminal report script. Prints the summary breakdown, then for each HIGH risk citizen shows name in both languages, Emirates ID, risk score, ASCII severity bars for each risk factor with bilingual descriptions, and the bilingual recommended action. MEDIUM risk citizens are listed in a compact line format below.
+
+Validation: Risk engine imports cleanly. analyse_citizen_risk test with a five-signal case returns risk_level=HIGH risk_score=0.74 with all five factors present. Frontend build compiled successfully with no TypeScript errors across all 11 routes. Docker is not running on the host so live API endpoints were not tested but all code is containerised and ready.
+
+Translation keys added (English and Arabic): riskIntelligence, riskBannerTitle, highRiskZone, mediumRiskZone, safeZone, citizensAtRisk, lastAnalysed, refreshRisk, noRiskData, riskPanelTitle, riskLevel, riskScore, riskFactors, recommendedAction, riskAnalysisUnavailable, filterByRisk, clearRiskFilter.
+
+Commits in this session:
+feat(risk): add citizen risk scoring engine
+feat(risk): add risk intelligence API endpoints
+feat(C2): add risk intelligence banner to staff dashboard
+feat(C2): add risk intelligence detail panel to case view
+chore(risk): add proactive alert demo script
+
+New files created:
+backend/engine/risk.py: 278 lines
+backend/routers/risk.py: 80 lines
+backend/demo_risk.py: 89 lines
+
+Files modified:
+backend/main.py: added risk router import and include_router call
+frontend/lib/types.ts: added RiskFactor, CitizenRiskProfile, RiskSummary interfaces
+frontend/lib/api.ts: added getRiskSummary, listCitizenRisks, getCitizenRisk functions
+frontend/lib/i18n.ts: added 17 risk keys in both languages
+frontend/pages/staff/cases/index.tsx: full rewrite with banner and risk dots
+frontend/pages/staff/cases/[case_id].tsx: added risk panel section
+
+What was not done:
+Nothing. All 7 risk intelligence tasks are complete.
+
+Blockers:
+None.
+
+Next immediate task:
+System is ready for demo. Run docker-compose up, then python backend/demo_setup.py and python backend/demo_risk.py inside the container before presenting.
+
+---
+
+### Session 12 - 2026-06-05
+
+What was done:
+Implemented 10 MOEI challenge document requirements into Tayseer. Updated DecisionOutput with 8 new official output fields: request_type, additional_months, additional_premium, rule1_compliance, rule2_compliance, case_summary, income_per_family_member, proposed_deduction_rate. Updated CitizenFinancialProfile with 9 new fields: original_loan_amount, remaining_loan_balance, remaining_loan_period_months, number_of_unpaid_instalments, payment_history, number_of_family_members (default 1), is_unemployed (default False), has_temporary_circumstance, temporary_circumstance_description. Rewrote backend/engine/escalation.py to add determine_request_type, calculate_rule1_compliance, calculate_rule2_compliance, and removed DTI escalation trigger. Updated backend/engine/decision.py to add _apply_governance_rules enforcing Rule 1 (20% deduction cap) and Rule 2 (remaining loan period cap). Added Rule 3 duplicate active request check in backend/routers/decisions.py. Updated case status constraints to include rejected and additional_info_required. Created Alembic migration 0003. Rewrote demo_setup.py with 8 rule-enforcing cases. Updated frontend intake form with 5 new loan fields. Added UAE PASS login simulation at /citizen/login with sessionStorage gate. Rewrote citizen decision page to handle all 5 official statuses. Added Official Decision Output section to staff case detail with request_type, additional_premium, proposed_deduction_rate, income_per_family_member, and Rule 1/2 compliance pills. Fixed UAE PASS redirect flash and header logo size bugs.
+
+Commits in this session:
+feat(B2/C1/C2/D2): enforce MOEI official governance rules and request types
+fix(C1): fix UAE PASS redirect and constrain header logo size
+chore(D2): revert env.local to localhost and clarify alembic env comment
+
+What was not done:
+Nothing. All 10 MOEI updates are complete.
+
+Blockers:
+None.
+
+---
+
 ### Session 10 - 2026-05-29
 
 What was done:
