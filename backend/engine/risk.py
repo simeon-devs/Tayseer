@@ -1,8 +1,29 @@
 """Risk intelligence engine for Tayseer.
 
-Provides proactive citizen risk analysis from case and decision data.
-The engine never raises; all exceptions are caught and logged silently
-so the main decision pipeline is never blocked.
+Provides proactive citizen risk analysis from Case, Citizen, and Decision
+ORM objects. The engine never raises; all exceptions are caught and logged
+silently so the main decision pipeline is never blocked.
+
+Signal weights and contributions:
+  Signal 1  Financial distress via hardship score       weight 0.30
+  Signal 2  Deduction rate (requires DB field, stub)    weight 0.25
+  Signal 3  Income per family member (stub)             weight 0.20
+  Signal 4  Previous rescheduling history               weight 0.15
+  Signal 5  TRANSFER_ARREARS used (stub)                weight 0.10
+  Signal 6  Case is currently escalated                 weight 0.40
+  Signal 7  Fraud signal in escalation reason           weight 0.50
+  Signal 8  Expired ID in escalation reason             weight 0.30
+  Signal 9  Rule 1 forced TRANSFER_ARREARS              weight 0.25
+
+Signals 2, 3, and 5 require fields not currently stored in the Decision
+table (proposed_deduction_rate, income_per_family_member, request_type).
+They are retained as stubs for future enhancement when those fields are
+persisted. In the current implementation they always contribute 0.
+
+Classification thresholds are calibrated for the expanded signal set:
+  HIGH   score > 0.50
+  MEDIUM score >= 0.20
+  LOW    score < 0.20
 """
 
 from __future__ import annotations
@@ -10,10 +31,15 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
+
+if TYPE_CHECKING:
+    from backend.models.case import Case
+    from backend.models.citizen import Citizen
+    from backend.models.decision import Decision
 
 logger = logging.getLogger(__name__)
 
@@ -53,158 +79,124 @@ class CitizenRiskProfile(BaseModel):
 # ── Signal helpers ────────────────────────────────────────────────────────────
 
 
-def _signal_payment_delay(case: dict, decision: dict) -> tuple[float, RiskFactor | None]:
-    """Signal 1: payment delay severity.
+def _signal_hardship(decision: Optional["Decision"]) -> tuple[float, RiskFactor | None]:
+    """Signal 1: financial distress proxy via hardship score. Weight 0.30.
 
-    Uses delay_duration_months from the case dict when present.
-    Falls back to estimating delay from arrears_amount / monthly_instalment,
-    then to hardship_score as a last resort.
-    Weight 0.30.
+    Uses the hardship_score stored in the Decision table. This field is always
+    set for both escalated and approved cases by calculate_hardship_score.
     """
-    delay: int | None = case.get("delay_duration_months")
-
-    if delay is None:
-        arrears = case.get("arrears_amount") or 0.0
-        instalment = decision.get("monthly_instalment") or 0.0
-        if instalment > 0:
-            delay = int(round(arrears / instalment))
-        else:
-            hs = decision.get("hardship_score")
-            if hs is not None and hs > 0.1:
-                contrib = round(min(float(hs), 1.0), 4)
-                return contrib, RiskFactor(
-                    factor_code="PAYMENT_DELAY",
-                    description_en=f"Estimated payment distress index {contrib:.0%} based on hardship score",
-                    description_ar=f"مؤشر صعوبة الدفع المقدّر {contrib:.0%} بناءً على درجة الضائقة",
-                    severity=contrib,
-                )
-            return 0.0, None
-
-    if delay > 5:
-        contrib = 1.0
-        desc_en = f"Payment delayed by {delay} months — critical threshold exceeded"
-        desc_ar = f"تأخر الدفع {delay} أشهر — تجاوز الحد الحرج"
-    elif delay >= 3:
-        contrib = 0.6
-        desc_en = f"Payment delayed by {delay} months — significant risk"
-        desc_ar = f"تأخر الدفع {delay} أشهر — مخاطرة كبيرة"
-    elif delay >= 1:
-        contrib = 0.3
-        desc_en = f"Payment delayed by {delay} months — early warning"
-        desc_ar = f"تأخر الدفع {delay} أشهر — إنذار مبكر"
-    else:
+    if decision is None:
         return 0.0, None
-
+    hs = decision.hardship_score
+    if hs is None or hs <= 0.05:
+        return 0.0, None
+    contrib = round(min(float(hs), 1.0), 4)
     return contrib, RiskFactor(
-        factor_code="PAYMENT_DELAY",
-        description_en=desc_en,
-        description_ar=desc_ar,
+        factor_code="FINANCIAL_DISTRESS",
+        description_en=f"Financial distress score {contrib:.0%} based on income obligations and arrears",
+        description_ar=f"درجة الضائقة المالية {contrib:.0%} بناءً على الالتزامات والمتأخرات",
         severity=contrib,
     )
 
 
-def _signal_deduction_rate(decision: dict) -> tuple[float, RiskFactor | None]:
-    """Signal 2: proposed deduction rate proximity to the 20% governance cap.
-
-    Requires proposed_deduction_rate in the decision dict.
-    Weight 0.25.
-    """
-    rate = decision.get("proposed_deduction_rate")
-    if rate is None:
-        return 0.0, None
-
-    rate = float(rate)
-    if rate > 0.18:
-        contrib = 1.0
-        desc_en = f"Deduction rate {rate:.1%} at or above the 18% warning threshold"
-        desc_ar = f"نسبة الاقتطاع {rate:.1%} عند الحد التحذيري 18% أو تتجاوزه"
-    elif rate >= 0.15:
-        contrib = 0.6
-        desc_en = f"Deduction rate {rate:.1%} approaching the 20% governance cap"
-        desc_ar = f"نسبة الاقتطاع {rate:.1%} تقترب من الحد الحوكمي 20%"
-    elif rate >= 0.10:
-        contrib = 0.3
-        desc_en = f"Deduction rate {rate:.1%} — moderate but requires monitoring"
-        desc_ar = f"نسبة الاقتطاع {rate:.1%} — معتدلة لكنها تستوجب المتابعة"
-    else:
-        return 0.0, None
-
-    return contrib, RiskFactor(
-        factor_code="DEDUCTION_RATE_HIGH",
-        description_en=desc_en,
-        description_ar=desc_ar,
-        severity=contrib,
-    )
-
-
-def _signal_income_per_member(decision: dict) -> tuple[float, RiskFactor | None]:
-    """Signal 3: monthly income per family member affordability.
-
-    Requires income_per_family_member in the decision dict.
-    Weight 0.20.
-    """
-    ipm = decision.get("income_per_family_member")
-    if ipm is None:
-        return 0.0, None
-
-    ipm = float(ipm)
-    if ipm < 2500:
-        contrib = 1.0
-        desc_en = f"Income per family member AED {ipm:,.0f} is below the critical threshold of AED 2,500"
-        desc_ar = f"الدخل لكل فرد من الأسرة {ipm:,.0f} درهم أقل من الحد الحرج 2,500 درهم"
-    elif ipm < 4000:
-        contrib = 0.5
-        desc_en = f"Income per family member AED {ipm:,.0f} — moderate affordability pressure"
-        desc_ar = f"الدخل لكل فرد من الأسرة {ipm:,.0f} درهم — ضغط قدرة شراء معتدل"
-    else:
-        return 0.0, None
-
-    return contrib, RiskFactor(
-        factor_code="LOW_INCOME_PER_MEMBER",
-        description_en=desc_en,
-        description_ar=desc_ar,
-        severity=contrib,
-    )
-
-
-def _signal_previous_rescheduling(case: dict) -> tuple[float, RiskFactor | None]:
-    """Signal 4: prior rescheduling history on record.
-
-    Uses previous_rescheduling_count from the case dict.
-    Weight 0.15.
-    """
-    count = int(case.get("previous_rescheduling_count") or 0)
-    if count < 1:
+def _signal_previous_rescheduling(prior_count: int) -> tuple[float, RiskFactor | None]:
+    """Signal 4: prior rescheduling history on record. Weight 0.15."""
+    if prior_count < 1:
         return 0.0, None
     contrib = 0.8
     return contrib, RiskFactor(
         factor_code="PREVIOUS_RESCHEDULING",
-        description_en=f"Citizen has {count} prior rescheduling record(s) on file",
-        description_ar=f"المواطن لديه {count} سجل إعادة جدولة سابق",
+        description_en=f"Citizen has {prior_count} prior rescheduling record(s) on file",
+        description_ar=f"المواطن لديه {prior_count} سجل إعادة جدولة سابق",
         severity=contrib,
     )
 
 
-def _signal_transfer_arrears(decision: dict) -> tuple[float, RiskFactor | None]:
-    """Signal 5: case was processed as TRANSFER_ARREARS.
-
-    Requires request_type in the decision dict.
-    Weight 0.10.
-    """
-    if decision.get("request_type") != "TRANSFER_ARREARS":
+def _signal_escalated(case_status: str) -> tuple[float, RiskFactor | None]:
+    """Signal 6: case is currently escalated. Weight 0.40."""
+    if case_status != "escalated":
         return 0.0, None
-    contrib = 0.7
-    return contrib, RiskFactor(
-        factor_code="TRANSFER_ARREARS_USED",
-        description_en="Case was processed as TRANSFER_ARREARS indicating arrears absorption capacity was exhausted",
-        description_ar="تم معالجة الطلب كتحويل متأخرات مما يشير إلى استنفاد طاقة استيعاب المتأخرات",
-        severity=contrib,
+    return 1.0, RiskFactor(
+        factor_code="CASE_ESCALATED",
+        description_en="Case has been escalated and requires immediate attention",
+        description_ar="تم تصعيد الحالة وتتطلب اهتماماً فورياً",
+        severity=1.0,
     )
 
 
-def _build_recommendation(level: RiskLevel) -> tuple[str, str]:
-    """Return a bilingual recommended action string based on the computed risk level."""
+def _signal_fraud(escalation_reason: Optional[str]) -> tuple[float, RiskFactor | None]:
+    """Signal 7: fraud signal detected in escalation reason. Weight 0.50."""
+    if not escalation_reason or "fraud" not in escalation_reason.lower():
+        return 0.0, None
+    return 1.0, RiskFactor(
+        factor_code="FRAUD_SIGNAL",
+        description_en="Fraud signal detected in document verification",
+        description_ar="تم اكتشاف إشارة احتيال في التحقق من المستندات",
+        severity=1.0,
+    )
+
+
+def _signal_expired_id(escalation_reason: Optional[str]) -> tuple[float, RiskFactor | None]:
+    """Signal 8: expired Emirates ID blocking case processing. Weight 0.30."""
+    if not escalation_reason or "expired" not in escalation_reason.lower():
+        return 0.0, None
+    return 0.8, RiskFactor(
+        factor_code="EXPIRED_ID",
+        description_en="Emirates ID has expired, blocking case processing",
+        description_ar="انتهت صلاحية الهوية الإماراتية مما يعيق معالجة الحالة",
+        severity=0.8,
+    )
+
+
+def _signal_rule1_forced_transfer(decision: Optional["Decision"]) -> tuple[float, RiskFactor | None]:
+    """Signal 9: Rule 1 deduction cap forced a TRANSFER_ARREARS outcome. Weight 0.25.
+
+    Checks rationale_en for evidence that the arrears transfer was caused by
+    the 20% governance cap, indicating the citizen has exhausted repayment capacity.
+    """
+    if decision is None or decision.escalate_flag:
+        return 0.0, None
+    rationale = (decision.rationale_en or "").lower()
+    is_transfer = "transfer_arrears" in rationale or "transfer arrears" in rationale
+    has_cap_ref = (
+        "rule 1" in rationale
+        or "20%" in (decision.rationale_en or "")
+        or "20 percent" in rationale
+    )
+    if not (is_transfer and has_cap_ref):
+        return 0.0, None
+    return 0.7, RiskFactor(
+        factor_code="RULE1_FORCED_TRANSFER",
+        description_en="Rule 1 cap forced arrears transfer indicating tight financial capacity",
+        description_ar="أجبر سقف القاعدة الأولى على تحويل المتأخرات مما يشير إلى قدرة مالية محدودة",
+        severity=0.7,
+    )
+
+
+# ── Recommendation builder ────────────────────────────────────────────────────
+
+
+def _build_recommendation(
+    level: RiskLevel,
+    factor_codes: list[str],
+) -> tuple[str, str]:
+    """Return a bilingual recommended action tailored to the primary risk factor."""
     if level == RiskLevel.HIGH:
+        if "FRAUD_SIGNAL" in factor_codes:
+            return (
+                "Immediate investigation required. Do not process until fraud signal is cleared.",
+                "مطلوب تحقيق فوري. لا تعالج الطلب حتى يتم رفع إشارة الاحتيال.",
+            )
+        if "EXPIRED_ID" in factor_codes:
+            return (
+                "Contact citizen immediately to renew Emirates ID before case can proceed.",
+                "تواصل مع المواطن فوراً لتجديد الهوية الإماراتية قبل المضي في الطلب.",
+            )
+        if "RULE1_FORCED_TRANSFER" in factor_codes:
+            return (
+                "Monitor closely. Citizen is at the income limit for repayment. Consider proactive financial counselling.",
+                "مراقبة دقيقة مطلوبة. المواطن عند حد الدخل للسداد. فكر في الإرشاد المالي الاستباقي.",
+            )
         return (
             "Immediate proactive outreach required. Assign a senior housing advisor within 24 hours.",
             "مطلوب تواصل استباقي فوري. تعيين مستشار سكني كبير خلال 24 ساعة.",
@@ -223,50 +215,61 @@ def _build_recommendation(level: RiskLevel) -> tuple[str, str]:
 # ── Public API ────────────────────────────────────────────────────────────────
 
 
-def analyse_citizen_risk(case: dict, decision: dict) -> CitizenRiskProfile:
-    """Compute a CitizenRiskProfile from a case dict and decision dict.
+def analyse_citizen_risk(
+    case: "Case",
+    citizen: "Citizen",
+    decision: Optional["Decision"],
+    prior_count: int = 0,
+) -> CitizenRiskProfile:
+    """Compute a CitizenRiskProfile from SQLAlchemy ORM objects.
 
-    Five weighted signals are evaluated:
-      1. Payment delay       (weight 0.30)
-      2. Deduction rate      (weight 0.25)
-      3. Income per member   (weight 0.20)
-      4. Previous reschedule (weight 0.15)
-      5. TRANSFER_ARREARS    (weight 0.10)
+    Evaluates nine weighted signals across financial distress, escalation
+    status, fraud indicators, expired identity, previous rescheduling history,
+    and Rule 1 governance cap violations.
 
-    Score >0.7 maps to HIGH, 0.4-0.7 to MEDIUM, <0.4 to LOW.
+    Score > 0.50 maps to HIGH, >= 0.20 to MEDIUM, < 0.20 to LOW.
     Never raises; returns a LOW risk profile on any exception.
     """
     try:
-        s1, f1 = _signal_payment_delay(case, decision)
-        s2, f2 = _signal_deduction_rate(decision)
-        s3, f3 = _signal_income_per_member(decision)
-        s4, f4 = _signal_previous_rescheduling(case)
-        s5, f5 = _signal_transfer_arrears(decision)
+        escalation_reason = decision.escalation_reason if decision else None
+
+        s1, f1 = _signal_hardship(decision)
+        s4, f4 = _signal_previous_rescheduling(prior_count)
+        s6, f6 = _signal_escalated(case.status)
+        s7, f7 = _signal_fraud(escalation_reason)
+        s8, f8 = _signal_expired_id(escalation_reason)
+        s9, f9 = _signal_rule1_forced_transfer(decision)
 
         score = round(min(
-            s1 * 0.30 + s2 * 0.25 + s3 * 0.20 + s4 * 0.15 + s5 * 0.10,
+            s1 * 0.30
+            + s4 * 0.15
+            + s6 * 0.40
+            + s7 * 0.50
+            + s8 * 0.30
+            + s9 * 0.25,
             1.0,
         ), 4)
 
-        if score > 0.70:
+        if score > 0.50:
             level = RiskLevel.HIGH
-        elif score >= 0.40:
+        elif score >= 0.20:
             level = RiskLevel.MEDIUM
         else:
             level = RiskLevel.LOW
 
         factors = sorted(
-            [f for f in [f1, f2, f3, f4, f5] if f is not None],
+            [f for f in [f1, f4, f6, f7, f8, f9] if f is not None],
             key=lambda f: f.severity,
             reverse=True,
         )
-        rec_en, rec_ar = _build_recommendation(level)
+        factor_codes = [f.factor_code for f in factors]
+        rec_en, rec_ar = _build_recommendation(level, factor_codes)
 
         return CitizenRiskProfile(
-            citizen_id=str(case.get("citizen_id", "")),
-            citizen_name_en=case.get("citizen_name_en") or "Unknown",
-            citizen_name_ar=case.get("citizen_name_ar") or "غير معروف",
-            emirates_id=case.get("emirates_id") or "",
+            citizen_id=str(case.citizen_id),
+            citizen_name_en=citizen.name_en,
+            citizen_name_ar=citizen.name_ar,
+            emirates_id=citizen.emirates_id,
             risk_level=level,
             risk_score=score,
             risk_factors=factors,
@@ -274,12 +277,16 @@ def analyse_citizen_risk(case: dict, decision: dict) -> CitizenRiskProfile:
             recommended_action_ar=rec_ar,
         )
     except Exception as exc:
-        logger.error("analyse_citizen_risk failed for case %s: %s", case.get("id"), exc)
+        logger.error(
+            "analyse_citizen_risk failed for case %s: %s",
+            getattr(case, "id", "unknown"),
+            exc,
+        )
         return CitizenRiskProfile(
-            citizen_id=str(case.get("citizen_id", "")),
-            citizen_name_en=case.get("citizen_name_en") or "Unknown",
-            citizen_name_ar=case.get("citizen_name_ar") or "غير معروف",
-            emirates_id=case.get("emirates_id") or "",
+            citizen_id=str(getattr(case, "citizen_id", "")),
+            citizen_name_en=getattr(citizen, "name_en", "Unknown"),
+            citizen_name_ar=getattr(citizen, "name_ar", "غير معروف"),
+            emirates_id=getattr(citizen, "emirates_id", ""),
             risk_level=RiskLevel.LOW,
             risk_score=0.0,
             risk_factors=[],
@@ -289,10 +296,11 @@ def analyse_citizen_risk(case: dict, decision: dict) -> CitizenRiskProfile:
 
 
 def analyse_all_citizens(db: Session) -> list[CitizenRiskProfile]:
-    """Load all active cases and return a list of CitizenRiskProfile sorted by risk_score desc.
+    """Load all active cases and return CitizenRiskProfile list sorted by risk_score desc.
 
-    Filters out cases with status rejected or closed.
-    Never raises; returns an empty list on any exception.
+    Filters out rejected and closed cases. Escalated cases without a decision
+    record are included via outerjoin. Never raises; returns an empty list on
+    any exception.
     """
     try:
         from sqlalchemy import func as sqlfunc
@@ -322,28 +330,9 @@ def analyse_all_citizens(db: Session) -> list[CitizenRiskProfile]:
 
         profiles: list[CitizenRiskProfile] = []
         for case_row, citizen_row, decision_row in rows:
-            case_dict: dict = {
-                "id": str(case_row.id),
-                "citizen_id": str(case_row.citizen_id),
-                "citizen_name_en": citizen_row.name_en,
-                "citizen_name_ar": citizen_row.name_ar,
-                "emirates_id": citizen_row.emirates_id,
-                "status": case_row.status,
-                "arrears_amount": case_row.arrears_amount,
-                "previous_rescheduling_count": prior_counts.get(str(case_row.citizen_id), 0),
-            }
-            decision_dict: dict = {}
-            if decision_row is not None:
-                decision_dict = {
-                    "approved_amount": decision_row.approved_amount,
-                    "duration_months": decision_row.duration_months,
-                    "monthly_instalment": decision_row.monthly_instalment,
-                    "hardship_score": decision_row.hardship_score,
-                    "escalate_flag": decision_row.escalate_flag,
-                    "escalation_reason": decision_row.escalation_reason,
-                    "confidence_score": decision_row.confidence_score,
-                }
-            profiles.append(analyse_citizen_risk(case_dict, decision_dict))
+            prior = prior_counts.get(str(case_row.citizen_id), 0)
+            profile = analyse_citizen_risk(case_row, citizen_row, decision_row, prior)
+            profiles.append(profile)
 
         profiles.sort(key=lambda p: p.risk_score, reverse=True)
         return profiles
