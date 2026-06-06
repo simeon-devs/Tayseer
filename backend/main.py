@@ -17,6 +17,7 @@ from backend.routers.documents import router as documents_router
 from backend.routers.letters import router as letters_router
 from backend.routers.verification import router as verification_router
 from backend.routers.rag import router as rag_router
+from backend.routers.risk import router as risk_router
 
 _UPLOADS_DIR = Path(__file__).resolve().parent / "uploads"
 
@@ -48,6 +49,7 @@ app.add_middleware(
 )
 
 app.include_router(rag_router)
+app.include_router(risk_router)
 app.include_router(documents_router)
 app.include_router(decisions_router)
 app.include_router(cases_router)
