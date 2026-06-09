@@ -189,6 +189,9 @@ def _build_query(profile: dict) -> str:
 def retrieve_rules(citizen_profile: dict) -> list[str]:
     """Retrieve the top 5 most relevant governance rules for a citizen financial profile.
 
+    Builds the ChromaDB index lazily on first call if it does not yet exist.
+    This allows the API to start without loading the BGE-M3 model at startup.
+
     Args:
         citizen_profile: A dict containing financial profile fields including
             monthly_income, existing_obligations, arrears_amount,
@@ -201,7 +204,12 @@ def retrieve_rules(citizen_profile: dict) -> list[str]:
     query_vector = embed_text(query)
 
     client = _get_client()
-    collection = client.get_collection(COLLECTION_NAME)
+    try:
+        collection = client.get_collection(COLLECTION_NAME)
+    except Exception:
+        from backend.rag.indexer import build_index
+        build_index()
+        collection = client.get_collection(COLLECTION_NAME)
 
     results = collection.query(
         query_embeddings=[query_vector],

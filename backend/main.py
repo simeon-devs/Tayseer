@@ -8,7 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from backend.config import settings
-from backend.rag.indexer import build_index, is_index_built
 from backend.routers.cases import router as cases_router
 from backend.routers.analytics import router as analytics_router
 from backend.routers.copilot import router as copilot_router
@@ -61,15 +60,14 @@ app.include_router(verification_router)
 
 @app.on_event("startup")
 async def on_startup() -> None:
-    """Print startup message, create uploads directory, and ensure the RAG index is ready."""
+    """Print startup message and create uploads directory.
+
+    The BGE-M3 embedding model and RAG index are not loaded here.
+    Both are initialised lazily on the first request that needs them.
+    """
     _UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
     print(f"Tayseer API is running | environment={settings.environment} | model={settings.ollama_model}")
-    if is_index_built():
-        print("Governance rules index already built. RAG pipeline ready.")
-    else:
-        print("Governance rules index not found. Building index now...")
-        build_index()
-        print("Governance rules index built successfully. RAG pipeline ready.")
+    print("BGE-M3 and RAG index will load on first request.")
 
 
 @app.get("/health", response_model=HealthResponse)
