@@ -163,6 +163,21 @@ const en: TranslationMap = {
   additional_info_required: 'Info Required',
   in_progress: 'In Progress',
   human_review_required: 'Human Review',
+  highRisk: 'High Risk',
+  mediumRisk: 'Medium Risk',
+  safeZone: 'Safe Zone',
+  highRiskDesc: 'Cases requiring immediate attention',
+  mediumRiskDesc: 'Cases under review for escalation',
+  safeZoneDesc: 'Cases with consistent payment history',
+  searchPlaceholder: 'Search reference, citizen, or Emirates ID...',
+  sortBy: 'Sort by',
+  lastAnalyzed: 'Last analyzed',
+  refreshBtn: 'Refresh',
+  showingEntries: 'Showing {start} to {end} of {total} entries',
+  noCasesMatch: 'No cases match your filters or search.',
+  resolutionSpeedup: 'AI Resolution Speedup',
+  fasterProcessing: 'faster than manual processing',
+  speedupSubtitle: 'Tayseer AI automation performance comparison',
 };
 
 const ar: TranslationMap = {
@@ -326,6 +341,21 @@ const ar: TranslationMap = {
   additional_info_required: 'مطلوب معلومات',
   in_progress: 'قيد المعالجة',
   human_review_required: 'مراجعة بشرية',
+  highRisk: 'مخاطر عالية',
+  mediumRisk: 'مخاطر متوسطة',
+  safeZone: 'المنطقة الآمنة',
+  highRiskDesc: 'طلبات تتطلب اهتماماً فورياً',
+  mediumRiskDesc: 'طلبات قيد المراجعة للإحالة',
+  safeZoneDesc: 'طلبات ذات تاريخ دفع متسق',
+  searchPlaceholder: 'البحث عن الرقم المرجعي أو المواطن أو الهوية الإماراتية...',
+  sortBy: 'ترتيب حسب',
+  lastAnalyzed: 'آخر تحليل',
+  refreshBtn: 'تحديث',
+  showingEntries: 'عرض {start} إلى {end} من أصل {total} مدخلات',
+  noCasesMatch: 'لا توجد طلبات تطابق عوامل التصفية أو البحث.',
+  resolutionSpeedup: 'تسريع وقت الحل عبر الذكاء الاصطناعي',
+  fasterProcessing: 'أسرع من المعالجة اليدوية',
+  speedupSubtitle: 'مقارنة أداء أتمتة الذكاء الاصطناعي تيسير',
 };
 
 export const translations: Record<Lang, TranslationMap> = { en, ar };
