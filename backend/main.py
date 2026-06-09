@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from backend.config import settings
+from backend.routers.admin import router as admin_router
 from backend.routers.cases import router as cases_router
 from backend.routers.analytics import router as analytics_router
 from backend.routers.copilot import router as copilot_router
@@ -47,6 +48,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(admin_router, prefix="/api/admin")
 app.include_router(rag_router)
 app.include_router(risk_router)
 app.include_router(documents_router)
