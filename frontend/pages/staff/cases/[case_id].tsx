@@ -55,11 +55,71 @@ export default function StaffCaseDetail() {
 
           {!loading && !error && detail && (
             <div className="space-y-5">
+              {decision && (
+                <div className={`rounded-2xl p-5 border flex items-start gap-4 ${
+                  decision.final_recommendation === 'Approve' 
+                    ? 'bg-emerald-50 border-emerald-200/60 text-emerald-950' 
+                    : decision.final_recommendation === 'Request_documents'
+                    ? 'bg-blue-50 border-blue-200/60 text-blue-950'
+                    : 'bg-amber-50 border-amber-200/60 text-amber-950'
+                }`}>
+                  <div className={`p-2.5 rounded-xl ${
+                    decision.final_recommendation === 'Approve' 
+                      ? 'bg-emerald-100 text-emerald-700' 
+                      : decision.final_recommendation === 'Request_documents'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-amber-100 text-amber-700'
+                  }`}>
+                    {decision.final_recommendation === 'Approve' ? (
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    ) : decision.final_recommendation === 'Request_documents' ? (
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="font-extrabold text-sm uppercase tracking-wide">
+                        {t('finalRecommendation')}:
+                      </h4>
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                        decision.final_recommendation === 'Approve'
+                          ? 'bg-emerald-200 text-emerald-800'
+                          : decision.final_recommendation === 'Request_documents'
+                          ? 'bg-blue-200 text-blue-800'
+                          : 'bg-amber-200 text-amber-800'
+                      }`}>
+                        {t(decision.final_recommendation ?? '')}
+                      </span>
+                    </div>
+                    <p className="text-xs font-semibold mt-1 opacity-90 leading-relaxed">
+                      {decision.case_summary || (lang === 'ar' ? decision.rationale_ar : decision.rationale_en)}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div>
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <StatusBadge status={detail.case.status} />
+                      {decision && (
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${
+                          decision.application_status === 'Complete'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200/50'
+                            : 'bg-rose-50 text-rose-700 border-rose-200/50'
+                        }`}>
+                          {t('applicationStatus')}: {t(decision.application_status ?? '')}
+                        </span>
+                      )}
                       <span className="text-xs text-gray-400 font-mono">
                         {(case_id as string).split('-')[0].toUpperCase()}
                       </span>
@@ -126,6 +186,28 @@ export default function StaffCaseDetail() {
                     />
                   )}
                 </div>
+
+                {decision && (
+                  <div className="mt-6 pt-6 border-t border-gray-100">
+                    <h3 className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider">
+                      {lang === 'ar' ? 'مقاييس المتأخرات الداخلية' : 'Internal Arrears Metrics'}
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <Metric
+                        label={t('outstandingPrincipal')}
+                        value={decision.outstanding_principal != null ? `${t('aed')} ${decision.outstanding_principal.toLocaleString('en-AE')}` : '—'}
+                      />
+                      <Metric
+                        label={t('unpaidInstalments')}
+                        value={decision.total_unpaid_instalments != null ? `${decision.total_unpaid_instalments}` : '—'}
+                      />
+                      <Metric
+                        label={t('remainingPeriod')}
+                        value={decision.remaining_months != null ? `${decision.remaining_months} ${t('months')}` : '—'}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {decision && (

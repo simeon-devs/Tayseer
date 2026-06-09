@@ -45,10 +45,15 @@ export default function DecisionScreen() {
 type StatusVariant = 'approved' | 'rejected' | 'escalated' | 'additional_info' | 'in_progress';
 
 function resolveVariant(caseStatus: string, decision: DecisionOutput | undefined): StatusVariant {
-  if (caseStatus === 'approved' || (decision && !decision.escalate_flag)) return 'approved';
+  if (decision && decision.final_recommendation) {
+    if (decision.final_recommendation === 'Approve') return 'approved';
+    if (decision.final_recommendation === 'Request_documents') return 'additional_info';
+    if (decision.final_recommendation === 'Refer_to_employee') return 'escalated';
+  }
+  if (caseStatus === 'approved') return 'approved';
   if (caseStatus === 'rejected') return 'rejected';
   if (caseStatus === 'additional_info_required') return 'additional_info';
-  if (caseStatus === 'escalated' || (decision && decision.escalate_flag)) return 'escalated';
+  if (caseStatus === 'escalated') return 'escalated';
   return 'in_progress';
 }
 
@@ -101,6 +106,9 @@ function DecisionCard({ detail, caseId }: { detail: CaseDetailResponse; caseId: 
           value={lang === 'ar' ? citizen.name_ar : citizen.name_en}
         />
         <InfoRow label={t('emiratesId')} value={citizen.emirates_id} mono />
+        {decision && decision.application_status && (
+          <InfoRow label={t('applicationStatus')} value={t(decision.application_status ?? '')} />
+        )}
       </div>
 
       {variant === 'approved' && decision && (
