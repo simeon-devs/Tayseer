@@ -1,0 +1,44 @@
+databases:
+  - name: tayseer-db
+    databaseName: arrears_db
+    user: arrears_user
+    plan: free
+
+services:
+  - type: web
+    name: tayseer-api
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    port: 8000
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tayseer-db
+          property: connectionString
+      - key: CHROMADB_URL
+        value: http://tayseer-chromadb:8000
+      - key: LLM_PROVIDER
+        value: together
+      - key: TOGETHER_API_KEY
+        sync: false
+      - key: TOGETHER_MODEL
+        value: Qwen/Qwen2.5-7B-Instruct-Turbo
+      - key: OLLAMA_URL
+        value: http://localhost:11434
+      - key: OLLAMA_MODEL
+        value: qwen2.5:14b
+      - key: BACKEND_HOST
+        value: "0.0.0.0"
+      - key: BACKEND_PORT
+        value: "8000"
+
+  - type: pserv
+    name: tayseer-chromadb
+    env: docker
+    image:
+      url: docker.io/chromadb/chroma:latest
+    port: 8000
+    plan: free

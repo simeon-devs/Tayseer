@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: arrears_db
+      POSTGRES_USER: arrears_user
+      POSTGRES_PASSWORD: arrears_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U arrears_user -d arrears_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  chromadb:
+    image: chromadb/chroma:latest
+    volumes:
+      - chromadb_data:/chroma/chroma
+
+  fastapi:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      CHROMADB_URL: ${CHROMADB_URL}
+      LLM_PROVIDER: ${LLM_PROVIDER}
+      TOGETHER_API_KEY: ${TOGETHER_API_KEY}
+      TOGETHER_MODEL: ${TOGETHER_MODEL}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      BACKEND_HOST: "0.0.0.0"
+      BACKEND_PORT: "8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+
+volumes:
+  postgres_data:
+  chromadb_data:

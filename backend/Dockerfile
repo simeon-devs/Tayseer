@@ -21,6 +21,8 @@ COPY . /workspace/backend/
 
 ENV PYTHONPATH=/workspace
 
+EXPOSE 8000
+
 RUN chmod +x /workspace/backend/start.sh
 
 ENTRYPOINT ["/workspace/backend/start.sh"]
