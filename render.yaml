@@ -34,6 +34,8 @@ services:
         value: "0.0.0.0"
       - key: BACKEND_PORT
         value: "8000"
+      - key: DISABLE_LOCAL_EMBEDDINGS
+        value: "true"
 
   - type: pserv
     name: tayseer-chromadb

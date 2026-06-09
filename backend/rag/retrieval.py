@@ -189,8 +189,12 @@ def _build_query(profile: dict) -> str:
 def retrieve_rules(citizen_profile: dict) -> list[str]:
     """Retrieve the top 5 most relevant governance rules for a citizen financial profile.
 
+    Returns an empty list immediately when DISABLE_LOCAL_EMBEDDINGS=true so that
+    the BGE-M3 model and ChromaDB are never touched on memory-constrained deployments.
+    The decision engine applies governance rules mathematically and the LLM handles
+    reasoning, so an empty RAG result is safe on cloud deployments.
+
     Builds the ChromaDB index lazily on first call if it does not yet exist.
-    This allows the API to start without loading the BGE-M3 model at startup.
 
     Args:
         citizen_profile: A dict containing financial profile fields including
@@ -198,8 +202,12 @@ def retrieve_rules(citizen_profile: dict) -> list[str]:
             delay_duration_months, and optional signal flags.
 
     Returns:
-        A list of up to 5 rule text strings ordered by relevance.
+        A list of up to 5 rule text strings ordered by relevance, or [] if disabled.
     """
+    import os
+    if os.environ.get("DISABLE_LOCAL_EMBEDDINGS", "").lower() == "true":
+        return []
+
     query = _build_query(citizen_profile)
     query_vector = embed_text(query)
 
