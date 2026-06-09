@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     fonts-noto-core \
     && rm -rf /var/lib/apt/lists/*
 
+# requirements.txt is the cloud-safe set (no sentence-transformers / torch).
+# For local development with BGE-M3 embeddings use requirements-local.txt instead.
 COPY requirements.txt /workspace/requirements.txt
 RUN pip install --no-cache-dir -r /workspace/requirements.txt
 

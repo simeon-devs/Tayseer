@@ -13,11 +13,12 @@ from __future__ import annotations
 
 import os
 
-from sentence_transformers import SentenceTransformer
-
 MODEL_NAME = "BAAI/bge-m3"
 
-_model: SentenceTransformer | None = None
+# Typed as object so sentence_transformers is never imported at module level.
+# The library (and its torch/transformers deps) only load inside _get_model()
+# when actually needed, keeping the cloud container footprint minimal.
+_model: object | None = None
 
 
 def _embeddings_disabled() -> bool:
@@ -25,10 +26,16 @@ def _embeddings_disabled() -> bool:
     return os.environ.get("DISABLE_LOCAL_EMBEDDINGS", "").lower() == "true"
 
 
-def _get_model() -> SentenceTransformer:
-    """Return the cached BGE-M3 model, loading it on first call."""
+def _get_model() -> object:
+    """Return the cached BGE-M3 model, loading it on first call.
+
+    sentence_transformers (and torch) are imported here rather than at module
+    level so that the ~1 GB library is never loaded in cloud deployments where
+    DISABLE_LOCAL_EMBEDDINGS=true means this function is never reached.
+    """
     global _model
     if _model is None:
+        from sentence_transformers import SentenceTransformer  # noqa: PLC0415
         _model = SentenceTransformer(MODEL_NAME)
     return _model
 

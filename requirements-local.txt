@@ -1,0 +1,7 @@
+# Local development requirements.
+# Extends requirements.txt with heavy ML libraries needed for the BGE-M3
+# RAG pipeline when running on local hardware (MacBook M4 / Raspberry Pi).
+# Do NOT install this on cloud deployments. The Dockerfile uses requirements.txt
+# only. Set DISABLE_LOCAL_EMBEDDINGS=true on any deployment that omits these.
+-r requirements.txt
+sentence-transformers
