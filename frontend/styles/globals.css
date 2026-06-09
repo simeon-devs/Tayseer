@@ -25,8 +25,16 @@
     @apply bg-white text-primary font-semibold py-3 px-6 rounded-lg border border-primary hover:bg-surface transition-colors;
   }
 
+  .btn-gold {
+    @apply bg-gold text-white font-semibold py-2.5 px-5 rounded-lg hover:bg-gold-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-[0.98];
+  }
+
+  .btn-gold-secondary {
+    @apply bg-white text-gray-700 font-semibold py-2.5 px-5 rounded-lg border border-gray-300 hover:bg-gray-50 transition-all duration-200 shadow-sm flex items-center justify-center gap-2 active:scale-[0.98];
+  }
+
   .form-input {
-    @apply w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all;
+    @apply w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all;
   }
 
   .form-label {
@@ -37,3 +45,9 @@
     @apply text-red-600 text-sm mt-1;
   }
 }
+
+/* Custom styles for animations and layout */
+.accordion-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
