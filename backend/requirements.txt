@@ -1,4 +1,5 @@
 fastapi
+jinja2
 uvicorn[standard]
 sqlalchemy
 alembic
@@ -16,7 +17,6 @@ weasyprint
 arabic-reshaper
 python-bidi
 instructor
-openai
 ollama
 python-dotenv
 qrcode[pil]

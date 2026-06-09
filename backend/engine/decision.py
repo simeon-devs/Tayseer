@@ -7,11 +7,8 @@ LLM call via Instructor, monthly_instalment recalculation, database write, and a
 from __future__ import annotations
 
 import logging
-import os
 import uuid
 
-import instructor
-from openai import OpenAI
 from sqlalchemy.orm import Session
 
 from backend.engine.escalation import (
@@ -21,6 +18,7 @@ from backend.engine.escalation import (
     check_hard_escalations,
     determine_request_type,
 )
+from backend.engine.llm_client import call_llm
 from backend.engine.prompts import DECISION_SYSTEM_PROMPT, build_decision_prompt
 from backend.models.audit_log import AuditLog
 from backend.models.case import Case
@@ -84,20 +82,6 @@ def validate_rationale_languages(output: DecisionOutput) -> tuple[bool, list[str
     return len(issues) == 0, issues
 
 
-def _get_instructor_client() -> instructor.Instructor:
-    """Build an Instructor-patched OpenAI client pointing at the Ollama endpoint."""
-    ollama_url = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-    return instructor.from_openai(
-        OpenAI(base_url=f"{ollama_url}/v1", api_key="ollama"),
-        mode=instructor.Mode.JSON,
-    )
-
-
-def _get_model() -> str:
-    """Return the Ollama model name from environment."""
-    return os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
-
-
 def _call_llm(
     citizen_profile: dict,
     retrieved_rules: list[str],
@@ -111,21 +95,10 @@ def _call_llm(
     language validation failure.
     """
     try:
-        client = _get_instructor_client()
         user_prompt = build_decision_prompt(citizen_profile, retrieved_rules)
         if extra_instruction:
             user_prompt = f"{user_prompt}\n\nCRITICAL: {extra_instruction}"
-        result: DecisionOutput = client.chat.completions.create(
-            model=_get_model(),
-            messages=[
-                {"role": "system", "content": DECISION_SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
-            ],
-            response_model=DecisionOutput,
-            max_retries=2,
-            temperature=0.1,
-        )
-        return result
+        return call_llm(DECISION_SYSTEM_PROMPT, user_prompt, DecisionOutput)
     except Exception as exc:
         logger.error("LLM decision call failed: %s", exc)
         return DecisionOutput(

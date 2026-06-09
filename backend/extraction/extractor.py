@@ -8,11 +8,8 @@ Never hardcodes the model name or URL.
 from __future__ import annotations
 
 import logging
-import os
 
-import instructor
-from openai import OpenAI
-
+from backend.engine.llm_client import call_llm
 from backend.extraction.ocr import extract_text
 from backend.schemas.documents import (
     BankStatement,
@@ -77,23 +74,6 @@ Rules:
 # Internal helpers
 # ---------------------------------------------------------------------------
 
-def _get_client() -> instructor.Instructor:
-    """Build an Instructor-patched OpenAI client pointing at the local Ollama endpoint."""
-    ollama_url = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-    return instructor.from_openai(
-        OpenAI(
-            base_url=f"{ollama_url}/v1",
-            api_key="ollama",
-        ),
-        mode=instructor.Mode.JSON,
-    )
-
-
-def _get_model() -> str:
-    """Return the Ollama model name from the environment."""
-    return os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
-
-
 # ---------------------------------------------------------------------------
 # Per-document-type extraction functions
 # ---------------------------------------------------------------------------
@@ -104,16 +84,7 @@ def extract_salary_certificate(ocr_text: str) -> SalaryCertificate:
     Returns an empty SalaryCertificate (all None fields) if the LLM call fails.
     """
     try:
-        client = _get_client()
-        return client.chat.completions.create(
-            model=_get_model(),
-            messages=[
-                {"role": "system", "content": SALARY_CERT_PROMPT},
-                {"role": "user", "content": f"OCR text:\n\n{ocr_text}"},
-            ],
-            response_model=SalaryCertificate,
-            max_retries=2,
-        )
+        return call_llm(SALARY_CERT_PROMPT, f"OCR text:\n\n{ocr_text}", SalaryCertificate)
     except Exception as exc:
         logger.warning("Salary certificate extraction failed: %s", exc)
         return SalaryCertificate()
@@ -125,16 +96,7 @@ def extract_bank_statement(ocr_text: str) -> BankStatement:
     Returns an empty BankStatement (all None fields) if the LLM call fails.
     """
     try:
-        client = _get_client()
-        return client.chat.completions.create(
-            model=_get_model(),
-            messages=[
-                {"role": "system", "content": BANK_STATEMENT_PROMPT},
-                {"role": "user", "content": f"OCR text:\n\n{ocr_text}"},
-            ],
-            response_model=BankStatement,
-            max_retries=2,
-        )
+        return call_llm(BANK_STATEMENT_PROMPT, f"OCR text:\n\n{ocr_text}", BankStatement)
     except Exception as exc:
         logger.warning("Bank statement extraction failed: %s", exc)
         return BankStatement()
@@ -146,16 +108,7 @@ def extract_emirates_id(ocr_text: str) -> EmiratesID:
     Returns an empty EmiratesID (all None fields) if the LLM call fails.
     """
     try:
-        client = _get_client()
-        return client.chat.completions.create(
-            model=_get_model(),
-            messages=[
-                {"role": "system", "content": EMIRATES_ID_PROMPT},
-                {"role": "user", "content": f"OCR text:\n\n{ocr_text}"},
-            ],
-            response_model=EmiratesID,
-            max_retries=2,
-        )
+        return call_llm(EMIRATES_ID_PROMPT, f"OCR text:\n\n{ocr_text}", EmiratesID)
     except Exception as exc:
         logger.warning("Emirates ID extraction failed: %s", exc)
         return EmiratesID()
