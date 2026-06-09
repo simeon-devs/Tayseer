@@ -8,9 +8,9 @@ services:
   - type: web
     name: tayseer-api
     env: docker
+    region: oregon
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    port: 8000
     healthCheckPath: /health
     plan: free
     envVars:
@@ -38,7 +38,7 @@ services:
   - type: pserv
     name: tayseer-chromadb
     env: docker
+    region: oregon
     image:
       url: docker.io/chromadb/chroma:latest
-    port: 8000
     plan: free
