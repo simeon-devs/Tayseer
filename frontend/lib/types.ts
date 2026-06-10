@@ -63,6 +63,8 @@ export interface DecisionOutput {
   outstanding_principal?: number;
   total_unpaid_instalments?: number;
   remaining_months?: number;
+  proposed_extension_months?: number;
+  proposed_extension_amount?: number;
 }
 
 export interface CaseDetailResponse {

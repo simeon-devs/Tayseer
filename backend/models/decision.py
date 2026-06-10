@@ -32,6 +32,8 @@ class Decision(Base):
     rationale_ar: Mapped[str | None] = mapped_column(Text, nullable=True)
     rules_applied: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
     confidence_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    proposed_extension_months: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    proposed_extension_amount: Mapped[float | None] = mapped_column(Float, nullable=True)
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

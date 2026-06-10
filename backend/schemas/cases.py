@@ -111,6 +111,23 @@ class AnalyticsSummary(BaseModel):
     after_avg_seconds: float
 
 
+class AcceptProposalRequest(BaseModel):
+    """Request body for POST /api/cases/:id/accept-proposal."""
+
+    extension_months: int = Field(..., description="Number of months for the accepted repayment extension")
+    monthly_amount: float = Field(..., description="Accepted monthly payment amount in AED")
+    start_date: str = Field(..., description="Proposed repayment start date in ISO format e.g. 2026-07-10")
+    performed_by: str = Field(default="staff", description="ID of the staff officer accepting the proposal")
+
+
+class AcceptProposalResponse(BaseModel):
+    """Response from POST /api/cases/:id/accept-proposal."""
+
+    status: str
+    message: str
+    case_id: str
+
+
 class VerificationResponse(BaseModel):
     """Public document verification response returned by GET /api/verify/:case_uuid."""
 

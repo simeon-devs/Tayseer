@@ -7,6 +7,7 @@ LLM call via Instructor, monthly_instalment recalculation, database write, and a
 from __future__ import annotations
 
 import logging
+import math
 import uuid
 
 from sqlalchemy.orm import Session
@@ -146,6 +147,8 @@ def _write_decision_to_db(
             rationale_ar=output.rationale_ar,
             rules_applied=output.rules_applied,
             confidence_score=output.confidence_score,
+            proposed_extension_months=output.proposed_extension_months,
+            proposed_extension_amount=output.proposed_extension_amount,
         )
         db.add(decision_row)
 
@@ -215,6 +218,57 @@ def _derive_recommendation_fields(
         "total_unpaid_instalments": profile.number_of_unpaid_instalments,
         "remaining_months": profile.remaining_loan_period_months,
     })
+
+
+def _compute_extension_escalation(
+    profile: CitizenFinancialProfile,
+    output: DecisionOutput,
+) -> DecisionOutput | None:
+    """Return an extension escalation when arrears cannot be cleared within the remaining loan period.
+
+    Fires only when the months needed to repay arrears at the maximum 20 percent deduction rate
+    exceeds remaining_loan_period_months. Returns a new escalation DecisionOutput with
+    proposed_extension_months and proposed_extension_amount populated so the staff officer
+    can review, accept, or edit the plan. Returns None when no extension is needed.
+
+    This is the only path that produces an extension escalation. Rule 3 duplicate request
+    rejections are handled separately in decisions.py and are not affected by this function.
+    """
+    if profile.remaining_loan_period_months is None or profile.monthly_income <= 0:
+        return None
+
+    max_monthly_deduction = round(profile.monthly_income * 0.20, 2)
+    if max_monthly_deduction <= 0 or profile.arrears_amount <= 0:
+        return None
+
+    months_needed = math.ceil(profile.arrears_amount / max_monthly_deduction)
+
+    if months_needed <= profile.remaining_loan_period_months:
+        return None
+
+    escalation_reason = (
+        f"Arrears cannot be accommodated within the remaining loan period under the 20 percent "
+        f"deduction cap. Proposed extension: {months_needed} months at "
+        f"{max_monthly_deduction:,.2f} AED per month based on maximum allowable deduction. "
+        f"Senior officer review required to approve extended repayment plan."
+    )
+    logger.warning(
+        "Extension escalation: %d months needed vs %d remaining for case arrears %.2f",
+        months_needed,
+        profile.remaining_loan_period_months,
+        profile.arrears_amount,
+    )
+    return DecisionOutput(
+        escalate_flag=True,
+        escalation_reason=escalation_reason,
+        hardship_score=output.hardship_score,
+        rationale_en=escalation_reason,
+        rationale_ar=f"{_ARABIC_ESCALATION_PREFIX}{escalation_reason}",
+        rules_applied=["RULE1", "RULE2"],
+        confidence_score=1.0,
+        proposed_extension_months=months_needed,
+        proposed_extension_amount=max_monthly_deduction,
+    )
 
 
 def _apply_governance_rules(
@@ -369,6 +423,11 @@ def make_decision(
 
             # Apply official governance rule post-processing
             output = _apply_governance_rules(profile, output)
+
+            # Replace with extension escalation if arrears cannot be repaid within remaining period
+            extension = _compute_extension_escalation(profile, output)
+            if extension is not None:
+                output = extension
 
         # Step 5: recalculate monthly_instalment server-side
         monthly_instalment: float | None = None

@@ -121,3 +121,21 @@ export async function listCitizenRisks(level?: string): Promise<CitizenRiskProfi
 export async function getCitizenRisk(citizenId: string): Promise<CitizenRiskProfile> {
   return apiFetch<CitizenRiskProfile>(`/api/risk/citizens/${citizenId}`);
 }
+
+export async function acceptProposal(
+  caseId: string,
+  extensionMonths: number,
+  monthlyAmount: number,
+  startDate: string,
+  performedBy: string = 'staff',
+): Promise<{ status: string; message: string; case_id: string }> {
+  return apiFetch(`/api/cases/${caseId}/accept-proposal`, {
+    method: 'POST',
+    body: JSON.stringify({
+      extension_months: extensionMonths,
+      monthly_amount: monthlyAmount,
+      start_date: startDate,
+      performed_by: performedBy,
+    }),
+  });
+}

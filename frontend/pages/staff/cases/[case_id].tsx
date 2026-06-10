@@ -8,6 +8,7 @@ import OverrideModal from '../../../components/staff/OverrideModal';
 import CopilotPanel from '../../../components/staff/CopilotPanel';
 import { useLang } from '../../../lib/LanguageContext';
 import { getCase, getCitizenRisk, letterUrl } from '../../../lib/api';
+import ProposedPlanPanel from '../../../components/staff/ProposedPlanPanel';
 import type { CaseDetailResponse, CitizenRiskProfile } from '../../../lib/types';
 
 export default function StaffCaseDetail() {
@@ -314,6 +315,18 @@ export default function StaffCaseDetail() {
                     )}
                   </div>
                 </>
+              )}
+
+              {decision && decision.escalation_reason?.includes('Proposed extension') &&
+               decision.proposed_extension_months != null &&
+               decision.proposed_extension_amount != null && (
+                <ProposedPlanPanel
+                  caseId={case_id as string}
+                  extensionMonths={decision.proposed_extension_months}
+                  extensionAmount={decision.proposed_extension_amount}
+                  lang={lang}
+                  onAccepted={() => getCase(case_id as string).then(setDetail).catch(() => {})}
+                />
               )}
 
               {/* Risk Intelligence Panel */}

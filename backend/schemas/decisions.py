@@ -65,6 +65,8 @@ class DecisionOutput(BaseModel):
     outstanding_principal: Optional[float] = Field(None, description="Remaining loan balance in AED from citizen profile")
     total_unpaid_instalments: Optional[int] = Field(None, description="Number of missed monthly payments from citizen profile")
     remaining_months: Optional[int] = Field(None, description="Remaining loan period in months from citizen profile")
+    proposed_extension_months: Optional[int] = Field(None, description="Months needed to clear arrears at maximum allowable deduction; populated on extension escalation")
+    proposed_extension_amount: Optional[float] = Field(None, description="Maximum allowable monthly deduction in AED; the proposed monthly payment for the extension plan")
 
 
 class DecisionRequest(BaseModel):

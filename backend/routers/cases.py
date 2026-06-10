@@ -21,6 +21,8 @@ from backend.models.citizen import Citizen
 from backend.models.decision import Decision
 from backend.models.override import Override
 from backend.schemas.cases import (
+    AcceptProposalRequest,
+    AcceptProposalResponse,
     CaseCreateRequest,
     CaseDetailResponse,
     CaseResponse,
@@ -65,6 +67,8 @@ def _decision_to_output(decision: Decision) -> DecisionOutput:
         rationale_ar=decision.rationale_ar or "",
         rules_applied=decision.rules_applied or [],
         confidence_score=decision.confidence_score or 0.0,
+        proposed_extension_months=decision.proposed_extension_months,
+        proposed_extension_amount=decision.proposed_extension_amount,
     )
 
 
@@ -439,4 +443,79 @@ async def update_case_status(
         raise HTTPException(
             status_code=500,
             detail=ErrorResponse(message="Failed to update case status", detail=str(exc)).model_dump(),
+        )
+
+
+@router.post("/cases/{case_id}/accept-proposal", response_model=AcceptProposalResponse)
+async def accept_proposal(
+    case_id: str,
+    body: AcceptProposalRequest,
+    db: Session = Depends(get_db),
+) -> AcceptProposalResponse:
+    """Accept or edit the AI-proposed extension plan and approve the case.
+
+    Sets case status to approved, records the accepted repayment terms on the
+    decision row, and writes an audit log entry with the officer's details and
+    the agreed start date.
+    """
+    try:
+        case_uuid = uuid_lib.UUID(case_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail=ErrorResponse(message="Invalid case ID format", code="VALIDATION_ERROR").model_dump(),
+        )
+
+    try:
+        case = (
+            db.query(Case)
+            .options(selectinload(Case.decision))
+            .filter(Case.id == case_uuid)
+            .first()
+        )
+        if not case:
+            raise HTTPException(
+                status_code=404,
+                detail=ErrorResponse(message="Case not found", code="CASE_NOT_FOUND").model_dump(),
+            )
+
+        case.status = "approved"
+
+        if case.decision:
+            case.decision.approved_amount = round(body.extension_months * body.monthly_amount, 2)
+            case.decision.duration_months = body.extension_months
+            case.decision.monthly_instalment = round(body.monthly_amount, 2)
+
+        audit = AuditLog(
+            case_id=case.id,
+            action="proposal_accepted",
+            performed_by=body.performed_by,
+            details={
+                "extension_months": body.extension_months,
+                "monthly_amount": body.monthly_amount,
+                "start_date": body.start_date,
+                "total_plan_value": round(body.extension_months * body.monthly_amount, 2),
+            },
+        )
+        db.add(audit)
+        db.commit()
+
+        logger.info(
+            "Proposal accepted for case %s: %d months at %.2f AED starting %s by %s",
+            case_id, body.extension_months, body.monthly_amount, body.start_date, body.performed_by,
+        )
+        return AcceptProposalResponse(
+            status="accepted",
+            message=f"Proposed plan accepted. Case approved: {body.extension_months} months at AED {body.monthly_amount:,.2f}/month starting {body.start_date}.",
+            case_id=case_id,
+        )
+
+    except HTTPException:
+        raise
+    except Exception as exc:
+        db.rollback()
+        logger.error("accept_proposal failed for case %s: %s", case_id, exc)
+        raise HTTPException(
+            status_code=500,
+            detail=ErrorResponse(message="Failed to accept proposal", detail=str(exc)).model_dump(),
         )
