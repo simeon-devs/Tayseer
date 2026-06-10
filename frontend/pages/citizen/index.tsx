@@ -200,9 +200,10 @@ export default function CitizenIntake() {
       const rawProfile: CitizenFinancialProfile = {
         monthly_income: Number(financial.monthlyIncome),
         existing_obligations: Number(financial.existingObligations),
-        arrears_amount: Number(financial.arrearsAmount),
+        arrears_amount: Math.round(Number(financial.arrearsAmount)),
         delay_duration_months: Number(financial.delayDuration),
         missing_documents: missingDocs,
+        reason_for_request: financial.reason.trim() || undefined,
         has_expired_id: false,
         original_loan_amount: financial.originalLoanAmount ? Number(financial.originalLoanAmount) : undefined,
         remaining_loan_balance: financial.remainingLoanBalance ? Number(financial.remainingLoanBalance) : undefined,

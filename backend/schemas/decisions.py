@@ -37,6 +37,7 @@ class CitizenFinancialProfile(BaseModel):
     is_unemployed: Optional[bool] = Field(default=False, description="True if citizen is currently unemployed")
     has_temporary_circumstance: Optional[bool] = Field(default=False, description="True if hardship is due to a temporary circumstance")
     temporary_circumstance_description: Optional[str] = Field(default=None, description="Description of the temporary circumstance causing hardship")
+    reason_for_request: Optional[str] = Field(default=None, description="Citizen's own written explanation of their hardship situation")
 
 
 class DecisionOutput(BaseModel):
