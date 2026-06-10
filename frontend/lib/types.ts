@@ -172,4 +172,5 @@ export interface CitizenFinancialProfile {
   is_unemployed?: boolean;
   has_temporary_circumstance?: boolean;
   temporary_circumstance_description?: string;
+  social_status?: string;
 }

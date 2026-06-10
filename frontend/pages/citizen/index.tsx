@@ -13,12 +13,12 @@ const EMIRATES_ID_RE = /^784-\d{4}-\d{7}-\d$/;
 const REQUIRED_DOCS = ['salary_certificate', 'bank_statement', 'emirates_id'] as const;
 
 const emptyPersonal: PersonalData = {
-  nameAr: '', nameEn: '', emiratesId: '', phone: '', email: '',
+  nameAr: '', nameEn: '', emiratesId: '', phone: '', email: '', socialStatus: 'Standard',
 };
 const emptyFinancial: FinancialData = {
   monthlyIncome: '', existingObligations: '', arrearsAmount: '', delayDuration: '3', reason: '',
-  originalLoanAmount: '', remainingLoanBalance: '', remainingLoanPeriod: '', unpaidInstalments: '',
-  numberOfFamilyMembers: '1',
+  originalLoanAmount: '', remainingLoanBalance: '', remainingLoanPeriod: '',
+  numberOfFamilyMembers: '1', isUnemployed: '', hasTemporaryCircumstance: '', temporaryCircumstanceDescription: '',
 };
 
 function sanitizeProfile(profile: CitizenFinancialProfile): CitizenFinancialProfile {
@@ -207,13 +207,15 @@ export default function CitizenIntake() {
         delay_duration_months: Number(financial.delayDuration),
         missing_documents: missingDocs,
         has_expired_id: false,
-        is_unemployed: false,
-        has_temporary_circumstance: false,
+        is_unemployed: financial.isUnemployed === 'true',
+        has_temporary_circumstance: financial.hasTemporaryCircumstance === 'true',
+        temporary_circumstance_description: financial.hasTemporaryCircumstance === 'true' ? financial.temporaryCircumstanceDescription || undefined : undefined,
         original_loan_amount: financial.originalLoanAmount ? Number(financial.originalLoanAmount) : undefined,
         remaining_loan_balance: financial.remainingLoanBalance ? Number(financial.remainingLoanBalance) : undefined,
         remaining_loan_period_months: financial.remainingLoanPeriod ? Number(financial.remainingLoanPeriod) : undefined,
-        number_of_unpaid_instalments: financial.unpaidInstalments ? Number(financial.unpaidInstalments) : undefined,
+        number_of_unpaid_instalments: Number(financial.delayDuration),
         number_of_family_members: financial.numberOfFamilyMembers ? Number(financial.numberOfFamilyMembers) : 1,
+        social_status: personal.socialStatus || 'Standard',
       };
       const profile = sanitizeProfile(rawProfile);
       console.log('[Tayseer] Decision profile payload:', JSON.stringify(profile, null, 2));

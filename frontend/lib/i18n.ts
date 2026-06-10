@@ -203,6 +203,20 @@ const en: TranslationMap = {
   Approve: 'Approve',
   Request_documents: 'Request Documents',
   Refer_to_employee: 'Refer to Employee',
+  delayDurationInput: 'Number of months since payments fell behind',
+  delayDurationInputHint: 'Enter the exact number of months',
+  isUnemployed: 'I am currently unemployed',
+  unemployedNote: 'Unemployed beneficiaries automatically qualify for arrears transfer with no additional monthly payment',
+  hasTemporaryCircumstance: 'I have a temporary circumstance such as medical treatment abroad or official government assignment',
+  temporaryCircumstanceDescription: 'Please describe your circumstance',
+  socialStatus: 'Social Status',
+  socialStatusStandard: 'Standard',
+  socialStatusSenior: 'Senior Citizen',
+  socialStatusWidow: 'Widow',
+  socialStatusDivorced: 'Divorced',
+  socialStatusPOD: 'Person of Determination',
+  socialStatusMarriedNonCitizen: 'Married to Non-Citizen',
+  leaveBlankIfUnknown: 'Leave blank if unknown',
 };
 
 const ar: TranslationMap = {
@@ -406,6 +420,20 @@ const ar: TranslationMap = {
   Approve: 'موافق',
   Request_documents: 'طلب مستندات',
   Refer_to_employee: 'إحالة إلى الموظف',
+  delayDurationInput: 'عدد الأشهر منذ تأخر المدفوعات',
+  delayDurationInputHint: 'أدخل العدد الدقيق للأشهر',
+  isUnemployed: 'أنا عاطل عن العمل حاليًا',
+  unemployedNote: 'يتأهل المستفيدون العاطلون تلقائياً لتحويل المتأخرات دون أي دفعة شهرية إضافية',
+  hasTemporaryCircumstance: 'لديّ ظرف طارئ مؤقت',
+  temporaryCircumstanceDescription: 'يرجى وصف ظرفك',
+  socialStatus: 'الوضع الاجتماعي',
+  socialStatusStandard: 'عادي',
+  socialStatusSenior: 'مواطن كبير السن',
+  socialStatusWidow: 'أرملة',
+  socialStatusDivorced: 'مطلق / مطلقة',
+  socialStatusPOD: 'شخص من ذوي الهمم',
+  socialStatusMarriedNonCitizen: 'متزوج من غير مواطن',
+  leaveBlankIfUnknown: 'اتركه فارغاً إذا لم تعرف',
 };
 
 export const translations: Record<Lang, TranslationMap> = { en, ar };

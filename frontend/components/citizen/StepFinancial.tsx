@@ -9,8 +9,10 @@ export interface FinancialData {
   originalLoanAmount: string;
   remainingLoanBalance: string;
   remainingLoanPeriod: string;
-  unpaidInstalments: string;
   numberOfFamilyMembers: string;
+  isUnemployed: string;
+  hasTemporaryCircumstance: string;
+  temporaryCircumstanceDescription: string;
 }
 
 interface Props {
@@ -22,16 +24,9 @@ interface Props {
 export default function StepFinancial({ data, errors, onChange }: Props) {
   const { t } = useLang();
 
-  // Handle click on delay duration segmented buttons
-  const selectDelayDuration = (months: string) => {
-    onChange('delayDuration', months);
-  };
-
-  const delayOptions = ['3', '6', '12'];
-
   return (
     <div className="space-y-6">
-      {/* Row 1: Income, Obligations, Arrears in 3 columns */}
+      {/* Row 1: Income, Obligations, Arrears */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <CurrencyField
           id="monthlyIncome"
@@ -42,7 +37,6 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
           currency={t('aed')}
           onChange={(v) => onChange('monthlyIncome', v)}
         />
-
         <CurrencyField
           id="existingObligations"
           label={t('existingObligations')}
@@ -53,7 +47,6 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
           currency={t('aed')}
           onChange={(v) => onChange('existingObligations', v)}
         />
-
         <CurrencyField
           id="arrearsAmount"
           label={t('arrearsAmount')}
@@ -66,31 +59,24 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
         />
       </div>
 
-      {/* Delay Duration as segmented tabs */}
+      {/* Delay Duration: free number input (1–60 months) */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          {t('delayDuration')} <span className="text-red-500">*</span>
+        <label htmlFor="delayDuration" className="block text-sm font-semibold text-gray-700 mb-1.5 flex justify-between">
+          <span>{t('delayDurationInput')}</span>
+          <span className="text-red-500 font-bold">*</span>
         </label>
-        <div className="grid grid-cols-3 gap-4">
-          {delayOptions.map((opt) => {
-            const isSelected = data.delayDuration === opt;
-            return (
-              <button
-                key={opt}
-                type="button"
-                onClick={() => selectDelayDuration(opt)}
-                className={`py-3 px-4 rounded-lg font-semibold text-sm border text-center transition-all duration-150 ${
-                  isSelected
-                    ? 'border-gold text-gold bg-[#FAF9F5] shadow-sm ring-1 ring-gold'
-                    : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
-                }`}
-              >
-                {opt} {t('months')}
-              </button>
-            );
-          })}
-        </div>
-        <p className="text-xs text-gray-500 mt-2">{t('delayDurationHint')}</p>
+        <input
+          id="delayDuration"
+          type="number"
+          min="1"
+          max="60"
+          step="1"
+          className="form-input"
+          value={data.delayDuration}
+          onChange={(e) => onChange('delayDuration', e.target.value)}
+          placeholder="6"
+        />
+        <p className="text-xs text-gray-500 mt-1">{t('delayDurationInputHint')}</p>
         {errors.delayDuration && <p className="field-error">{errors.delayDuration}</p>}
       </div>
 
@@ -101,24 +87,27 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
           <CurrencyField
             id="originalLoanAmount"
             label={t('originalLoanAmount')}
+            optional
+            hint={t('leaveBlankIfUnknown')}
             value={data.originalLoanAmount}
             error={errors.originalLoanAmount}
             currency={t('aed')}
             onChange={(v) => onChange('originalLoanAmount', v)}
           />
-
           <CurrencyField
             id="remainingLoanBalance"
             label={t('remainingLoanBalance')}
+            optional
+            hint={t('leaveBlankIfUnknown')}
             value={data.remainingLoanBalance}
             error={errors.remainingLoanBalance}
             currency={t('aed')}
             onChange={(v) => onChange('remainingLoanBalance', v)}
           />
-
           <div>
-            <label htmlFor="remainingLoanPeriod" className="form-label">
-              {t('remainingLoanPeriod')}
+            <label htmlFor="remainingLoanPeriod" className="block text-sm font-semibold text-gray-700 mb-1.5 flex justify-between">
+              <span>{t('remainingLoanPeriod')}</span>
+              <span className="text-gray-400 font-normal text-xs">({t('optional')})</span>
             </label>
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-gold focus-within:border-transparent">
               <input
@@ -135,27 +124,9 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
                 {t('months')}
               </span>
             </div>
-            <p className="text-xs text-gray-500 mt-1">{t('remainingLoanPeriodHint')}</p>
+            <p className="text-xs text-gray-500 mt-1">{t('leaveBlankIfUnknown')}</p>
             {errors.remainingLoanPeriod && <p className="field-error">{errors.remainingLoanPeriod}</p>}
           </div>
-
-          <div>
-            <label htmlFor="unpaidInstalments" className="form-label">
-              {t('unpaidInstalments')}
-            </label>
-            <input
-              id="unpaidInstalments"
-              type="number"
-              min="0"
-              step="1"
-              className="form-input"
-              value={data.unpaidInstalments}
-              onChange={(e) => onChange('unpaidInstalments', e.target.value)}
-              placeholder="0"
-            />
-            {errors.unpaidInstalments && <p className="field-error">{errors.unpaidInstalments}</p>}
-          </div>
-
           <div className="sm:col-span-2">
             <label htmlFor="numberOfFamilyMembers" className="form-label">
               {t('numberOfFamilyMembers')}
@@ -176,15 +147,66 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
         </div>
       </div>
 
+      {/* Circumstances */}
+      <div className="border-t border-gray-100 pt-5 space-y-4">
+
+        {/* Employment Status */}
+        <div>
+          <div className="flex items-start gap-3">
+            <input
+              id="isUnemployed"
+              type="checkbox"
+              checked={data.isUnemployed === 'true'}
+              onChange={(e) => onChange('isUnemployed', e.target.checked ? 'true' : '')}
+              className="mt-0.5 w-4 h-4 rounded border-gray-300 cursor-pointer accent-[#8e702e]"
+            />
+            <label htmlFor="isUnemployed" className="text-sm font-semibold text-gray-700 cursor-pointer select-none leading-snug">
+              {t('isUnemployed')}
+            </label>
+          </div>
+          {data.isUnemployed === 'true' && (
+            <div className="mt-3 ml-7 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-xs text-amber-800 font-medium leading-relaxed">
+              {t('unemployedNote')}
+            </div>
+          )}
+        </div>
+
+        {/* Temporary Circumstance */}
+        <div>
+          <div className="flex items-start gap-3">
+            <input
+              id="hasTemporaryCircumstance"
+              type="checkbox"
+              checked={data.hasTemporaryCircumstance === 'true'}
+              onChange={(e) => onChange('hasTemporaryCircumstance', e.target.checked ? 'true' : '')}
+              className="mt-0.5 w-4 h-4 rounded border-gray-300 cursor-pointer accent-[#8e702e]"
+            />
+            <label htmlFor="hasTemporaryCircumstance" className="text-sm font-semibold text-gray-700 cursor-pointer select-none leading-snug">
+              {t('hasTemporaryCircumstance')}
+            </label>
+          </div>
+          <div className={`ml-7 transition-all duration-300 overflow-hidden ${data.hasTemporaryCircumstance === 'true' ? 'max-h-48 opacity-100 mt-3' : 'max-h-0 opacity-0'}`}>
+            <label htmlFor="temporaryCircumstanceDescription" className="form-label">
+              {t('temporaryCircumstanceDescription')}
+            </label>
+            <textarea
+              id="temporaryCircumstanceDescription"
+              rows={3}
+              className="form-input resize-none"
+              value={data.temporaryCircumstanceDescription}
+              onChange={(e) => onChange('temporaryCircumstanceDescription', e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Reason for Request */}
       <div>
         <div className="flex justify-between items-center mb-1.5">
           <label htmlFor="reason" className="text-sm font-semibold text-gray-700">
             {t('reasonForRequest')} <span className="text-red-500 font-bold">*</span>
           </label>
-          <span className="text-xs text-gray-400">
-            {data.reason ? data.reason.length : 0}/500
-          </span>
+          <span className="text-xs text-gray-400">{data.reason ? data.reason.length : 0}/500</span>
         </div>
         <textarea
           id="reason"
@@ -205,6 +227,7 @@ interface CurrencyFieldProps {
   id: string;
   label: string;
   required?: boolean;
+  optional?: boolean;
   hint?: string;
   value: string;
   error?: string;
@@ -212,12 +235,14 @@ interface CurrencyFieldProps {
   onChange: (v: string) => void;
 }
 
-function CurrencyField({ id, label, required, hint, value, error, currency, onChange }: CurrencyFieldProps) {
+function CurrencyField({ id, label, required, optional, hint, value, error, currency, onChange }: CurrencyFieldProps) {
+  const { t } = useLang();
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-semibold text-gray-700 mb-1.5 flex justify-between">
         <span>{label}</span>
         {required && <span className="text-red-500 font-bold">*</span>}
+        {optional && <span className="text-gray-400 font-normal text-xs">({t('optional')})</span>}
       </label>
       <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-gold focus-within:border-transparent bg-white shadow-sm">
         <input
