@@ -31,11 +31,11 @@ class CitizenFinancialProfile(BaseModel):
     suspected_fraud: bool = Field(default=False, description="True if a fraud signal has been raised by the document verification pipeline")
     original_loan_amount: Optional[float] = Field(default=None, description="Original housing loan amount in AED")
     remaining_loan_balance: Optional[float] = Field(default=None, description="Outstanding loan balance in AED")
-    remaining_loan_period_months: Optional[int] = Field(default=None, description="Remaining months until loan matures")
-    number_of_unpaid_instalments: Optional[int] = Field(default=None, description="Count of unpaid monthly instalments to date")
-    number_of_family_members: int = Field(default=1, description="Total family members dependent on this income")
-    is_unemployed: bool = Field(default=False, description="True if citizen is currently unemployed")
-    has_temporary_circumstance: bool = Field(default=False, description="True if hardship is due to a temporary circumstance")
+    remaining_loan_period_months: Optional[int] = Field(default=60, description="Remaining months until loan matures")
+    number_of_unpaid_instalments: Optional[int] = Field(default=0, description="Count of unpaid monthly instalments to date")
+    number_of_family_members: Optional[int] = Field(default=1, description="Total family members dependent on this income")
+    is_unemployed: Optional[bool] = Field(default=False, description="True if citizen is currently unemployed")
+    has_temporary_circumstance: Optional[bool] = Field(default=False, description="True if hardship is due to a temporary circumstance")
     temporary_circumstance_description: Optional[str] = Field(default=None, description="Description of the temporary circumstance causing hardship")
 
 
