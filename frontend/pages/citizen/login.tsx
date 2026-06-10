@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useLang } from '../../lib/LanguageContext';
+import { useAccessibility } from '../../lib/AccessibilityContext';
 
 export default function UAEPassLogin() {
   const { t, lang, setLang } = useLang();
+  const { setIsPanelOpen } = useAccessibility();
   const router = useRouter();
   const [simulating, setSimulating] = useState(false);
 
@@ -23,7 +25,7 @@ export default function UAEPassLogin() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('uaePassTitle')}</title>
+        <title>{`${t('appName')} - ${t('uaePassTitle')}`}</title>
       </Head>
       
       <div className={`min-h-screen bg-[#FAF9F6] flex flex-col font-sans ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -37,6 +39,29 @@ export default function UAEPassLogin() {
 
           {/* Right Header Controls */}
           <div className="flex items-center gap-5">
+            {/* Accessibility Trigger Button */}
+            <button
+              onClick={() => setIsPanelOpen(true)}
+              className="text-gray-500 hover:text-[#8E702E] transition-colors p-1.5 rounded-full hover:bg-gray-50 flex items-center justify-center"
+              title={lang === 'ar' ? 'خيارات سهولة الوصول' : 'Accessibility Options'}
+              aria-label={lang === 'ar' ? 'خيارات سهولة الوصول' : 'Accessibility Options'}
+            >
+              <svg
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="5" r="2" />
+                <path d="M12 7v10" />
+                <path d="M8 10h8" />
+                <path d="M8 21l4-4 4 4" />
+              </svg>
+            </button>
+
             {/* Pill-shaped Language Toggle */}
             <div className="flex items-center bg-[#F4F2EB] rounded-full p-0.5 border border-gray-200/50">
               <button

@@ -23,7 +23,7 @@ export default function AnalyticsDashboard() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('analyticsTitle')}</title>
+        <title>{`${t('appName')} - ${t('analyticsTitle')}`}</title>
       </Head>
       <div className="min-h-screen bg-slate-50/50">
         <Header />

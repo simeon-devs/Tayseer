@@ -28,7 +28,7 @@ export default function DecisionScreen() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('decisionTitle')}</title>
+        <title>{`${t('appName')} - ${t('decisionTitle')}`}</title>
       </Head>
       <div className="min-h-screen bg-[#F9FAFB] flex flex-col" dir={isRtl ? 'rtl' : 'ltr'}>
         <Header />
