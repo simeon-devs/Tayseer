@@ -42,7 +42,13 @@ app = FastAPI(title="Tayseer API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://tayseer-eight.vercel.app",
+        "https://tayseer.vercel.app",
+    ],
+    allow_origin_regex=r"https://tayseer-.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
