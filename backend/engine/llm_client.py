@@ -13,6 +13,7 @@ Supported values for LLM_PROVIDER:
 
 from __future__ import annotations
 
+import json
 import logging
 from typing import Type, TypeVar
 
@@ -95,6 +96,50 @@ def call_llm(
         max_retries=max_retries,
         temperature=temperature,
     )
+
+
+def call_llm_json_mode(
+    system_prompt: str,
+    user_prompt: str,
+    response_model: Type[T],
+    temperature: float = 0.1,
+) -> T:
+    """Call the configured LLM and return a validated Pydantic response.
+
+    For Together.ai, which does not support Instructor grammar enforcement,
+    the system prompt is augmented with JSON-only instructions and the raw
+    response is parsed with json.loads then validated by Pydantic.
+
+    For all other providers this delegates to call_llm, which uses Instructor.
+    Never catches exceptions; callers are responsible for error handling.
+    """
+    if settings.llm_provider.lower() != "together":
+        return call_llm(system_prompt, user_prompt, response_model, temperature=temperature)
+
+    json_system = (
+        "You must respond with valid JSON only. No markdown, no explanation, no code blocks. "
+        "Just the raw JSON object matching this schema exactly.\n\n" + system_prompt
+    )
+    client = OpenAI(
+        api_key=settings.together_api_key,
+        base_url="https://api.together.xyz/v1",
+    )
+    logger.debug("call_llm_json_mode routing to Together.ai model %s", settings.together_model)
+    response = client.chat.completions.create(
+        model=settings.together_model,
+        messages=[
+            {"role": "system", "content": json_system},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=temperature,
+    )
+    raw = (response.choices[0].message.content or "").strip()
+    if raw.startswith("```"):
+        raw = raw.split("```", 2)[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+        raw = raw.strip()
+    return response_model.model_validate(json.loads(raw))
 
 
 def call_llm_raw(

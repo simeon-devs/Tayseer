@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import logging
 
-from backend.engine.llm_client import call_llm
+from backend.engine.llm_client import call_llm_json_mode
 from backend.extraction.ocr import extract_text
 from backend.schemas.documents import (
     BankStatement,
@@ -84,7 +84,7 @@ def extract_salary_certificate(ocr_text: str) -> SalaryCertificate:
     Returns an empty SalaryCertificate (all None fields) if the LLM call fails.
     """
     try:
-        return call_llm(SALARY_CERT_PROMPT, f"OCR text:\n\n{ocr_text}", SalaryCertificate)
+        return call_llm_json_mode(SALARY_CERT_PROMPT, f"OCR text:\n\n{ocr_text}", SalaryCertificate)
     except Exception as exc:
         logger.warning("Salary certificate extraction failed: %s", exc)
         return SalaryCertificate()
@@ -96,7 +96,7 @@ def extract_bank_statement(ocr_text: str) -> BankStatement:
     Returns an empty BankStatement (all None fields) if the LLM call fails.
     """
     try:
-        return call_llm(BANK_STATEMENT_PROMPT, f"OCR text:\n\n{ocr_text}", BankStatement)
+        return call_llm_json_mode(BANK_STATEMENT_PROMPT, f"OCR text:\n\n{ocr_text}", BankStatement)
     except Exception as exc:
         logger.warning("Bank statement extraction failed: %s", exc)
         return BankStatement()
@@ -108,7 +108,7 @@ def extract_emirates_id(ocr_text: str) -> EmiratesID:
     Returns an empty EmiratesID (all None fields) if the LLM call fails.
     """
     try:
-        return call_llm(EMIRATES_ID_PROMPT, f"OCR text:\n\n{ocr_text}", EmiratesID)
+        return call_llm_json_mode(EMIRATES_ID_PROMPT, f"OCR text:\n\n{ocr_text}", EmiratesID)
     except Exception as exc:
         logger.warning("Emirates ID extraction failed: %s", exc)
         return EmiratesID()
