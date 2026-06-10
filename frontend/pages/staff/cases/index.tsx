@@ -153,7 +153,7 @@ export default function StaffCaseQueue() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('staffDashboard')}</title>
+        <title>{`${t('appName')} - ${t('staffDashboard')}`}</title>
       </Head>
       <div className="min-h-screen bg-slate-50/50">
         <Header />

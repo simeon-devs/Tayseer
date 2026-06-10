@@ -228,7 +228,7 @@ export default function CitizenIntake() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('tagline')}</title>
+        <title>{`${t('appName')} - ${t('tagline')}`}</title>
       </Head>
       
       {/* Toast Alert */}

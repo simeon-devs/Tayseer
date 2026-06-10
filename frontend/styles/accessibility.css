@@ -1,0 +1,215 @@
+/* ── Accessibility Tooling Custom Properties ── */
+:root {
+  --a11y-text-scale: 100%;
+}
+
+/* Base Scaling */
+html {
+  font-size: var(--a11y-text-scale) !important;
+}
+
+/* Dyslexic Font Class Override */
+.a11y-font-dyslexic * {
+  font-family: 'Comic Neue', 'Comic Sans MS', 'Courier New', sans-serif !important;
+}
+
+/* Saturation Levels */
+.a11y-sat-low {
+  filter: saturate(0.5) !important;
+}
+.a11y-sat-high {
+  filter: saturate(1.5) !important;
+}
+.a11y-sat-mono {
+  filter: grayscale(1) !important;
+}
+
+/* Custom Large High-Contrast Cursor */
+.a11y-cursor-large,
+.a11y-cursor-large * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 32 32'%3E%3Cpath d='M0,0 L0,22 L6,16 L13,29 L16,27 L9,14 L16,14 Z' fill='black' stroke='white' stroke-width='2.5'/%3E%3C/svg%3E"), auto !important;
+}
+
+/* Letter Spacings */
+.a11y-letter-spacing-wide * {
+  letter-spacing: 0.12em !important;
+}
+.a11y-letter-spacing-wider * {
+  letter-spacing: 0.18em !important;
+}
+.a11y-letter-spacing-widest * {
+  letter-spacing: 0.24em !important;
+}
+
+/* Line Heights */
+.a11y-line-spacing-comfortable * {
+  line-height: 1.8 !important;
+}
+.a11y-line-spacing-loose * {
+  line-height: 2.2 !important;
+}
+.a11y-line-spacing-extra-loose * {
+  line-height: 2.6 !important;
+}
+
+/* High Contrast Link & Interactive Highlights */
+.a11y-highlight-links a,
+.a11y-highlight-links button {
+  outline: 2px solid #8E702E !important;
+  outline-offset: 2px !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 1.5px !important;
+  text-underline-offset: 3px !important;
+}
+
+/* High Contrast (White on Black) */
+.a11y-contrast-high,
+.a11y-contrast-high body {
+  background-color: #000000 !important;
+  background-image: none !important;
+}
+.a11y-contrast-high * {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+.a11y-contrast-high input,
+.a11y-contrast-high select,
+.a11y-contrast-high textarea {
+  border: 2px solid #ffffff !important;
+  background-color: #000000 !important;
+}
+
+/* Yellow on Navy Contrast */
+.a11y-contrast-yellow-navy,
+.a11y-contrast-yellow-navy body {
+  background-color: #0c1524 !important;
+  background-image: none !important;
+}
+.a11y-contrast-yellow-navy * {
+  background-color: #0c1524 !important;
+  color: #fdd835 !important;
+  border-color: #fdd835 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  fill: #fdd835 !important;
+  stroke: #fdd835 !important;
+}
+.a11y-contrast-yellow-navy input,
+.a11y-contrast-yellow-navy select,
+.a11y-contrast-yellow-navy textarea {
+  border: 2px solid #fdd835 !important;
+  background-color: #0c1524 !important;
+  color: #fdd835 !important;
+}
+
+/* Inverted Contrast (Black on White) */
+.a11y-contrast-inverted,
+.a11y-contrast-inverted body {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+.a11y-contrast-inverted * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+.a11y-contrast-inverted input,
+.a11y-contrast-inverted select,
+.a11y-contrast-inverted textarea {
+  border: 2px solid #000000 !important;
+  background-color: #ffffff !important;
+}
+
+/* Prevent backdrop overlays from rendering opaque under high contrast modes */
+.a11y-contrast-high .opacity-0,
+.a11y-contrast-inverted .opacity-0,
+.a11y-contrast-dark .opacity-0,
+.a11y-contrast-yellow-navy .opacity-0 {
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Semi-transparent backdrops for active drawers in contrast modes */
+.a11y-contrast-high .bg-black\/45 {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+.a11y-contrast-inverted .bg-black\/45 {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+}
+.a11y-contrast-dark .bg-black\/45 {
+  background-color: rgba(18, 18, 18, 0.75) !important;
+}
+.a11y-contrast-yellow-navy .bg-black\/45 {
+  background-color: rgba(12, 21, 36, 0.75) !important;
+}
+
+/* Dark/Night Mode Overrides */
+.a11y-contrast-dark,
+.a11y-contrast-dark body {
+  background-color: #121212 !important;
+  color: #f3f4f6 !important;
+  background-image: none !important;
+}
+.a11y-contrast-dark * {
+  background-color: #121212 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
+}
+.a11y-contrast-dark input,
+.a11y-contrast-dark select,
+.a11y-contrast-dark textarea {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+}
+
+/* Color Blind SVG filters */
+.a11y-cb-deuteranopia {
+  filter: url('#deuteranopia-filter') !important;
+}
+.a11y-cb-protanopia {
+  filter: url('#protanopia-filter') !important;
+}
+.a11y-cb-tritanopia {
+  filter: url('#tritanopia-filter') !important;
+}
+
+/* Seizure & Epilepsy Safety overrides */
+.a11y-seizure-safety * {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
+}
+
+/* ADHD Focused Mode block hover highlights */
+.a11y-adhd-active p:hover,
+.a11y-adhd-active h1:hover,
+.a11y-adhd-active h2:hover,
+.a11y-adhd-active h3:hover,
+.a11y-adhd-active h4:hover,
+.a11y-adhd-active h5:hover,
+.a11y-adhd-active h6:hover,
+.a11y-adhd-active blockquote:hover,
+.a11y-adhd-active li:hover {
+  background-color: rgba(254, 240, 138, 0.25) !important; /* light yellow highlight */
+  box-shadow: 0 0 0 4px rgba(254, 240, 138, 0.25) !important;
+  border-radius: 4px;
+}
+
+/* Speaking highlights */
+.a11y-speaking {
+  outline: 3px solid #8e702e !important;
+  background-color: rgba(142, 112, 46, 0.15) !important;
+  transition: outline 0.1s ease-in-out;
+}

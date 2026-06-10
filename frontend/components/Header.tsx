@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useLang } from '../lib/LanguageContext';
+import { useAccessibility } from '../lib/AccessibilityContext';
 
 export default function Header() {
   const { t, lang, setLang, isRtl } = useLang();
+  const { setIsPanelOpen } = useAccessibility();
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -14,17 +16,13 @@ export default function Header() {
     setIsAuthenticated(isAuth);
   }, [router.pathname]);
 
-  const toggleLanguage = () => {
-    setLang(lang === 'en' ? 'ar' : 'en');
-  };
-
   const isCitizen = router.pathname.startsWith('/citizen');
   const isStaff = router.pathname.startsWith('/staff');
 
   return (
     <header className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
-        
+
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <img src="/moei_logo.png" alt="MOEI Logo" className="h-10 w-auto" />
@@ -85,12 +83,54 @@ export default function Header() {
         {/* Header Right Actions */}
         <div className="flex items-center gap-6">
           {/* Language Selector Link */}
-          <button
-            onClick={toggleLanguage}
-            className="text-sm font-semibold text-gray-500 hover:text-gold transition-colors"
-          >
-            {lang === 'en' ? 'العربية' : 'English'}
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsPanelOpen(true)}
+              className="text-gray-500 hover:text-[#8E702E] transition-colors p-1.5 rounded-full hover:bg-gray-50 flex items-center justify-center"
+              title={lang === 'ar' ? 'خيارات سهولة الوصول' : 'Accessibility Options'}
+              aria-label={lang === 'ar' ? 'خيارات سهولة الوصول' : 'Accessibility Options'}
+            >
+              <svg
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="5" r="2" />
+                <path d="M12 7v10" />
+                <path d="M8 10h8" />
+                <path d="M8 21l4-4 4 4" />
+              </svg>
+            </button>
+            
+            <div className="flex items-center bg-[#F4F2EB] rounded-full p-0.5 border border-gray-200/50">
+              <button
+                type="button"
+                onClick={() => setLang('en')}
+                className={`text-[10px] font-bold py-1.5 px-3 rounded-full transition-all ${
+                  lang === 'en'
+                    ? 'bg-[#8E702E] text-white shadow-sm'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLang('ar')}
+                className={`text-[10px] font-bold py-1.5 px-3 rounded-full transition-all ${
+                  lang === 'ar'
+                    ? 'bg-[#8E702E] text-white shadow-sm'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                AR
+              </button>
+            </div>
+          </div>
 
           {!isAuthenticated ? (
             /* UAE PASS Login button */
@@ -125,24 +165,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  );
-}
-
-function GoldShieldLogo() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-7 h-7 text-gold flex-shrink-0"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.5}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-      />
-    </svg>
   );
 }

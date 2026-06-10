@@ -25,7 +25,7 @@ export default function VerifyPage() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('verifyTitle')}</title>
+        <title>{`${t('appName')} - ${t('verifyTitle')}`}</title>
       </Head>
       <div className="min-h-screen bg-surface">
         <Header />

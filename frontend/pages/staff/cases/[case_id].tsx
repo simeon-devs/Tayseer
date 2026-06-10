@@ -48,7 +48,7 @@ export default function StaffCaseDetail() {
   return (
     <>
       <Head>
-        <title>{t('appName')} - {t('staffDashboard')}</title>
+        <title>{`${t('appName')} - ${t('staffDashboard')}`}</title>
       </Head>
       <div className="min-h-screen bg-surface">
         <Header />
