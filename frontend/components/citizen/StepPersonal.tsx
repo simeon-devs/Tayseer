@@ -6,7 +6,6 @@ export interface PersonalData {
   emiratesId: string;
   phone: string;
   email: string;
-  socialStatus: string;
 }
 
 interface Props {
@@ -144,25 +143,6 @@ export default function StepPersonal({ data, errors, onChange }: Props) {
         {errors.email && <p className="field-error">{errors.email}</p>}
       </div>
 
-      {/* Social Status Dropdown */}
-      <div>
-        <label htmlFor="socialStatus" className="block text-sm font-semibold text-gray-700 mb-1.5">
-          {t('socialStatus')}
-        </label>
-        <select
-          id="socialStatus"
-          className="form-input bg-white"
-          value={data.socialStatus}
-          onChange={(e) => onChange('socialStatus', e.target.value)}
-        >
-          <option value="Standard">{t('socialStatusStandard')}</option>
-          <option value="Senior Citizen">{t('socialStatusSenior')}</option>
-          <option value="Widow">{t('socialStatusWidow')}</option>
-          <option value="Divorced">{t('socialStatusDivorced')}</option>
-          <option value="Person of Determination">{t('socialStatusPOD')}</option>
-          <option value="Married to Non-Citizen">{t('socialStatusMarriedNonCitizen')}</option>
-        </select>
-      </div>
     </div>
   );
 }

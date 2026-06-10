@@ -47,6 +47,12 @@ Hardship modifiers that increase duration:
 - has_disability: add 6 months
 - delay_duration_months above 12: prefer longer durations
 
+SIGNAL DETECTION FROM REASON TEXT:
+The citizen's reason_for_request field contains their own description of their hardship. Detect the following signals and apply them to the decision:
+- If the citizen mentions being unemployed, having lost their job, being laid off, having no income, or early retirement: treat is_unemployed as true and recommend TRANSFER_ARREARS with additional_premium = 0.0.
+- If the citizen mentions medical treatment abroad, official government assignment, natural disaster, hospitalisation, or any clearly documented temporary circumstance: treat has_temporary_circumstance as true and recommend TRANSFER_ARREARS.
+- If the citizen's income per family member (monthly_income / number_of_family_members) is below 2500 AED: apply a lighter repayment plan by preferring TRANSFER_ARREARS or the longest eligible duration under Rule 1 and Rule 2.
+
 Always output valid JSON. Never add text outside the JSON object."""
 
 

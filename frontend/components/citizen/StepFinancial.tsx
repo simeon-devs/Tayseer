@@ -10,9 +10,6 @@ export interface FinancialData {
   remainingLoanBalance: string;
   remainingLoanPeriod: string;
   numberOfFamilyMembers: string;
-  isUnemployed: string;
-  hasTemporaryCircumstance: string;
-  temporaryCircumstanceDescription: string;
 }
 
 interface Props {
@@ -143,59 +140,6 @@ export default function StepFinancial({ data, errors, onChange }: Props) {
             />
             <p className="text-xs text-gray-500 mt-1">{t('numberOfFamilyMembersHint')}</p>
             {errors.numberOfFamilyMembers && <p className="field-error">{errors.numberOfFamilyMembers}</p>}
-          </div>
-        </div>
-      </div>
-
-      {/* Circumstances */}
-      <div className="border-t border-gray-100 pt-5 space-y-4">
-
-        {/* Employment Status */}
-        <div>
-          <div className="flex items-start gap-3">
-            <input
-              id="isUnemployed"
-              type="checkbox"
-              checked={data.isUnemployed === 'true'}
-              onChange={(e) => onChange('isUnemployed', e.target.checked ? 'true' : '')}
-              className="mt-0.5 w-4 h-4 rounded border-gray-300 cursor-pointer accent-[#8e702e]"
-            />
-            <label htmlFor="isUnemployed" className="text-sm font-semibold text-gray-700 cursor-pointer select-none leading-snug">
-              {t('isUnemployed')}
-            </label>
-          </div>
-          {data.isUnemployed === 'true' && (
-            <div className="mt-3 ml-7 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-xs text-amber-800 font-medium leading-relaxed">
-              {t('unemployedNote')}
-            </div>
-          )}
-        </div>
-
-        {/* Temporary Circumstance */}
-        <div>
-          <div className="flex items-start gap-3">
-            <input
-              id="hasTemporaryCircumstance"
-              type="checkbox"
-              checked={data.hasTemporaryCircumstance === 'true'}
-              onChange={(e) => onChange('hasTemporaryCircumstance', e.target.checked ? 'true' : '')}
-              className="mt-0.5 w-4 h-4 rounded border-gray-300 cursor-pointer accent-[#8e702e]"
-            />
-            <label htmlFor="hasTemporaryCircumstance" className="text-sm font-semibold text-gray-700 cursor-pointer select-none leading-snug">
-              {t('hasTemporaryCircumstance')}
-            </label>
-          </div>
-          <div className={`ml-7 transition-all duration-300 overflow-hidden ${data.hasTemporaryCircumstance === 'true' ? 'max-h-48 opacity-100 mt-3' : 'max-h-0 opacity-0'}`}>
-            <label htmlFor="temporaryCircumstanceDescription" className="form-label">
-              {t('temporaryCircumstanceDescription')}
-            </label>
-            <textarea
-              id="temporaryCircumstanceDescription"
-              rows={3}
-              className="form-input resize-none"
-              value={data.temporaryCircumstanceDescription}
-              onChange={(e) => onChange('temporaryCircumstanceDescription', e.target.value)}
-            />
           </div>
         </div>
       </div>
