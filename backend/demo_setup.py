@@ -147,7 +147,7 @@ _DEMO_CASES: list[dict] = [
             "remaining_loan_period_months": 192,
             "number_of_unpaid_instalments": 7,
             "number_of_family_members": 2,
-            "is_unemployed": True,
+            "reason_for_request": "I am currently unemployed and unable to make additional monthly payments. Requesting transfer of arrears to end of loan period.",
         },
     },
     {
@@ -291,6 +291,7 @@ def run_demo_setup() -> None:
                 number_of_unpaid_instalments=fp.get("number_of_unpaid_instalments"),
                 number_of_family_members=fp.get("number_of_family_members", 1),
                 is_unemployed=fp.get("is_unemployed", False),
+                reason_for_request=fp.get("reason_for_request"),
             )
 
             decision = make_decision(case_id=str(case.id), profile=profile, db=db)
