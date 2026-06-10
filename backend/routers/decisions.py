@@ -106,6 +106,16 @@ async def create_decision(
             profile=request.citizen_profile,
             db=db_session,
         )
+        # Explicit status update as a safety net in case the engine's internal
+        # write rolled back silently (e.g. IntegrityError on a duplicate Decision row).
+        if db_session is not None:
+            try:
+                new_status = "escalated" if result.escalate_flag else "approved"
+                case_uuid = uuid_lib.UUID(request.case_id)
+                db_session.query(Case).filter(Case.id == case_uuid).update({"status": new_status})
+                db_session.commit()
+            except Exception as status_exc:
+                logger.warning("Failed to update case status for %s: %s", request.case_id, status_exc)
         return result
     except Exception as exc:
         logger.error("Decision endpoint failed for case %s: %s", request.case_id, exc)

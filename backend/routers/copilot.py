@@ -3,21 +3,21 @@
 Exposes POST /api/copilot which accepts a case ID and a natural language question
 from a staff reviewer, and returns answers in both English and Arabic.
 
-The LLM is called directly via the OpenAI-compatible Ollama endpoint without Instructor
-because the output is free-form text rather than a structured Pydantic schema.
+The LLM is called via call_llm_raw from the engine which routes through the
+active LLM_PROVIDER without Instructor, because the output is free-form text
+rather than a structured Pydantic schema.
 """
 
 from __future__ import annotations
 
 import logging
-import os
 import uuid as uuid_lib
 
 from fastapi import APIRouter, Depends, HTTPException
-from openai import OpenAI
 from sqlalchemy.orm import Session, selectinload
 
 from backend.database import get_db
+from backend.engine.llm_client import call_llm_raw
 from backend.models.case import Case
 from backend.schemas.cases import CopilotRequest, CopilotResponse
 from backend.schemas.documents import ErrorResponse
@@ -94,26 +94,13 @@ def _build_case_context(case: Case) -> str:
 
 
 def _call_copilot_llm(case_context: str, question: str) -> str:
-    """Call the LLM directly without Instructor and return the raw text response.
+    """Call the configured LLM provider and return the raw text response.
 
-    Uses temperature 0.3 for slightly more natural language while keeping answers factual.
-    Reads OLLAMA_URL and OLLAMA_MODEL from environment variables.
+    Routes through LLM_PROVIDER (ollama, fireworks, together) via call_llm_raw.
+    Temperature 0.3 allows slightly more natural language while keeping answers factual.
     """
-    ollama_url = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-    model = os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
-    client = OpenAI(base_url=f"{ollama_url}/v1", api_key="ollama")
-
     user_content = f"Case Details:\n{case_context}\n\nReviewer Question: {question}"
-
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": _COPILOT_SYSTEM_PROMPT},
-            {"role": "user", "content": user_content},
-        ],
-        temperature=0.3,
-    )
-    return response.choices[0].message.content or ""
+    return call_llm_raw(_COPILOT_SYSTEM_PROMPT, user_content, temperature=0.3)
 
 
 def _parse_bilingual_response(raw: str) -> tuple[str, str]:

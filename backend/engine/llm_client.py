@@ -95,3 +95,48 @@ def call_llm(
         max_retries=max_retries,
         temperature=temperature,
     )
+
+
+def call_llm_raw(
+    system_prompt: str,
+    user_prompt: str,
+    temperature: float = 0.1,
+) -> str:
+    """Call the configured LLM provider and return the raw text response.
+
+    Uses the same provider routing as call_llm but does not use Instructor
+    or Pydantic validation. Use for free-form text generation where a
+    structured schema is not needed (e.g. the copilot endpoint).
+
+    Never catches exceptions; callers are responsible for error handling.
+    """
+    provider = settings.llm_provider.lower()
+
+    if provider == "fireworks":
+        client = OpenAI(
+            api_key=settings.fireworks_api_key,
+            base_url="https://api.fireworks.ai/inference/v1",
+        )
+        model = settings.fireworks_model
+        logger.debug("call_llm_raw routing to Fireworks model %s", model)
+    elif provider == "together":
+        client = OpenAI(
+            api_key=settings.together_api_key,
+            base_url="https://api.together.xyz/v1",
+        )
+        model = settings.together_model
+        logger.debug("call_llm_raw routing to Together.ai model %s", model)
+    else:
+        client = OpenAI(base_url=f"{settings.ollama_url}/v1", api_key="ollama")
+        model = settings.ollama_model
+        logger.debug("call_llm_raw routing to Ollama model %s", model)
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=temperature,
+    )
+    return response.choices[0].message.content or ""
