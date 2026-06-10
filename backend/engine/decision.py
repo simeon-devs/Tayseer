@@ -417,6 +417,13 @@ def make_decision(
                         fallback_updates["rationale_ar"] = _FALLBACK_RATIONALE_AR
                     output = output.model_copy(update=fallback_updates)
 
+            # Scrub CJK contamination from escalation_reason
+            if output.escalation_reason and any(
+                _CJK_BLOCK_START <= ord(c) <= _CJK_BLOCK_END for c in output.escalation_reason
+            ):
+                logger.warning("Chinese contamination in escalation_reason. Replacing with rationale_en.")
+                output = output.model_copy(update={"escalation_reason": output.rationale_en or ""})
+
             # Ensure hardship_score is always set from our calculation if LLM omitted it
             if output.hardship_score is None:
                 output = output.model_copy(update={"hardship_score": hardship_score})
