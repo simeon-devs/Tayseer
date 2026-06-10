@@ -19,6 +19,7 @@ from jinja2 import Environment, FileSystemLoader
 from sqlalchemy.orm import Session, selectinload
 import qrcode
 
+from backend.config import settings
 from backend.database import get_db
 from backend.models.case import Case
 from backend.schemas.documents import ErrorResponse
@@ -51,7 +52,7 @@ async def get_letter(
     db: Session = Depends(get_db),
 ) -> StreamingResponse:
     """Generate and return the bilingual PDF decision letter for a decided case."""
-    frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3001")
+    frontend_url = settings.frontend_url
 
     try:
         case_uuid = uuid_lib.UUID(case_id)
