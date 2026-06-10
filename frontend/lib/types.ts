@@ -58,6 +58,11 @@ export interface DecisionOutput {
   case_summary?: string;
   income_per_family_member?: number;
   proposed_deduction_rate?: number;
+  application_status?: string;
+  final_recommendation?: string;
+  outstanding_principal?: number;
+  total_unpaid_instalments?: number;
+  remaining_months?: number;
 }
 
 export interface CaseDetailResponse {

@@ -194,6 +194,15 @@ const en: TranslationMap = {
   resolutionSpeedup: 'AI Resolution Speedup',
   fasterProcessing: 'faster than manual processing',
   speedupSubtitle: 'Tayseer AI automation performance comparison',
+  outstandingPrincipal: 'Outstanding Principal',
+  remainingPeriod: 'Remaining Loan Period',
+  applicationStatus: 'Application Status',
+  finalRecommendation: 'Recommendation',
+  Complete: 'Complete',
+  Incomplete: 'Incomplete',
+  Approve: 'Approve',
+  Request_documents: 'Request Documents',
+  Refer_to_employee: 'Refer to Employee',
 };
 
 const ar: TranslationMap = {
@@ -388,6 +397,15 @@ const ar: TranslationMap = {
   resolutionSpeedup: 'تسريع وقت الحل عبر الذكاء الاصطناعي',
   fasterProcessing: 'أسرع من المعالجة اليدوية',
   speedupSubtitle: 'مقارنة أداء أتمتة الذكاء الاصطناعي تيسير',
+  outstandingPrincipal: 'أصل الدين المستحق',
+  remainingPeriod: 'المدة المتبقية للقرض',
+  applicationStatus: 'حالة الطلب',
+  finalRecommendation: 'التوصية النهائية',
+  Complete: 'مكتمل',
+  Incomplete: 'غير مكتمل',
+  Approve: 'موافق',
+  Request_documents: 'طلب مستندات',
+  Refer_to_employee: 'إحالة إلى الموظف',
 };
 
 export const translations: Record<Lang, TranslationMap> = { en, ar };

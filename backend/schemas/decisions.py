@@ -60,6 +60,11 @@ class DecisionOutput(BaseModel):
     case_summary: Optional[str] = Field(None, description="Brief summary of the case and decision outcome in English")
     income_per_family_member: Optional[float] = Field(None, description="Monthly income divided by number of family members in AED")
     proposed_deduction_rate: Optional[float] = Field(None, description="Ratio of total monthly deduction to monthly income after rescheduling")
+    application_status: Optional[str] = Field(None, description="Complete when all documents and identity are valid; Incomplete when documents or ID are missing or expired")
+    final_recommendation: Optional[str] = Field(None, description="Approve, Request_documents, or Refer_to_employee based on decision outcome")
+    outstanding_principal: Optional[float] = Field(None, description="Remaining loan balance in AED from citizen profile")
+    total_unpaid_instalments: Optional[int] = Field(None, description="Number of missed monthly payments from citizen profile")
+    remaining_months: Optional[int] = Field(None, description="Remaining loan period in months from citizen profile")
 
 
 class DecisionRequest(BaseModel):

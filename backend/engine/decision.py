@@ -179,6 +179,44 @@ def _write_decision_to_db(
         return False
 
 
+_STALE_CERT_MONTHS = 3
+
+
+def _derive_recommendation_fields(
+    profile: CitizenFinancialProfile,
+    output: DecisionOutput,
+) -> DecisionOutput:
+    """Derive application_status, final_recommendation, and loan metric fields.
+
+    application_status is Incomplete when identity or document issues prevent
+    processing. final_recommendation maps the decision to the three-value action
+    enum consumed by the frontend: Approve, Request_documents, or Refer_to_employee.
+    """
+    doc_issue = (
+        bool(profile.missing_documents)
+        or profile.has_expired_id
+        or profile.salary_certificate_age_months > _STALE_CERT_MONTHS
+    )
+
+    if not output.escalate_flag:
+        application_status = "Complete"
+        final_recommendation = "Approve"
+    elif doc_issue:
+        application_status = "Incomplete"
+        final_recommendation = "Request_documents"
+    else:
+        application_status = "Complete"
+        final_recommendation = "Refer_to_employee"
+
+    return output.model_copy(update={
+        "application_status": application_status,
+        "final_recommendation": final_recommendation,
+        "outstanding_principal": profile.remaining_loan_balance,
+        "total_unpaid_instalments": profile.number_of_unpaid_instalments,
+        "remaining_months": profile.remaining_loan_period_months,
+    })
+
+
 def _apply_governance_rules(
     profile: CitizenFinancialProfile,
     output: DecisionOutput,
@@ -343,6 +381,9 @@ def make_decision(
 
         output = output.model_copy(update={"monthly_instalment": monthly_instalment})
 
+        # Step 5.5: derive recommendation and completeness fields
+        output = _derive_recommendation_fields(profile, output)
+
         # Step 6: persist if a real db session was provided
         if db is not None:
             _write_decision_to_db(db, case_id, output)
@@ -358,6 +399,8 @@ def make_decision(
             rationale_ar="حدث خطأ غير متوقع. تم تصعيد هذه الحالة للمراجعة اليدوية.",
             rules_applied=[],
             confidence_score=0.0,
+            application_status="Complete",
+            final_recommendation="Refer_to_employee",
         )
         if db is not None:
             _write_decision_to_db(db, case_id, fallback)
