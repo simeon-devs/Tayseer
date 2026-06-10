@@ -47,7 +47,7 @@ export default function Header() {
             >
               {lang === 'ar' ? 'لوحة التحكم' : 'Dashboard'}
             </Link>
-            <Link href="/citizen" className="hover:text-[#8E702E] transition-colors">
+            <Link href="/citizen/applications" className="hover:text-[#8E702E] transition-colors">
               {lang === 'ar' ? 'طلباتي' : 'My Applications'}
             </Link>
             <Link href="#" className="hover:text-[#8E702E] transition-colors">

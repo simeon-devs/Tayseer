@@ -206,6 +206,11 @@ const en: TranslationMap = {
   delayDurationInput: 'Number of months since payments fell behind',
   delayDurationInputHint: 'Enter the exact number of months',
   leaveBlankIfUnknown: 'Leave blank if unknown',
+  myApplications: 'My Applications',
+  noApplicationsYet: 'You have no submitted applications yet.',
+  submitNewRequest: 'Submit New Request',
+  submittedOn: 'Submitted on',
+  viewDecision: 'View Decision',
 };
 
 const ar: TranslationMap = {
@@ -412,6 +417,11 @@ const ar: TranslationMap = {
   delayDurationInput: 'عدد الأشهر منذ تأخر المدفوعات',
   delayDurationInputHint: 'أدخل العدد الدقيق للأشهر',
   leaveBlankIfUnknown: 'اتركه فارغاً إذا لم تعرف',
+  myApplications: 'طلباتي',
+  noApplicationsYet: 'لم تقدم أي طلبات بعد.',
+  submitNewRequest: 'تقديم طلب جديد',
+  submittedOn: 'تاريخ التقديم',
+  viewDecision: 'عرض القرار',
 };
 
 export const translations: Record<Lang, TranslationMap> = { en, ar };
