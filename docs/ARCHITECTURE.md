@@ -227,7 +227,7 @@ The decision pipeline runs in this exact order for every case.
 
 Step 1: Hard escalation check. Run deterministic Python checks before calling the LLM. If any trigger fires, set escalate_flag to true, set escalation_reason, write to database, and return immediately without calling the LLM.
 
-Hard escalation triggers are: Emirates ID is expired or could not be extracted, debt to income ratio is above 55 percent, salary certificate is older than 3 months, income and bank balance are inconsistent by more than 40 percent indicating potential fraud, mandatory documents are missing.
+Hard escalation triggers are: Emirates ID is expired or could not be extracted, debt to income ratio is above 55 percent, salary certificate is older than 3 months, mandatory documents are missing. Emirates ID expiry and income fraud are derived server-side in backend/engine/document_signals.py from the citizen's uploaded documents rather than from client-supplied flags: has_expired_id is set when the extracted Emirates ID expiry_date is in the past, and suspected_fraud is set when the salary certificate's extracted net_salary differs from the citizen's declared monthly_income by more than 40 percent. Both signals only ever escalate an existing False to True; they never downgrade a value the client already asserted as True.
 
 Step 2: Rule retrieval. Call retrieve_rules from the RAG module with the citizen financial profile as input. This queries ChromaDB using BGE-M3 embeddings and returns the 5 most relevant governance rules as strings.
 
