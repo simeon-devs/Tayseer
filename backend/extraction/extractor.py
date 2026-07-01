@@ -10,7 +10,10 @@ from __future__ import annotations
 import logging
 
 from backend.engine.llm_client import call_llm_json_mode
-from backend.extraction.normalization import normalize_arabic_indic_digits
+from backend.extraction.normalization import (
+    normalize_arabic_indic_digits,
+    validate_emirates_id_format,
+)
 from backend.extraction.ocr import extract_text
 from backend.schemas.documents import (
     BankStatement,
@@ -159,8 +162,11 @@ def detect_document_type(ocr_text: str) -> DocumentType:
 def _score_result(extracted: dict) -> tuple[float, list[str]]:
     """Return (confidence, missing_fields) for an extracted fields dict.
 
-    Confidence is the fraction of non-None fields over the total number of fields.
-    currency is excluded from missing fields since it always has a default.
+    Confidence here is a completeness score: the fraction of fields the LLM
+    populated with a non-None value, out of the total number of fields. It is
+    not a measure of extraction accuracy; a confidently hallucinated value
+    scores the same as a correct one. currency is excluded from missing
+    fields since it always has a default.
     """
     skip_defaults = {"currency"}
     total = 0
@@ -176,6 +182,23 @@ def _score_result(extracted: dict) -> tuple[float, list[str]]:
             missing.append(field)
     confidence = round(found / total, 2) if total > 0 else 0.0
     return confidence, missing
+
+
+def _penalize_malformed_id_number(extracted: dict, confidence: float, missing: list[str]) -> tuple[float, list[str]]:
+    """Downgrade confidence and flag a malformed id_number on an Emirates ID extraction.
+
+    id_number is present but does not match 784-XXXX-XXXXXXX-X. Treated as a
+    data-quality problem rather than a missing field, since the LLM did
+    return a value, it just is not a well-formed Emirates ID number.
+    """
+    id_number = extracted.get("id_number")
+    if id_number is None or validate_emirates_id_format(id_number):
+        return confidence, missing
+
+    updated_missing = [*missing, "id_number_invalid_format"]
+    total = len(extracted)
+    updated_confidence = round((total - len(updated_missing)) / total, 2) if total > 0 else 0.0
+    return updated_confidence, updated_missing
 
 
 # ---------------------------------------------------------------------------
@@ -223,6 +246,9 @@ def extract_document(file_path: str, case_id: str) -> DocumentResult:
 
         extracted = result.model_dump(exclude_none=False)
         confidence, missing = _score_result(extracted)
+
+        if doc_type == DocumentType.emirates_id:
+            confidence, missing = _penalize_malformed_id_number(extracted, confidence, missing)
 
         return DocumentResult(
             document_type=doc_type.value,
