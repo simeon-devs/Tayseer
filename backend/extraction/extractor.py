@@ -10,6 +10,7 @@ from __future__ import annotations
 import logging
 
 from backend.engine.llm_client import call_llm_json_mode
+from backend.extraction.normalization import normalize_arabic_indic_digits
 from backend.extraction.ocr import extract_text
 from backend.schemas.documents import (
     BankStatement,
@@ -194,6 +195,7 @@ def extract_document(file_path: str, case_id: str) -> DocumentResult:
                 case_id=case_id,
             )
 
+        ocr_text = normalize_arabic_indic_digits(ocr_text)
         doc_type = detect_document_type(ocr_text)
 
         if doc_type == DocumentType.salary_certificate:
