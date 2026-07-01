@@ -12,6 +12,7 @@ import uuid
 
 from sqlalchemy.orm import Session
 
+from backend.engine.document_signals import augment_profile_with_documents
 from backend.engine.escalation import (
     calculate_hardship_score,
     calculate_rule1_compliance,
@@ -362,6 +363,9 @@ def make_decision(
     """Run the full decision pipeline for a single case.
 
     Steps:
+    0. Augment profile with document-derived signals, when a database
+       session is available, so has_expired_id and suspected_fraud reflect
+       the citizen's actual uploaded documents rather than only client input.
     1. Check hard escalation triggers (deterministic, no LLM).
     2. Retrieve top governance rules from RAG pipeline.
     3. Build the LLM prompt from profile and rules.
@@ -374,6 +378,10 @@ def make_decision(
     db may be None for test calls where no real case exists in the database.
     """
     try:
+        # Step 0: augment profile with document-derived signals
+        if db is not None:
+            profile = augment_profile_with_documents(profile, db, case_id)
+
         # Step 1: hard escalation checks
         should_escalate, escalation_reason = check_hard_escalations(profile)
         hardship_score = calculate_hardship_score(profile)
