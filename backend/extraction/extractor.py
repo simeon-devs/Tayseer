@@ -124,18 +124,25 @@ def detect_document_type(ocr_text: str) -> DocumentType:
     """Classify a document type using keyword matching against the OCR text.
 
     Checks Arabic and English keywords. Returns DocumentType.other if no
-    known keywords are found.
+    known keywords are found. The bare word "bank" is not enough on its own
+    to classify as bank_statement since a salary certificate can mention a
+    bank name for transfer purposes; it must appear alongside a corroborating
+    word such as account, statement, balance, or iban.
     """
     text_lower = ocr_text.lower()
     if "شهادة راتب" in ocr_text or "salary certificate" in text_lower or "basic salary" in text_lower:
         return DocumentType.salary_certificate
+
+    bank_word_with_context = "bank" in text_lower and any(
+        k in text_lower for k in ("account", "statement", "balance", "iban")
+    )
     if (
         "كشف حساب" in ocr_text
         or "bank statement" in text_lower
         or "account statement" in text_lower
-        or "bank" in text_lower
         or "رصيد" in ocr_text
         or "صاحب الحساب" in ocr_text
+        or bank_word_with_context
     ):
         return DocumentType.bank_statement
     if "هوية" in ocr_text or "emirates id" in text_lower or "identity card" in text_lower or "784-" in ocr_text:
