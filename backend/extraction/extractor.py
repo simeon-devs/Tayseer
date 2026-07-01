@@ -68,7 +68,8 @@ Rules:
 - Use null for any field you cannot find in the text
 - Never invent values not present in the document
 - Do not include any explanation or text outside the JSON object
-- The id_number must include the dashes in format 784-XXXX-XXXXXXX-X"""
+- The id_number must include the dashes in format 784-XXXX-XXXXXXX-X
+- The expiry_date must be output in YYYY-MM-DD format regardless of how it is printed on the card"""
 
 
 # ---------------------------------------------------------------------------
