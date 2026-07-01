@@ -187,6 +187,10 @@ export default function CitizenIntake() {
         const file = files[key];
         if (file) {
           try {
+            // Result intentionally unused here: the decision engine re-derives
+            // has_expired_id and suspected_fraud server-side from the stored
+            // documents row, so the client does not need to relay extracted
+            // fields back into the decision request.
             await extractDocument(file, caseId);
           } catch {
             // extraction failure is non-fatal; the decision engine handles missing docs
